@@ -34,3 +34,17 @@ I am OK with any FSF approved license which is suitable for Sugarlabs needs.
 - [ ] For production version, compress index.json file. Also use compressed version of jquery.
 - [ ] in parent directory of website write a script to start static file server serving website sub-directory. This will be used when not using web server such as Nginx or Apache for acting as backend eg. a user can start server from usb stick.
 - [x] in live website, a link to download entire website (as pre generated zip file?)
+
+## Design choices
+
+### Relative path of files instead of absolute
+Since app store can be started just by opening index.html or any other html file in browser rather than first starting a server (even simple localhost one), keeping paths relative have advantage over absolute as they won't break and work even when any html file is opened directly in browser. One caveat will be that moving file from one directory to another will break its references. Script generating static pages need to keep this in mind i.e. must calculate references dynamically rather than hard coding them.
+
+### CORS considerations
+Since apptore is supposed to work even without starting a static file serving server i.e. by opening absolutely any HTML file in app store website directory, only way I found that nowadays browsers allow file to be loaded is when it's included by the HTML file opened itself. Files cannot be dynamically loaded later. This rules out all ajax calls in design of app store.
+
+Thankfully, we can ask browser to defer loading of some files and wait for those files (search index) to be loaded. Instead of setting a asynchronous sleeping counter to check if search index is loaded, it's better if search index itself tell that it has loaded and we than perform any search in queue.
+Credit: sphinx-doc code.
+
+### jQuery framework
+jQuery library is used as its lightweight and reduce a lot of code footprint (making project easy to maintain). Its more than enough as per our project requirement.
