@@ -258,7 +258,9 @@ class extractData:
         WriteTextFiles("info.json", self.infoJson)
         WriteTextFiles("./js/index.js",self.indexJs)
         WriteTextFiles(
-            "bundlesNotExactlyOneInfoFile", self.bundlesNotExactlyOneInfoFile)
+            "bundlesNotExactlyOneInfoFile.txt",
+            self.bundlesNotExactlyOneInfoFile
+            )
         WriteTextFiles("bundlesNotZipFiles.txt", self.bundlesNotZipFiles)
         WriteTextFiles("erroredBundles.txt", self.erroredBundles)
         WriteTextFiles("iconErroredBundles.txt", self.iconErroredBundles)
