@@ -1,3 +1,2 @@
-# appstore
+# Backendless search and website generator from activity bundles prototype
 
-App store for Python 3 activities
