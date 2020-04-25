@@ -2,6 +2,7 @@ from os.path import isfile as DoesFileExist
 
 from .DataStructureManupulations import ConvertToStandardPathFormat
 
+
 def ReadTextFile(FilePath):
     FilePath = ConvertToStandardPathFormat(FilePath)
     if DoesFileExist(FilePath) is True:
@@ -11,10 +12,12 @@ def ReadTextFile(FilePath):
         return ReadFile
     else:
         return ''
-  
+
+
 def ReadlinesTextFile(FilePath):
     String = ReadTextFile(FilePath)
     return String.split('\n')
+
 
 def WriteTextFiles(FilePath, Text):
     if type(Text) != str:
@@ -23,7 +26,8 @@ def WriteTextFiles(FilePath, Text):
     File.write(Text)
     File.close()
 
+
 def WriteBinaryToFile(Filepath, Data):
-    File=open(Filepath, 'wb')
+    File = open(Filepath, 'wb')
     File.write(Data)
     File.close()
