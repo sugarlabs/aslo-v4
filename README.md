@@ -3,11 +3,11 @@
 ## Instruction to use
 
 Steps:
-1. Download & extract this app store repository
+1. Clone or download & extract this app store repository
 2. run main.py script in generator folder as:
 
 ```
-$ python3 main.py "/bundles/directory" "/website/template/root/directory/
+$ python3 main.py "/bundles/directory" "/website/template/root/directory/"
 ```
 
 All sub-directories of bundles directory will be scanned for activity
