@@ -200,7 +200,7 @@ class extractData:
         self.indexJs = "search.assignIndex("+json.dumps(self.indexDictList, indent=4)+")"
     
     def generateInfoJson(self):
-        self.infoJson = json.dumps(self.bundlesInfoList)
+        self.infoJson = json.dumps(self.bundlesInfoList, indent=4)
     
     def __init__(self, bundlesDir, websiteDir):
         """ FIXME: WARNING:: some files may be missing such as some app
