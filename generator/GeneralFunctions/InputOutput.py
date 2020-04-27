@@ -1,6 +1,6 @@
 from os.path import isfile as DoesFileExist
 
-from .DataStructureManupulations import ConvertToStandardPathFormat
+from .DataStructureManipulations import ConvertToStandardPathFormat
 
 
 def ReadTextFile(FilePath):

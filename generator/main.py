@@ -14,7 +14,7 @@ import sys
 from urllib.parse import quote as strToHtmlFmt
 import zipfile
 
-from GeneralFunctions.DataStructureManupulations import (
+from GeneralFunctions.DataStructureManipulations import (
     StrListToDictionary
     )
 from GeneralFunctions.InputOutput import (
@@ -87,7 +87,7 @@ class extractData:
                             WriteBinaryToFile(iconPath, icon)
                         else:
                             # Conitnue without icon since non-fatal error
-                            self.iconErroredBundles.append(bundlePath)
+                            self.iconErrorBundles.append(bundlePath)
 
                         bundle.close()
                         # FIXME: uncomment below function.
@@ -223,8 +223,8 @@ class extractData:
         self.bundlesInfoList = []
         self.infoJson = ''
         self.indexDictList = []
-        self.erroredBundles = []
-        self.iconErroredBundles = []
+        self.miscErrorBundles = []
+        self.iconErrorBundles = []
 
         self.createDirectories()
 
@@ -268,12 +268,12 @@ class extractData:
             self.bundlesNotZipFiles
             )
         WriteTextFiles(
-            self.websiteDir+"erroredBundles.txt",
-            self.erroredBundles
+            self.websiteDir+"miscErrorBundles.txt",
+            self.miscErrorBundles
             )
         WriteTextFiles(
-            self.websiteDir+"iconErroredBundles.txt",
-            self.iconErroredBundles
+            self.websiteDir+"iconErrorBundles.txt",
+            self.iconErrorBundles
             )
 
 
