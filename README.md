@@ -48,3 +48,89 @@ Credit: sphinx-doc code.
 
 ### jQuery framework
 jQuery library is used as its lightweight and reduce a lot of code footprint (making project easy to maintain). Its more than enough as per our project requirement.
+
+## Code guide
+*Tip: if you don't have many activity bundles to test with than [download](https://github.com/tony37/Sugaractivities/archive/master.zip) or [clone](https://github.com/tony37/Sugaractivities.git) Tony's repo. It contains many (outdated) bundles in /activities directory.*
+
+/generator/main.py (written as generator below) uses /website template to build website in /website directory.
+
+generator takes two arguments
+1. directory of bundles - Directory and all sub-directories are recursively scanned for .xo files
+2. directory of website template - website will be generated in this directory
+
+### Generator
+/generator directory contains main.py file and GeneralFunctions directory which contains portable code which are not specific to this app store and are written in a way that they can be used in any program.
+
+#### main.py
+
+- starts from main() function (called only if main.py directly executed and not if imported as module)
+
+##### main()
+- processArguments() function is called which builds dictionary of program directory, (activity) bundles directory and website (template) directory from arguments given to generator.
+
+- **extractData** is the main function which extract all the data from bundles and writes it to website directory.
+
+##### extractData class
+*Tip: all the functions in extractData function are sorted in alphabetical order*
+
+- __init__() declares all object variables and call methods in order of operation
+
+    - self.createDirectories() - create directories used in website directory (if not already present) such as app, bundles, icons, js. Aborts program if fails to create directories eg. if no write permission.
+    
+    - self.findBundles() - find all activity bundles i.e. .xo files in website directory and stores in self.activityBundles list
+    
+    - self.purgeBundlesNotZipFile() - test with python standard library method zipfile.is_zipfile() and removes bundles which fails this test from self.activityBundles list
+    
+    - self.extractInfoAndIconFromBundles() :
+        - reads activity.info files in bundles (skips bundles in which find no or more than one activity.info files)
+        - create variables dictionary from extracted information and appends dictionary to self.bundlesInfoList
+        - Looks for icon variables in dictionary and extracts icon file (skips if fails but continue processing that bundle as icon is not critical).
+        - copies bundle to website/directory/bundles
+        
+    - self.generateInfoJson() - converts self.bundlesInfoList to json format and stores it in self.infoJson variable
+    
+    - self.generateIndex() :
+        - extracts name, summary, description, tag, tags, category, categories from self.infoJson and stores in self.indexDictList in dictionary format and self.indexJs in json (string) format.
+        - Since several variables in selfinfoJson can map to one variable in index eg. tag, tags, category, categories all considered tags in index. Therefore, we first check if key already exist in index, if not than add, else append to data of existing value in dictionary.
+            - tuple and list are both considered same and treated same i.e. comma separated. while string is space separated.
+        - For all keys which are not added to dictionaries in the above process, empty entry is added. Eg. if summary is not written in activty.info file, than empty summary is ultimately added to index.json rather than no entry at all.
+        - **NOTE:** self.indexJs is js file string rather than json file. Its contains just a function call search.assignIndex([index json]) . (search is a class in search.js file in website-templates/js/ directory.
+        
+    - self.generateAppsHtmlPages() - generates html pages from self.indexDictList and simultaneously saves rather than storing in memory.
+    
+    - self.writeFiles() - info.json, index.js errors....txt files are written to files.
+    
+### Website template
+
+-  index.html - symblink to search.html for now
+
+- search.html - search page
+
+- /js/search.js - contains search class and general (portable) code which serves the search requests
+    - similarString() - case/*base* insensitive comparison of strings eg. 'A' == 'a' == 'à'.
+    
+    - countSimilarWordsInStrings() - split words and do word by word comparison and count how many are similar by calling similarString()
+    
+    - partialStrMatch() - Wok-in-progress function. intend is to match eg. 'car' == 'cars' and return .75 as 75% string match. This can possibly be tweaked to also include matches when typing error and suggest closest relevant word based on proportion/percentage match.
+    
+    - search class - implements search functionality
+        - search.init() - called when page completes loading
+            - checks if any search query. if yes,
+                - fills search query back into search box ($('input[name="q"]')[0].value = query;)
+                - calls this.performSearch() withs earch query
+        
+        - assignIndex() - this is the function called from index.js
+            - stores index in this._index variable
+                - checks if any query in queue and call this.performSearch is so. Queries can be in queue if this._index was not loaded by that time and searched now when the index is loaded.
+                
+        - performSearch() - checks if index has loaded. calls processSearch() with query if so, else add query to queue.
+        
+        - processSearch() - this function calls rankApps() to rank apps (in index) based on their match with query and displays 10 (for now) matched apps by calling displayResults()
+        
+        - rankApps() - calls rankApp() to rank each app against query and stores in [rank, app index in this_index] array.
+        
+        - rankApp() - calls countSimilarWordsInStrings() and rewards 10 points for match in name, 3 in summary, 2 in description and 5 in tags.
+        
+        - displayResults() - unhides #searchResults div in search.html and presents search results or no search result found message.
+        
+        - appObjToHtml() - generates html to present for matches apps. use index.json as source for generating.
