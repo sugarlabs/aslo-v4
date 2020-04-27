@@ -21,10 +21,7 @@ from GeneralFunctions.InputOutput import (
     WriteTextFiles,
     WriteBinaryToFile
     )
-from GeneralFunctions.OS import (
-    CallFuncInDir,
-    CreateDir
-    )
+from GeneralFunctions.OS import CreateDir
 
 
 """ FIXME: paths hard coded unix style & most likely will not work on winodws.
@@ -42,18 +39,16 @@ class extractData:
         return infoFiles
 
     def copyBundle(self, bundleSrc, activityName):
-        CallFuncInDir(
-            self.websiteDir,
-            shutil.copy2,
-            self.bundlesDir+bundleSrc,
-            "bundles/"+activityName+".xo"
+        shutil.copy2(
+            bundleSrc,
+            self.websiteDir+"bundles/"+activityName+".xo"
             )
 
     def createDirectories(self):
-        assert(CreateDir("app"))
-        assert(CreateDir("icons"))
-        assert(CreateDir("bundles"))
-        assert(CreateDir("js"))
+        assert(CreateDir(self.websiteDir+"app"))
+        assert(CreateDir(self.websiteDir+"icons"))
+        assert(CreateDir(self.websiteDir+"bundles"))
+        assert(CreateDir(self.websiteDir+"js"))
 
     def extractActivityInfo(self, infoFilePath, zipFile):
         infoList = []
@@ -85,16 +80,11 @@ class extractData:
                         if iconAbsolutePath in bundle.namelist():
                             icon = bundle.read(iconAbsolutePath)
                             iconPath = (
-                                "icons/" +
+                                self.websiteDir+"icons/" +
                                 activityName
                                 + ".svg"
                                 )
-                            CallFuncInDir(
-                                self.websiteDir,
-                                WriteBinaryToFile,
-                                iconPath,
-                                icon
-                                )
+                            WriteBinaryToFile(iconPath, icon)
                         else:
                             # Conitnue without icon since non-fatal error
                             self.iconErroredBundles.append(bundlePath)
@@ -104,6 +94,12 @@ class extractData:
                         # Disabled sometime during devlopment as time consuming
                         self.copyBundle(bundlePath, activityName)
             bundle.close()
+
+    def findBundles(self):
+        self.activityBundles = glob.glob(
+            self.bundlesDir+"**/*.xo",
+            recursive=True
+            )
 
     def generateAppsHtmlPages(self):
         iconsDir = "../icons/"
@@ -130,7 +126,10 @@ class extractData:
                 '"><h2>Download<h2></a>\n</body>\n</html>'
             )
 
-            WriteTextFiles("./app/" + appInfo["name"] + ".html", html)
+            WriteTextFiles(
+                self.websiteDir+"./app/" + appInfo["name"] + ".html",
+                html
+                )
 
     """ Only those which are  specified in map will be added to index.
     If an entry or value does not exist in infoJSON than emprty entry will
@@ -155,7 +154,6 @@ class extractData:
                 )
 
             i2IMap = infoToIndexMap
-            self.indexDictList = []
 
             for obj in json.loads(self.infoJson):
                 indexDict = {}
@@ -228,10 +226,9 @@ class extractData:
         self.erroredBundles = []
         self.iconErroredBundles = []
 
-        CallFuncInDir(self.websiteDir, self.createDirectories)
+        self.createDirectories()
 
-        os.chdir(bundlesDir)
-        self.activityBundles = glob.glob("**/*.xo", recursive=True)
+        self.findBundles()
 
         self.purgeBundlesNotZipFile()
 
@@ -240,8 +237,6 @@ class extractData:
         self.generateInfoJson()
 
         self.generateIndex()
-
-        os.chdir(websiteDir)
 
         self.generateAppsHtmlPages()
 
@@ -262,15 +257,24 @@ class extractData:
         """ Files which are not continously written during the process
         Eg. Html, icon and bundles are written while processing each bundle
         """
-        WriteTextFiles("info.json", self.infoJson)
-        WriteTextFiles("./js/index.js", self.indexJs)
+        WriteTextFiles(self.websiteDir+"info.json", self.infoJson)
+        WriteTextFiles(self.websiteDir+"js/index.js", self.indexJs)
         WriteTextFiles(
-            "bundlesNotExactlyOneInfoFile.txt",
+            self.websiteDir+"bundlesNotExactlyOneInfoFile.txt",
             self.bundlesNotExactlyOneInfoFile
             )
-        WriteTextFiles("bundlesNotZipFiles.txt", self.bundlesNotZipFiles)
-        WriteTextFiles("erroredBundles.txt", self.erroredBundles)
-        WriteTextFiles("iconErroredBundles.txt", self.iconErroredBundles)
+        WriteTextFiles(
+            self.websiteDir+"bundlesNotZipFiles.txt",
+            self.bundlesNotZipFiles
+            )
+        WriteTextFiles(
+            self.websiteDir+"erroredBundles.txt",
+            self.erroredBundles
+            )
+        WriteTextFiles(
+            self.websiteDir+"iconErroredBundles.txt",
+            self.iconErroredBundles
+            )
 
 
 def processArguments():
