@@ -1,7 +1,7 @@
 #!/usr/bin/python3
 
 """ Run as:
-python3 thisscript.py "/bundles/directoty" "/website/template/root/directory/
+python3 thisscript.py "/bundles/directory" "/website/template/root/directory/
 All sub-directories of bundles directory will be scanned for activity
 bundles i.e. .xo files.
 """
@@ -24,7 +24,7 @@ from GeneralFunctions.InputOutput import (
 from GeneralFunctions.OS import CreateDir
 
 
-""" FIXME: paths hard coded unix style & most likely will not work on winodws.
+""" FIXME: paths hard coded UNIX style & most likely will not work on Windows.
 Use code written for IMM to handle it.
 """
 
@@ -45,10 +45,10 @@ class extractData:
             )
 
     def createDirectories(self):
-        assert(CreateDir(self.websiteDir+"app"))
-        assert(CreateDir(self.websiteDir+"icons"))
-        assert(CreateDir(self.websiteDir+"bundles"))
-        assert(CreateDir(self.websiteDir+"js"))
+        assert CreateDir(self.websiteDir+"app")
+        assert CreateDir(self.websiteDir+"icons")
+        assert CreateDir(self.websiteDir+"bundles")
+        assert CreateDir(self.websiteDir+"js")
 
     def extractActivityInfo(self, infoFilePath, zipFile):
         infoList = []
@@ -86,12 +86,12 @@ class extractData:
                                 )
                             WriteBinaryToFile(iconPath, icon)
                         else:
-                            # Conitnue without icon since non-fatal error
+                            # Continue without icon since non-fatal error
                             self.iconErrorBundles.append(bundlePath)
 
                         bundle.close()
                         # FIXME: uncomment below function.
-                        # Disabled sometime during devlopment as time consuming
+                        # Disabled sometime during development as time consuming
                         self.copyBundle(bundlePath, activityName)
             bundle.close()
 
@@ -132,20 +132,21 @@ class extractData:
                 )
 
     """ Only those which are  specified in map will be added to index.
-    If an entry or value does not exist in infoJSON than emprty entry will
+    If an entry or value does not exist in infoJSON than empty entry will
     be created for it.
-    appends keys rather than replacing where mutiple map to same
+    appends keys rather than replacing where multiple map to same
     """
+    # FIXME: Simplify logic: replace str, tuple, list etc. with 'string' & 'array'
     def generateIndex(
         self,
         infoToIndexMap={
-            "name": ("name", str),
-            "summary":  ("summary", str),
-            "description": ("description", str),
-            "tag": ("tags", list),
-            "tags": ("tags", list),
-            "categories": ("tags", list),
-            "category": ("tags", list)
+            "name": ("name", "string"),
+            "summary":  ("summary", "string"),
+            "description": ("description", "string"),
+            "tag": ("tags", "array"),
+            "tags": ("tags", "array"),
+            "categories": ("tags", "array"),
+            "category": ("tags", "array")
             }
         ):
             unexpectedInputError = (
@@ -162,10 +163,9 @@ class extractData:
 
                         # add new entry/key to app index
                         if k not in indexDict:
-                            if i2IMap[k][1] == str:
+                            if i2IMap[k][1] == "string":
                                 indexDict[i2IMap[k][0]] = v
-                            elif (i2IMap[k][1] == list
-                                  or i2IMap[k][1] == tuple):
+                            elif i2IMap[k][1] == "array":
                                 if v.find(';') >= 0:
                                     indexDict[i2IMap[k][0]] = v.split(';')
                                 else:
@@ -173,10 +173,9 @@ class extractData:
 
                         # Append to existing entry/key to app index
                         else:
-                            if i2IMap[k][1] == str:
+                            if i2IMap[k][1] == "string":
                                 indexDict[i2IMap[k][0]] += ' '+v
-                            elif (i2IMap[k][1] == list
-                                  or i2IMap[k][1] == tuple):
+                            elif i2IMap[k][1] == "array":
                                 if v.find(';') >= 0:
                                     indexDict[i2IMap[k][0]] += v.split(';')
                                 else:
@@ -186,12 +185,12 @@ class extractData:
                                 sys.exit(1)
 
                 # Create entry/key with empty value for keys not present
-                # in activty.info
+                # in activity.info
                 for k, v in i2IMap.items():
                     if v[0] not in indexDict:
-                        if v[1] == str:
+                        if v[1] == "string":
                             indexDict[v[0]] = ""
-                        elif (v[1] == list or v[1] == tuple):
+                        elif v[1] == "array":
                             indexDict[v[0]] = ()
                         else:
                             print(unexpectedInputError, v[1])
@@ -210,9 +209,9 @@ class extractData:
     def __init__(self, bundlesDir, websiteDir):
         """ FIXME: WARNING:: some files may be missing such as some app
         may not have icon (use a placeholder icon for them)
-        Some bundles are not succesfully processed (html page + bundle copy)
+        Some bundles are not successfully processed (html page + bundle copy)
         but are not in error logs as well. There are 495 bundles in
-        Tony's repo, 479 sucessfully processed but showing fatal error of
+        Tony's repo, 479 successfully processed but showing fatal error of
         12 only, i.e. 4 missing.
         """
         self.bundlesDir = bundlesDir
@@ -254,7 +253,7 @@ class extractData:
         self.activityBundles = activityBundles
 
     def writeFiles(self):
-        """ Files which are not continously written during the process
+        """ Files which are not continuously written during the process
         Eg. Html, icon and bundles are written while processing each bundle
         """
         WriteTextFiles(self.websiteDir+"info.json", self.infoJson)
