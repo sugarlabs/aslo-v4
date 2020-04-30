@@ -148,7 +148,7 @@ a:hover {
 }
 
 img {
-    background-color: Teal;
+/*     background-color: Teal; */
     display: block; /*required for aligning image to center*/
     margin: auto; /*align image to center*/
     max-width: 100%;
