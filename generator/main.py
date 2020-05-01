@@ -24,7 +24,6 @@ along with SAAS.  If not, see <https://www.gnu.org/licenses/>.
 import glob
 import json
 import os
-import shutil
 import sys
 from urllib.parse import quote as strToHtmlFmt
 import zipfile
@@ -84,7 +83,7 @@ class extractData:
                 infoDict = self.extractActivityInfo(infoFiles[0], bundle)
                 self.bundlesInfoList.append(infoDict)
 
-                # FIXME: create seprate function for it
+                # FIXME: create separate function for it
                 # extract and copy icon
                 activityName = infoDict.get("name")
                 if type(activityName) == str:
@@ -106,8 +105,6 @@ class extractData:
                             self.iconErrorBundles.append(bundlePath)
 
                         bundle.close()
-                        # FIXME: uncomment below function.
-                        # Disabled sometime during development as time consuming
                         self.copyBundle(bundlePath, activityName)
             bundle.close()
 
@@ -152,45 +149,48 @@ class extractData:
     be created for it.
     appends keys rather than replacing where multiple map to same
     """
-    # FIXME: Simplify logic: replace str, tuple, list etc. with 'string' & 'array'
-    def generateIndex(self)
+    def generateIndex(self):
+        for activity in json.loads(self.infoJson):
+            indexDict = {
+                "name": "",
+                "summary": "",
+                "description": "",
+                "tags": ()
+                }
 
-            for activity in json.loads(self.infoJson):
-                indexDict = {
-                    "name": "",
-                    "description" : "",
-                    "tags": ()
-                    }
+            name = activity.get("name")
+            if name is not None:
+                indexDict["name"] = name
 
-                name = activity.get["name"]
-                if name != None:
-                    indexDict["name"] == name
+            summary = activity.get("summary")
+            if summary is not None:
+                indexDict["summary"] = summary
 
-                summary = activity.get["summary"]
-                if summary != None:
-                    indexDict["summary"] = summary
-                description = activity.get["description"]
-                if description != None:
-                    indexDict["summary"] = (
-                        indexDict["summary"] + ' ' + description)
+            description = activity.get("description")
+            if description is not None:
+                indexDict["description"] = description
 
-                tags = []
-               tagsKeys = ["tag", "tags", "category", "categories"]
-                for key in tagsKeys:
-                    tagsString = activity.get[tag]
-                    if tagsString != None:
-                        for tag in tagString:
-                            tag = tag.casefold().capitalize()
-                            if tag not in tags:
-                                tags.append[tag]
-                infoDict["tags"] = tuple(tags)
+            tags = []
+            tagsKeys = ["tag", "tags", "category", "categories"]
+            for key in tagsKeys:
+                tagsString = activity.get(key)
+                if tagsString is not None:
+                    if tagsString.find(';') != -1:
+                        tagsList = tagsString.split(';')
+                    else:
+                        tagsList = tagsString.split()
+                    for tag in tagsList:
+                        tag = tag.casefold().capitalize()
+                        if tag not in tags:
+                            tags.append(tag)
+            indexDict["tags"] = tuple(tags)
 
-                self.indexDictList.append(indexDict)
-            self.indexJs = (
-                "search.assignIndex(" +
-                json.dumps(self.indexDictList, indent=4) +
-                ")"
-                )
+            self.indexDictList.append(indexDict)
+        self.indexJs = (
+            "search.assignIndex(" +
+            json.dumps(self.indexDictList, indent=4) +
+            ")"
+            )
 
     def generateInfoJson(self):
         self.infoJson = json.dumps(self.bundlesInfoList, indent=4)
