@@ -153,51 +153,37 @@ class extractData:
     appends keys rather than replacing where multiple map to same
     """
     # FIXME: Simplify logic: replace str, tuple, list etc. with 'string' & 'array'
-    def generateIndex(
-        self,
-        infoToIndexMap={
-            "name": ("name", "string"),
-            "summary":  ("summary", "string"),
-            "description": ("description", "string"),
-            "tag": ("tags", "array"),
-            "tags": ("tags", "array"),
-            "categories": ("tags", "array"),
-            "category": ("tags", "array")
-            }
-        ):
-            unexpectedInputError = (
-                "main.py generateIndex() : expect only str, list or tuple as "
-                "kwargs -> value[1] but found "
-                )
+    def generateIndex(self)
 
-            i2IMap = infoToIndexMap
+            for activity in json.loads(self.infoJson):
+                indexDict = {
+                    "name": "",
+                    "description" : "",
+                    "tags": ()
+                    }
 
-            for obj in json.loads(self.infoJson):
-                indexDict = {}
-                # Initialize keys with empty value
-                for k, v in i2IMap.items():
-                    if v[1] == "string":
-                        indexDict[v[0]] = ""
-                    elif v[1] == "array":
-                        indexDict[v[0]] = ()
-                    else:
-                        print(unexpectedInputError, v[1])
-                        sys.exit(1)
+                name = activity.get["name"]
+                if name != None:
+                    indexDict["name"] == name
 
-                for k, v in obj.items():
-                    if k in i2IMap:
-                    # Add/Append to existing entries/keys
-                        if i2IMap[k][1] == "string":
-                            indexDict[i2IMap[k][0]] = (
-                                indexDict[i2IMap[k][0]]+' '+v).strip(' ')
-                        elif i2IMap[k][1] == "array":
-                            if v.find(';') >= 0:
-                                indexDict[i2IMap[k][0]] += tuple(v.split(';'))
-                            else:
-                                indexDict[i2IMap[k][0]] += tuple(v.split())
-                        else:
-                            print(unexpectedInputError, i2IMap[k][1])
-                            sys.exit(1)
+                summary = activity.get["summary"]
+                if summary != None:
+                    indexDict["summary"] = summary
+                description = activity.get["description"]
+                if description != None:
+                    indexDict["summary"] = (
+                        indexDict["summary"] + ' ' + description)
+
+                tags = []
+               tagsKeys = ["tag", "tags", "category", "categories"]
+                for key in tagsKeys:
+                    tagsString = activity.get[tag]
+                    if tagsString != None:
+                        for tag in tagString:
+                            tag = tag.casefold().capitalize()
+                            if tag not in tags:
+                                tags.append[tag]
+                infoDict["tags"] = tuple(tags)
 
                 self.indexDictList.append(indexDict)
             self.indexJs = (
