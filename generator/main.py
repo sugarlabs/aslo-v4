@@ -86,6 +86,9 @@ class extractData:
                 # FIXME: create separate function for it
                 # extract and copy icon
                 activityName = infoDict.get("name")
+                activityVersion = infoDict.get("activity_version")
+                if activityVersion is None:
+                    activityVersion = ''
                 if type(activityName) == str:
                     iconRelativePath = infoDict.get("icon")
                     if type(iconRelativePath) == str:
@@ -105,7 +108,8 @@ class extractData:
                             self.iconErrorBundles.append(bundlePath)
 
                         bundle.close()
-                        self.copyBundle(bundlePath, activityName)
+                        self.copyBundle(
+                            bundlePath, activityName+'v'+activityVersion)
             bundle.close()
 
     def findBundles(self):
@@ -118,14 +122,15 @@ class extractData:
         iconsDir = "../icons/"
         bundlesDir = "../bundles/"
         for appInfo in self.indexDictList:
-            pathName = strToHtmlFmt(appInfo["name"], safe='')
+            appName = strToHtmlFmt(appInfo["name"], safe='')
+            appVersion = strToHtmlFmt(appInfo["version"], safe='')
 
             html = (
                 '<!DOCTYPE html>\n<html>\n<head>\n<title>' + appInfo["name"] +
                 '</title>\n<meta charset="utf-8"/>\n<link rel="stylesheet" '
                 'type="text/css" href="../css/main.css"/>\n</head>\n<body>\n'
                 '</body>\n<h1>' + appInfo["name"] + '</h1>\n<p><img src="' +
-                str(iconsDir + pathName + '.svg') + '"></img></p>\n'
+                str(iconsDir + appName + '.svg') + '"></img></p>\n'
                 '<div id=summary><h2>Summary</h2>\n<p>' + appInfo["summary"] +
                 '</p>\n</div>\n<div id=description><h2>Description</h2>\n<p>' +
                 appInfo["description"] + '</p>\n</div>\n<div id=tags><h2>Tags'
@@ -135,7 +140,7 @@ class extractData:
                 html += '<li>' + tag + '</li>\n'
             html += (
                 '</ul>\n</div>\n<h2 id="downloadButton"><a href="' +
-                str(bundlesDir + pathName + '.xo') +
+                str(bundlesDir + appName + appVersion + '.xo') +
                 '">Download</a></h2>\n<br>\n</body>\n</html>'
             )
 
@@ -155,7 +160,8 @@ class extractData:
                 "name": "",
                 "summary": "",
                 "description": "",
-                "tags": ()
+                "tags": (),
+                "version": "v"
                 }
 
             name = activity.get("name")
@@ -184,6 +190,10 @@ class extractData:
                         if tag not in tags:
                             tags.append(tag)
             indexDict["tags"] = tuple(tags)
+
+            activityVersion = activity.get("activity_version")
+            if activityVersion is not None:
+                indexDict["version"] += activityVersion
 
             self.indexDictList.append(indexDict)
         self.indexJs = (

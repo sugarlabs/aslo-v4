@@ -64,7 +64,7 @@ var search = {
         for (var tag of app.tags)
             html += '<li>'+ tag +'</li>\n';
         html += '</ul>\n</div>\n<h2 id="downloadButton"><a href="' +
-                './bundles/' + app.name + '.xo' +
+                './bundles/' + app.name + app.version+  '.xo' +
                 '">Download</a></h2>\n';
         return html;
     },
