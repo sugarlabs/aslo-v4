@@ -121,9 +121,9 @@ class extractData:
             for tag in appInfo["tags"]:
                 html += '<li>' + tag + '</li>\n'
             html += (
-                '</ul>\n</div>\n<a href="' +
+                '</ul>\n</div>\n<h2 id="downloadButton"><a href="' +
                 str(bundlesDir + pathName + '.xo') +
-                '"><h2>Download<h2></a>\n</body>\n</html>'
+                '">Download</a></h2>\n<br>\n</body>\n</html>'
             )
 
             WriteTextFiles(

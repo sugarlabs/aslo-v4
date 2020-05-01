@@ -49,11 +49,11 @@ h1 {
     text-align: center;
 }
 
-#color1 {
-color: #0c007e;
+#downloadButton a {
+color: Crimson;
 }
 
-#color1 a:hover {
+#downloadButton a:hover {
 color: DarkGoldenRod;
 }
 

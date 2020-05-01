@@ -43,7 +43,9 @@ var search = {
         var html = '<hr><h1><a href="./app/'+app.name+'.html">'+app.name+'</a></h1>\n<p><img src="./icons/'+app.name+'.svg" style="max-width: 250px"></img></p>\n<div id=summary><h2>Summary</h2>\n<p>'+app.summary+'</p>\n</div>\n<div id=description><h2>Description</h2>\n<p>'+app.description+'</p>\n</div>\n<div id=tags><h2>Tags</h2>\n<ul>\n';
         for (var tag of app.tags)
             html += '<li>'+ tag +'</li>\n';
-        html += '</ul>\n</div>\n';
+        html += '</ul>\n</div>\n<h2 id="downloadButton"><a href="' +
+                './bundles/' + app.name + '.xo' +
+                '">Download</a></h2>\n';
         return html;
     },
     
