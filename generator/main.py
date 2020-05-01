@@ -174,42 +174,29 @@ class extractData:
 
             for obj in json.loads(self.infoJson):
                 indexDict = {}
+                # Initialize keys with empty value
+                for k, v in i2IMap.items():
+                    if v[1] == "string":
+                        indexDict[v[0]] = ""
+                    elif v[1] == "array":
+                        indexDict[v[0]] = ()
+                    else:
+                        print(unexpectedInputError, v[1])
+                        sys.exit(1)
+
                 for k, v in obj.items():
                     if k in i2IMap:
-
-                        # add new entry/key to app index
-                        if k not in indexDict:
-                            if i2IMap[k][1] == "string":
-                                indexDict[i2IMap[k][0]] = v
-                            elif i2IMap[k][1] == "array":
-                                if v.find(';') >= 0:
-                                    indexDict[i2IMap[k][0]] = v.split(';')
-                                else:
-                                    indexDict[i2IMap[k][0]] = v.split()
-
-                        # Append to existing entry/key to app index
-                        else:
-                            if i2IMap[k][1] == "string":
-                                indexDict[i2IMap[k][0]] += ' '+v
-                            elif i2IMap[k][1] == "array":
-                                if v.find(';') >= 0:
-                                    indexDict[i2IMap[k][0]] += v.split(';')
-                                else:
-                                    indexDict[i2IMap[k][0]] += v.split()
+                    # Add/Append to existing entries/keys
+                        if i2IMap[k][1] == "string":
+                            indexDict[i2IMap[k][0]] = (
+                                indexDict[i2IMap[k][0]]+' '+v).strip(' ')
+                        elif i2IMap[k][1] == "array":
+                            if v.find(';') >= 0:
+                                indexDict[i2IMap[k][0]] += tuple(v.split(';'))
                             else:
-                                print(unexpectedInputError, i2IMap[k][1])
-                                sys.exit(1)
-
-                # Create entry/key with empty value for keys not present
-                # in activity.info
-                for k, v in i2IMap.items():
-                    if v[0] not in indexDict:
-                        if v[1] == "string":
-                            indexDict[v[0]] = ""
-                        elif v[1] == "array":
-                            indexDict[v[0]] = ()
+                                indexDict[i2IMap[k][0]] += tuple(v.split())
                         else:
-                            print(unexpectedInputError, v[1])
+                            print(unexpectedInputError, i2IMap[k][1])
                             sys.exit(1)
 
                 self.indexDictList.append(indexDict)
