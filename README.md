@@ -134,3 +134,12 @@ generator takes two arguments
         - displayResults() - unhides #searchResults div in search.html and presents search results or no search result found message.
         
         - appObjToHtml() - generates html to present for matches apps. use index.json as source for generating.
+
+# License
+AGPL-3.0-or-later. See [LICENSE](LICENSE) for more information.
+
+Copyright 2020 Manish <sugar@radii.dev>
+
+## Credits
+* Includes [jQuery](https://jquery.org/) library (JS Foundation and other contributors)
+* Studied but not used [Sphinx](https://www.sphinx-doc.org/) tool (Georg Brandl and the Sphinx team)
