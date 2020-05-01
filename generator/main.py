@@ -109,7 +109,7 @@ class extractData:
 
                         bundle.close()
                         self.copyBundle(
-                            bundlePath, activityName+'v'+activityVersion)
+                            bundlePath, activityName+'-'+activityVersion)
             bundle.close()
 
     def findBundles(self):
@@ -161,7 +161,7 @@ class extractData:
                 "summary": "",
                 "description": "",
                 "tags": (),
-                "version": "v"
+                "version": "-"
                 }
 
             name = activity.get("name")
