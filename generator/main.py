@@ -38,11 +38,22 @@ class extractData:
                 infoFiles.append(File)
         return infoFiles
 
-    def copyBundle(self, bundleSrc, activityName):
-        shutil.copy2(
-            bundleSrc,
-            self.websiteDir+"bundles/"+activityName+".xo"
-            )
+    def copyBundle(self, source, activityName):
+        destination = self.websiteDir+"bundles/"+activityName+".xo"
+        # move this code block to a portable function
+        # copyFile(source, destination)
+        try:
+            # hard link if on same partition
+            os.link(source, destination)
+        except FileExistsError:
+            # FIXME: create a portable function to compare if two files
+            # are same and use it here
+            pass
+        except OSError:
+            # copy if on different partition
+            shutil.copy2(source, destination)
+        except Exception as unknownError:
+            raise unknownError
 
     def createDirectories(self):
         assert CreateDir(self.websiteDir+"app")
