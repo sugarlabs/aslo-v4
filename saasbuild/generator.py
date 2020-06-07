@@ -75,7 +75,7 @@ class SaaSBuild:
                     # If an activity.info exists, its a valid sugar directory.
                     # We do not need to add other directories
                     collected_sugar_activity_dirs.append(Bundle(activity_info_path))
-        print("[ACTIVITIES] Collected {}".format(collected_sugar_activity_dirs))
+        print("[ACTIVITIES] Collected \n{}\n".format(collected_sugar_activity_dirs))
         return collected_sugar_activity_dirs
 
     def get_index(self):
