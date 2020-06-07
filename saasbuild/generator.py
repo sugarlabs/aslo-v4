@@ -38,7 +38,13 @@ class SaaSBuild:
     """
     The helper object to quickly create bundles and generate html web pages
     """
-    def __init__(self, list_activities=False, generate_xo=False):
+    def __init__(
+            self,
+            list_activities=False,
+            build_xo=False,
+            generate_static_html=False
+
+    ):
         if args.list_activities or list_activities:
             self.list_activities()
         elif args.generate_xo or generate_xo:
