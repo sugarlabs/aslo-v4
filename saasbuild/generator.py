@@ -6,6 +6,7 @@ import shutil
 from urllib.parse import quote
 
 from .bundle.bundle import Bundle
+from .constants import HTML_TEMPLATE
 from .lib.progressbar import progressbar
 
 parser = argparse.ArgumentParser(
