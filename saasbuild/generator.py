@@ -29,6 +29,21 @@ parser.add_argument(
     help='Generate XO bundles for a large number of directories'
 )
 parser.add_argument(
+    '--build-entrypoint',
+    default='',
+    help='Specify a path to any Linux compatible script which is intended to be executed on every build'
+)
+parser.add_argument(
+    '--build-override',
+    action='store_true',
+    help='Override `python setup.py dist_xo` with --build-entrypoint argument shell script'
+)
+parser.add_argument(
+    '--build-chdir',
+    action='store_true',
+    help='Changes directory to Activity dir'
+)
+parser.add_argument(
     '-l', '--list-activities',
     action='store_true',
     help='Lists all the activities available in the directory'
@@ -106,13 +121,24 @@ class SaaSBuild:
         >>> sb.generate_xo_all()
         :return:
         """
-
+        # list activities and store as variable
         activities = self.list_activities()
         print("Beginning to process... This might take some time..")
         num_encountered_errors = 0
         num_completed_success = 0
+        override = False
+        entrypoint_build_script = None
+
+        # check if entrypoint is mentioned
+        if args.build_entrypoint:
+            entrypoint_build_script = os.path.abspath(args.build_entrypoint)
+            if args.build_override:
+                override = True
+
+
         for i in progressbar(range(len(activities)), redirect_stdout=True):
             print("[BUILD] Building ", activities[i])
+
             ecode, out, err = activities[i].do_generate_bundle()
             if err or ecode:
                 print(

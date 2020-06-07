@@ -179,12 +179,56 @@ class Bundle:
         """
         return os.path.dirname(os.path.dirname(self.activity_info_path))
 
-    def do_generate_bundle(self):
+    def do_generate_bundle(self, override_dist_xo=False, entrypoint_build_command=None, build_command_chdir=False):
         """
         Generates a .xo file for the activities
         by spawning a subprocess
-        :return:
+
+        Some additional pro level features ;)
+
+        The script file supports python f-strings
+        Pass the parameters as named {name}, {v} to get name and version appropriately
+
+        Some important format specifiers
+        {name} : Activity Name
+        {v} : Activity version
+        {activity_dir} : the path of the Activity, i.e ~/FractionBounce.Activity
+        {icon_path}: the path of the icon path
+
+        Make sure you add a cd (change directory) function within the shell / python script
+        The script is run relative to path of execution.
+        To change location each time before command execution, pass --build-chdir
+        :return: Tuple (e_code, stdout, stderr)
+
         """
+        if override_dist_xo and not entrypoint_build_command:
+            raise ValueError("entrypoint_build_command was not provided")
+
+        current_path_ = os.getcwd()
+        if entrypoint_build_command and isinstance(entrypoint_build_command, str):
+            # read the shell / python script
+            with open(entrypoint_build_command, 'r') as r:
+                commands_to_pre_execute = r.read()
+
+            # change dir, if necessary:
+            if build_command_chdir:
+                os.chdir(self.get_activity_dir())
+
+            # execute the commands, format the f-strings before execution
+            exit_code = os.system(commands_to_pre_execute.format(
+                name=self.get_name(),
+                v=self.get_version(),
+                activity_dir=self.get_activity_dir(),
+                icon_path=self.get_icon_path()
+            ))
+
+            # restore the current working directory in the case directory was changed
+            if build_command_chdir:
+                os.chdir(current_path_)
+
+            if override_dist_xo:
+                return exit_code, '', ''
+
         python_exe = get_executable_path('python3', False) or get_executable_path('python')
         proc = subprocess.Popen(
             _s("{} setup.py dist_xo".format(python_exe)),
