@@ -22,7 +22,7 @@ parser.add_argument(
     help='Provide the directory to output the parsed website for SAAS'
 )
 parser.add_argument(
-    '-g', '--generate-xo',
+    '-b', '--build-xo',
     action='store_true',
     help='Generate XO bundles for a large number of directories'
 )
@@ -47,7 +47,7 @@ class SaaSBuild:
     ):
         if args.list_activities or list_activities:
             self.list_activities()
-        elif args.generate_xo or generate_xo:
+        if args.build_xo or build_xo:
             self.generate_xo_all()
 
     @staticmethod
