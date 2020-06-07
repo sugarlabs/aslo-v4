@@ -141,8 +141,66 @@ class SaaSBuild:
             os.makedirs(rel_path)
 
     def generate_web_page(self):
+        output_dir = args.output_directory
+        output_icon_dir = os.path.join(output_dir, 'icons')
+        output_bundles_dir = os.path.join(output_dir, 'bundles')
+
+        # create the directories
+        self.create_web_static_directories(output_dir)
+
+        # get the bundles
+        bundles = self.list_activities()
+        for bundle in progressbar(bundles, redirect_stdout=True):
+
+            # get the bundle and icon path
+            bundle_path = bundle.get_bundle_path()
+            icon_path = bundle.get_icon_path()
+
+            if not bundle_path:
+                # the path to a bundle does not exist
+                # possibly the bundle was not generated / had bugs
+                continue
+
+            # format the title to remove bad chars
+            title = quote(bundle.get_name(), safe='')
+
+            # Get the tags and process it
+            tags = bundle.get_tags()
+            tags_html_list = []
+            for tag in tags:
+                tags_html_list.append("<li>{tag}</li>".format(tag=tag))
+
+            # copy deps to respective folders
+            _bundle_path = shutil.copy2(bundle_path, output_bundles_dir, follow_symlinks=True)
+            _icon_path = shutil.copy2(icon_path, output_icon_dir, follow_symlinks=True)
+
+            # get the HTML_TEMPLATE and annotate with the saved
+            # information
+            parsed_html = HTML_TEMPLATE.format(
+                title=bundle.get_name(),
+                summary=bundle.get_summary(),
+                description='Nothing here yet!',  # TODO: Extract from README.md
+                bundle_path=_bundle_path,
+                tag_list_html_formatted=''.join(tags_html_list),
+                icon_path=_icon_path
             )
 
+            # write the html file to specified path
+            with open(os.path.join(
+                    output_dir,
+                    'app',
+                    '{}.html'.format(title)
+            ), 'w') as w:
+                w.write(parsed_html)
 
+            # update the index files
+            self.index.append(
+                bundle.generate_fingerprint_json()
+            )
+
+        # write the json to the file
+        with open(os.path.join(output_dir, 'index.json'), 'w') as w:
+            json.dump(self.index, w)
+        print("Index file containing {n} items have been written successfully".format(n=len(self.index)))
 
 
