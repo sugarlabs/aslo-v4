@@ -39,7 +39,7 @@ class Bundle:
         self._bundle_id = bundle_activity_section.get('bundle_id')
         self.icon = bundle_activity_section.get('icon')
         self._exec = bundle_activity_section.get('exec')
-        self.license = bundle_activity_section.get('license')
+        self.license = bundle_activity_section.get('license', '').split(';')
         self.repository = bundle_activity_section.get('repository')
         self.summary = bundle_activity_section.get('summary')
         self.url = bundle_activity_section.get('url')
