@@ -178,3 +178,26 @@ class Bundle:
         exit_code = proc.wait(timeout=5000)
         out, err = proc.communicate()
         return exit_code, out.decode(), err.decode()
+
+    def generate_fingerprint_json(self):
+        """
+        Creates a json file which uniquely identifies each activity
+        by its
+        Each activity is identified by a random uuid
+        For example
+        >>> a = Bundle()
+        >>> a.generate_fingerprint_json()
+        {
+            "id":
+        :return:
+        """
+
+        return {
+            "id": hashlib.sha256(self.get_name().encode() + self.get_url().encode()).hexdigest(),
+            "name": self.get_name(),
+            "tags": self.get_tags(),
+            "summary": self.get_summary(),
+            "license": self.get_license(),
+            "url": self.get_url()
+        }
+
