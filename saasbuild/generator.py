@@ -1,8 +1,9 @@
 #!/usr/bin/env python
 import argparse
-import logging
+import json
 import os
-import time
+import shutil
+from urllib.parse import quote
 
 from .bundle.bundle import Bundle
 from .lib.progressbar import progressbar
