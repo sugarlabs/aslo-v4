@@ -31,6 +31,11 @@ parser.add_argument(
     action='store_true',
     help='Lists all the activities available in the directory'
 )
+parser.add_argument(
+    '-g', '--generate-static-html',
+    action='store_true',
+    help='Start the process of HTML generation. (pass -b, if you are unsure if bundles are already created)'
+)
 args = parser.parse_args()
 
 
