@@ -56,6 +56,9 @@ class SaaSBuild:
             self.list_activities()
         if args.build_xo or build_xo:
             self.generate_xo_all()
+        if args.generate_static_html or generate_static_html:
+            self.index = list()
+            self.generate_web_page()
 
     @staticmethod
     def list_activities():
