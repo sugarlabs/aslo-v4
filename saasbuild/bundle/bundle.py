@@ -201,3 +201,8 @@ class Bundle:
             "url": self.get_url()
         }
 
+    def is_python3(self):
+        if isinstance(self._exec, str) and 'sugar-activity3' in self._exec:
+            return True
+        else:
+            return False
