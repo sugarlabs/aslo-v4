@@ -1,6 +1,8 @@
+import hashlib
 import os
 import shlex
 import subprocess
+import uuid
 from configparser import ConfigParser
 
 from saasbuild.platform import get_executable_path, SYSTEM
