@@ -176,6 +176,11 @@ class Bundle:
         )
         exit_code = proc.wait(timeout=5000)
         out, err = proc.communicate()
+        if not exit_code:
+            dist_path = os.path.join(self.get_activity_dir(), 'dist')
+            bundle = get_latest_bundle(dist_path)
+            if bundle:
+                self.set_bundle_path(bundle)
         return exit_code, out.decode(), err.decode()
 
     def do_install_bundle(self, system=False):
