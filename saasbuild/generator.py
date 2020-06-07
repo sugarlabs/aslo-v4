@@ -85,6 +85,14 @@ class SaaSBuild:
                 "Please initialize with set_index setter method"
             )
 
+    def set_index(self, index: list):
+        """
+        Sets a public .index variable for modular
+        :param index:
+        :return:
+        """
+        self.index = index
+
     def generate_xo_all(self):
         """
         Iteratively generate bundle .xo files for all detected activities
