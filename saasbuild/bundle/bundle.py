@@ -5,6 +5,7 @@ import subprocess
 import uuid
 from configparser import ConfigParser
 
+from saasbuild.constants import ACTIVITY_BUILD_CLASSIFIER
 from saasbuild.platform import get_executable_path, SYSTEM
 
 # a shorthand for shlex.split on *nix systems
@@ -223,3 +224,11 @@ class Bundle:
             return True
         else:
             return False
+
+    def get_activity_type(self):
+        if not isinstance(self._exec, str):
+            return None
+        return ACTIVITY_BUILD_CLASSIFIER.get(
+            self._exec.split()[0].split(os.path.sep)[-1],
+            'unknown'
+        )
