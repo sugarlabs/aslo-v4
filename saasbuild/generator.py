@@ -76,6 +76,15 @@ class SaaSBuild:
         print("[ACTIVITIES] Collected {}".format(collected_sugar_activity_dirs))
         return collected_sugar_activity_dirs
 
+    def get_index(self):
+        try:
+            return self.index
+        except AttributeError:
+            raise AttributeError(
+                "You have not initialized self.index. "
+                "Please initialize with set_index setter method"
+            )
+
     def generate_xo_all(self):
         """
         Iteratively generate bundle .xo files for all detected activities
