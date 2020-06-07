@@ -129,6 +129,17 @@ class SaaSBuild:
             )
         )
 
+    @staticmethod
+    def create_web_static_directories(output_dir):
+        """
+        Creates the necessary directories
+        """
+        for directory_path in ('icons', 'bundles', 'app'):
+            rel_path = os.path.join(output_dir, directory_path)
+            if os.path.exists(rel_path):
+                shutil.rmtree(rel_path, ignore_errors=True)
+            os.makedirs(rel_path)
+
     def generate_web_page(self):
             )
 
