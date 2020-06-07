@@ -11,6 +11,17 @@ from saasbuild.platform import get_executable_path, SYSTEM
 _s = shlex.split if SYSTEM != 'Windows' else lambda x: x
 
 
+def get_latest_bundle(bundle_path):
+    if not os.path.exists(bundle_path):
+        return False
+    bundles = os.listdir(bundle_path)
+    bundles.sort(reverse=True)
+    for bundle in bundles:
+        return os.path.join(bundle_path, bundle)
+    else:
+        return False
+
+
 class BundleError(Exception):
     pass
 
