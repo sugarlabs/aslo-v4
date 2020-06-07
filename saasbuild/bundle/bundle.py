@@ -42,8 +42,8 @@ class Bundle:
         self.license = bundle_activity_section.get('license', '').split(';')
         self.repository = bundle_activity_section.get('repository')
         self.summary = bundle_activity_section.get('summary')
-        self.url = bundle_activity_section.get('url')
         self.tags = bundle_activity_section.get('tags')
+        self.url = bundle_activity_section.get('url', '')
         self.screenshots = bundle_activity_section.get('screenshots', '').split()
 
     def __repr__(self):
