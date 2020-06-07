@@ -62,8 +62,26 @@ class Bundle:
             bundle_activity_section.get('categories', '').split(';')
         self.screenshots = bundle_activity_section.get('screenshots', '').split()
 
+        # bundle specific variables
+        self._bundle_path = get_latest_bundle(
+            os.path.join(self.get_activity_dir(), 'dist')
+        )
+
     def __repr__(self):
         return '{name} ({path})'.format(name=self._name, path=self.activity_info_path)
+
+    def get_bundle_path(self):
+        return self._bundle_path
+
+    def set_bundle_path(self, bundle_path):
+        self._bundle_path = bundle_path
+
+    def get_tags(self):
+        """
+        gets the list of tags in an activity
+        :return:
+        """
+        return self.tags
 
     def get_name(self):
         """
