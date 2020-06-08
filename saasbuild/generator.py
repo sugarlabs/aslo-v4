@@ -1,4 +1,28 @@
 #!/usr/bin/env python
+"""
+Sugar Activities App Store (SAAS)
+https://github.com/sugarlabs-aslo/sugarappstore
+
+Copyright 2020 SugarLabs
+Copyright 2020 Srevin Saju <srevinsaju@sugarlabs.org>
+Copyright 2020 Manish <sugar@radii.dev>
+
+This file is part of "Sugar Activities App Store" aka "SAAS".
+
+SAAS is free software: you can redistribute it and/or modify
+it under the terms of the GNU Affero General Public License as published by
+the Free Software Foundation, either version 3 of the License, or
+(at your option) any later version.
+
+SAAS is distributed in the hope that it will be useful,
+but WITHOUT ANY WARRANTY; without even the implied warranty of
+MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+GNU Affero General Public License for more details.
+
+You should have received a copy of the GNU Affero General Public License
+along with SAAS.  If not, see <https://www.gnu.org/licenses/>.
+"""
+
 import argparse
 import json
 import os
@@ -139,7 +163,9 @@ class SaaSBuild:
         for i in progressbar(range(len(activities)), redirect_stdout=True):
             print("[BUILD] Building ", activities[i])
 
-            ecode, out, err = activities[i].do_generate_bundle()
+            ecode, out, err = activities[i].do_generate_bundle(
+
+            )
             if err or ecode:
                 print(
                     "[BUILD][E] Error while building {activity} "

@@ -1,3 +1,25 @@
+"""
+Sugar Activities App Store (SAAS)
+https://github.com/sugarlabs-aslo/sugarappstore
+
+Copyright 2020 Srevin Saju <srevinsaju@sugarlabs.org>
+
+This file is part of "Sugar Activities App Store" aka "SAAS".
+
+SAAS is free software: you can redistribute it and/or modify
+it under the terms of the GNU Affero General Public License as published by
+the Free Software Foundation, either version 3 of the License, or
+(at your option) any later version.
+
+SAAS is distributed in the hope that it will be useful,
+but WITHOUT ANY WARRANTY; without even the implied warranty of
+MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+GNU Affero General Public License for more details.
+
+You should have received a copy of the GNU Affero General Public License
+along with SAAS.  If not, see <https://www.gnu.org/licenses/>.
+"""
+
 import hashlib
 import os
 import shlex
@@ -49,7 +71,7 @@ class Bundle:
         self._name = bundle_activity_section.get('name')
         self._activity_version = bundle_activity_section.get('activity-version')
         self._bundle_id = bundle_activity_section.get('bundle_id')
-        self.icon = bundle_activity_section.get('icon')
+        self.icon = bundle_activity_section.get('icon', 'activity-helloworld')
         self._exec = bundle_activity_section.get('exec')
         self.license = bundle_activity_section.get('license', '').split(';')
         self.repository = bundle_activity_section.get('repository')
@@ -273,17 +295,23 @@ class Bundle:
         >>> a = Bundle()
         >>> a.generate_fingerprint_json()
         {
-            "id":
+            "id": 
         :return:
         """
-
+        bundle_path = self.get_bundle_path()
+        if bundle_path:
+            bundle_path = bundle_path.split(os.path.sep)[-1]
+        else:
+            bundle_path = None
         return {
             "id": hashlib.sha256(self.get_name().encode() + self.get_url().encode()).hexdigest(),
             "name": self.get_name(),
             "tags": self.get_tags(),
             "summary": self.get_summary(),
             "license": self.get_license(),
-            "url": self.get_url()
+            "url": self.get_url(),
+            "icon_name": self.get_icon_name(),
+            "bundle_name": bundle_path
         }
 
     def is_python3(self):
