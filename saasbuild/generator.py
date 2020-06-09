@@ -143,7 +143,7 @@ class SaaSBuild:
                 "Please initialize with set_index setter method"
             )
 
-    def set_index(self, index: list):
+    def set_index(self, index):
         """
         Sets a public .index variable for modular
         :param index:
