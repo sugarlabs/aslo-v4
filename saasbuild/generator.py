@@ -77,8 +77,22 @@ parser.add_argument(
     action='store_true',
     help='Start the process of HTML generation. (pass -b, if you are unsure if bundles are already created)'
 )
+parser.add_argument(
+    '-p', '--pull-static-css-js-html',
+    default='',
+    help="Provide the path to js, css and index.html (ideally from https://github.com/sugarlabs-appstore/sugarappstore-static)"
+)
 args = parser.parse_args()
 
+
+def copytree(src, dst, symlinks=False, ignore=None):
+    for item in os.listdir(src):
+        s = os.path.join(src, item)
+        d = os.path.join(dst, item)
+        if os.path.isdir(s):
+            shutil.copytree(s, d, symlinks, ignore)
+        else:
+            shutil.copy2(s, d)
 
 class SaaSBuild:
     """
@@ -258,4 +272,16 @@ class SaaSBuild:
             json.dump(self.index, w)
         print("Index file containing {n} items have been written successfully".format(n=len(self.index)))
 
+        # pull the files and unpack it if necessary
+        if args.pull_static_css_js_html:
+            self.unpack_static(extract_dir=output_dir)
+
+    @staticmethod
+    def unpack_static(extract_dir):
+        if not os.path.exists(args.pull_static_css_js_html):
+            raise FileNotFoundError("Could not find path {}".format(args.pull_static_css_js_html))
+        elif not os.path.isdir(args.pull_static_css_js_html):
+            raise IOError("{} is not a directory [20]".format(args.pull_static_css_js_html))
+        # unpack files into build_dir
+        copytree(args.pull_static_css_js_html, extract_dir, True)
 
