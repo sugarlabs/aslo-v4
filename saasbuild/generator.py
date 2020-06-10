@@ -27,6 +27,7 @@ import argparse
 import json
 import os
 import shutil
+import sys
 from urllib.parse import quote
 
 from .bundle.bundle import Bundle
@@ -88,6 +89,11 @@ parser.add_argument(
     action='store_true',
     help="Provides a unique icon name based on bundle id"
 )
+parser.add_argument(
+    '-y', '--noconfirm',
+    action='store_true',
+    help="Replace output directory (default: always ask)"
+)
 args = parser.parse_args()
 
 
@@ -99,6 +105,7 @@ def copytree(src, dst, symlinks=False, ignore=None):
             shutil.copytree(s, d, symlinks, ignore)
         else:
             shutil.copy2(s, d)
+
 
 class SaaSBuild:
     """
@@ -112,12 +119,16 @@ class SaaSBuild:
 
     ):
         if args.list_activities or list_activities:
-            self.list_activities()
-        if args.build_xo or build_xo:
-            self.generate_xo_all()
-        if args.generate_static_html or generate_static_html:
-            self.index = list()
-            self.generate_web_page()
+            activities = self.list_activities()
+            if not activities:
+                # return a bad exit code, if no activities were found
+                sys.exit(-1)
+        else:
+            if args.build_xo or build_xo:
+                self.generate_xo_all()
+            if args.generate_static_html or generate_static_html:
+                self.index = list()
+                self.generate_web_page()
 
     @staticmethod
     def list_activities():
@@ -129,7 +140,9 @@ class SaaSBuild:
         """
         path_to_search_xo = args.input_directory
         collected_sugar_activity_dirs = list()
+
         for bundle_dir in os.listdir(path_to_search_xo):
+            # iterate through each activity in the directory
             full_path = os.path.join(path_to_search_xo, bundle_dir)
             if os.path.isdir(full_path):
                 activity_info_path = os.path.join(full_path, 'activity', 'activity.info')
@@ -137,10 +150,14 @@ class SaaSBuild:
                     # If an activity.info exists, its a valid sugar directory.
                     # We do not need to add other directories
                     collected_sugar_activity_dirs.append(Bundle(activity_info_path))
+
         print("[ACTIVITIES] Collected \n{}\n".format(collected_sugar_activity_dirs))
         return collected_sugar_activity_dirs
 
     def get_index(self):
+        """
+        Gets the index which is indexed
+        """
         try:
             return self.index
         except AttributeError:
@@ -179,12 +196,13 @@ class SaaSBuild:
             if args.build_override:
                 override = True
 
-
         for i in progressbar(range(len(activities)), redirect_stdout=True):
             print("[BUILD] Building ", activities[i])
-
+            # Add an option to provide additional build script
             ecode, out, err = activities[i].do_generate_bundle(
-
+                override_dist_xo=override,
+                entrypoint_build_command=entrypoint_build_script,
+                build_command_chdir=args.build_chdir
             )
             if err or ecode:
                 print(
@@ -212,10 +230,19 @@ class SaaSBuild:
         for directory_path in ('icons', 'bundles', 'app'):
             rel_path = os.path.join(output_dir, directory_path)
             if os.path.exists(rel_path):
+                if not args.noconfirm:
+                    # ask user for confirmation before removing directory
+                    proceed = "The operation will remove {}. Are you sure you want to proceed? (Y/n)"
+                    if proceed not in ('y', 'Y'):
+                        print("Terminated.")
+                        sys.exit(-1)
                 shutil.rmtree(rel_path, ignore_errors=True)
             os.makedirs(rel_path)
 
     def generate_web_page(self):
+        """
+        Generates web page static files
+        """
         output_dir = args.output_directory
         output_icon_dir = os.path.join(output_dir, 'icons')
         output_bundles_dir = os.path.join(output_dir, 'bundles')
@@ -291,10 +318,12 @@ class SaaSBuild:
 
     @staticmethod
     def unpack_static(extract_dir):
+        """
+        copies static js/, css/ from upstream along with bundle
+        """
         if not os.path.exists(args.pull_static_css_js_html):
             raise FileNotFoundError("Could not find path {}".format(args.pull_static_css_js_html))
         elif not os.path.isdir(args.pull_static_css_js_html):
             raise IOError("{} is not a directory [20]".format(args.pull_static_css_js_html))
         # unpack files into build_dir
         copytree(args.pull_static_css_js_html, extract_dir, True)
-
