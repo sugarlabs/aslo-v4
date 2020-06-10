@@ -24,8 +24,8 @@ along with SAAS.  If not, see <https://www.gnu.org/licenses/>.
 
 ACTIVITY_BUILD_CLASSIFIER = {
     'sugar-activity3': 'python3',
-    'sugar-activity': 'python2 [DEPRECATED]',
-    'sugar-activity-web': 'web activity'
+    'sugar-activity': 'python2',
+    'sugar-activity-web': 'web'
 }
 
 HTML_TEMPLATE = """
