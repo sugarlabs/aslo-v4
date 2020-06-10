@@ -312,7 +312,8 @@ class Bundle:
             "url": self.get_url(),
             "icon_name": self.get_bundle_id() if unique_icons else self.get_icon_name(),
             "bundle_name": bundle_path,
-            "bundle_id": self.get_bundle_id()
+            "bundle_id": self.get_bundle_id(),
+            "exec_type": self.get_activity_type()
         }
 
     def is_python3(self):
@@ -326,5 +327,5 @@ class Bundle:
             return None
         return ACTIVITY_BUILD_CLASSIFIER.get(
             self._exec.split()[0].split(os.path.sep)[-1],
-            'unknown'
+            'other'
         )
