@@ -286,7 +286,7 @@ class Bundle:
         out, err = proc.communicate()
         return exit_code, out.decode(), err.decode()
 
-    def generate_fingerprint_json(self):
+    def generate_fingerprint_json(self, unique_icons=False):
         """
         Creates a json file which uniquely identifies each activity
         by its
@@ -310,8 +310,9 @@ class Bundle:
             "summary": self.get_summary(),
             "license": self.get_license(),
             "url": self.get_url(),
-            "icon_name": self.get_icon_name(),
-            "bundle_name": bundle_path
+            "icon_name": self.get_bundle_id() if unique_icons else self.get_icon_name(),
+            "bundle_name": bundle_path,
+            "bundle_id": self.get_bundle_id()
         }
 
     def is_python3(self):

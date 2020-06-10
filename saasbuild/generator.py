@@ -80,7 +80,13 @@ parser.add_argument(
 parser.add_argument(
     '-p', '--pull-static-css-js-html',
     default='',
-    help="Provide the path to js, css and index.html (ideally from https://github.com/sugarlabs-appstore/sugarappstore-static)"
+    help="Provide the path to js, css and index.html "
+         "(ideally from https://github.com/sugarlabs-appstore/sugarappstore-static)"
+)
+parser.add_argument(
+    '-u', '--unique-icons',
+    action='store_true',
+    help="Provides a unique icon name based on bundle id"
 )
 args = parser.parse_args()
 
@@ -241,7 +247,14 @@ class SaaSBuild:
 
             # copy deps to respective folders
             _bundle_path = shutil.copy2(bundle_path, output_bundles_dir, follow_symlinks=True)
-            _icon_path = shutil.copy2(icon_path, output_icon_dir, follow_symlinks=True)
+            if args.unique_icons:
+                _icon_path = shutil.copy2(
+                    icon_path,
+                    os.path.join(output_icon_dir, "{}.svg".format(bundle.get_bundle_id())),
+                    follow_symlinks=True
+                )
+            else:
+                _icon_path = shutil.copy2(icon_path, output_icon_dir, follow_symlinks=True)
 
             # get the HTML_TEMPLATE and annotate with the saved
             # information
@@ -264,7 +277,7 @@ class SaaSBuild:
 
             # update the index files
             self.index.append(
-                bundle.generate_fingerprint_json()
+                bundle.generate_fingerprint_json(unique_icons=args.unique_icons)
             )
 
         # write the json to the file
