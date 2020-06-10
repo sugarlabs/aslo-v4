@@ -19,6 +19,16 @@ function addActivityCard(item) {
         url_container = ""
     }
     var bundle_path = `../bundles/${item['bundle_name']}`
+    if (item['exec_type'] == 'web'){
+        var exec_type = `<img src="../img/activity-browse.png" alt="Works with Webkit" height=38px>`
+    } else if (item['exec_type'] == 'python2') {
+        var exec_type = `<img src="../img/python2.png" alt="Powered by Python2.x" height=38px>`
+    } else if (item['exec_type'] == 'python3') {
+        var exec_type = `<img src="../img/python3.png" alt="Powered by Python3.x" height=38px>`
+    } else {
+        var exec_type = ""
+    }
+    
     
     $('#activity-card-column').append(
         `<div class="card saas-card">\
@@ -28,6 +38,7 @@ function addActivityCard(item) {
                 <p class="card-text">${summary}</p>\
                 <a href="${bundle_path}" class="btn btn-primary"><i class="fa fa-download"></i></a>\
                 ${url_container}
+                ${exec_type}
             </div>\
         </div>`
     )
