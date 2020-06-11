@@ -31,32 +31,50 @@ ACTIVITY_BUILD_CLASSIFIER = {
 HTML_TEMPLATE = """
 <!DOCTYPE html>
 <html>
+
     <head>
         <title>{title} - Sugar AppStore</title>
-        <meta charset="utf-8"/>
+        <!-- Required meta tags -->
+        <meta charset="utf-8">
+        <!-- Font Awesome icon pack -->
+        <link href="https://stackpath.bootstrapcdn.com/font-awesome/4.7.0/css/font-awesome.min.css" rel="stylesheet">
+        <!-- Open Sans font -->
+        <link href="https://fonts.googleapis.com/css2?family=Open+Sans:wght@300;400;700;800&display=swap" rel="stylesheet"> 
+        <!-- Mobile Responsive compatibility layer -->
+        <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+
+        <!-- Bootstrap CSS -->
+        <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.1.3/css/bootstrap.min.css" integrity="sha384-MCw98/SFnGE8fJT3GXwEOngsV7Zt27NXFoaoApmYm81iuXoPkFOJwJ8ERdknLPMO" crossorigin="anonymous">
+
         <link rel="stylesheet" type="text/css" href="../css/main.css"/>
     </head>
     <body>
-        <h1>{title}</h1>
-        <img src="{icon_path}"></img>
-        <div id=summary>
-            <h2>Summary</h2>
-            <p>{summary}</p>
+        <div class="container saas-activity-main">
+            <div class="row">
+                <div class="col-md-8 mx-auto"> 
+                    <div class="card saas-activity-card-std shadow-lg">
+                        <img class="saas-activity-card-image" src="{icon_path}"></img>
+                        <h1 class="card-title text-center">{title}</h1>
+                        
+                        <div class="saas-activity-card-summary" id=summary>
+                            <h3>Summary</h2>
+                            <p>{summary}</p>
+                        </div>
+                        <div class="saas-activity-card-description" id=description>
+                            <h3>Description</h2>
+                            <p>{description}</p>
+                        </div>
+                        <div class="saas-activity-card-tags"  id="tags">
+                            <h3>Tags</h2>
+                            {tag_list_html_formatted}
+                        </div>
+                        <a href="{bundle_path}" class="btn btn-primary saas-activity-download-button">
+                            <i class="fa fa-download"></i>Download
+                        </a>
+                    </div>
+                </div>
+            </div>
         </div>
-        <div id=description>
-            <h2>Description</h2>
-            <p>{description}</p>
-        </div>
-        <div id=tags>
-            <h2>Tags</h2>
-            <ul>
-                {tag_list_html_formatted}
-            </ul>
-        </div>
-        <h2 id="downloadButton">
-            <a href="{bundle_path}">Download</a>
-        </h2>
-        <br>
     </body>
 </html>
 

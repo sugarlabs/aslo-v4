@@ -273,7 +273,9 @@ class SaaSBuild:
             tags = bundle.get_tags()
             tags_html_list = []
             for tag in tags:
-                tags_html_list.append("<li>{tag}</li>".format(tag=tag))
+                tags_html_list.append(
+                    '<span class="badge badge-primary saas-badge">{tag}</span>'.format(tag=tag)
+                )
 
             # copy deps to respective folders
             _bundle_path = shutil.copy2(bundle_path, output_bundles_dir, follow_symlinks=True)
@@ -292,9 +294,9 @@ class SaaSBuild:
                 title=bundle.get_name(),
                 summary=bundle.get_summary(),
                 description='Nothing here yet!',  # TODO: Extract from README.md
-                bundle_path=_bundle_path,
+                bundle_path='../bundles/{}'.format(_bundle_path.split(os.path.sep)[-1]),
                 tag_list_html_formatted=''.join(tags_html_list),
-                icon_path=_icon_path
+                icon_path='../icons/{}'.format(_icon_path.split(os.path.sep)[-1])
             )
 
             # write the html file to specified path
