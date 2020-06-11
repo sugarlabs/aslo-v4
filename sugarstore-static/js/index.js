@@ -21,31 +21,30 @@ function addActivityCard(item) {
     }
     var bundle_path = `../bundles/${item['bundle_name']}`
     if (item['exec_type'] == 'web'){
-        var exec_type = `<img src="../img/activity-browse.png" alt="Works with Webkit" height=38px>`
+        var exec_type = `<a data-toggle="tooltip" title="Based on WebKit. Works on most platforms"><img src="../img/activity-browse.png" alt="Works with Webkit" height=38px>`
     } else if (item['exec_type'] == 'python2') {
-        var exec_type = `<img src="../img/python2.png" alt="Powered by Python2.x" height=38px>`
+        var exec_type = `<a data-toggle="tooltip" title="Powered by Python2. Supported by older sugar."><img src="../img/python2.png" alt="Powered by Python2.x" height=38px>`
     } else if (item['exec_type'] == 'python3') {
-        var exec_type = `<img src="../img/python3.png" alt="Powered by Python3.x" height=38px>`
+        var exec_type = `<a data-toggle="tooltip" title="Powered by Python3. Supported by Sugar 0.116+"><img src="../img/python3.png" alt="Powered by Python3.x" height=38px ></a>`
     } else {
         var exec_type = ""
     }
     if (item['v']) {
-        var version = `<div class="card-version">\
-                    <p class="card-version-text">v<span style="font-weight:700">${item['v']}</span></p>\
-                </div>`
+        var version = `<span class="badge badge-secondary">${item['v']}</span>`
     } else {
         var version = ''
     }
-    
-    
+
     $('#activity-card-column').append(
-        `<div class="card saas-card">\
-            <img class="card-img-top" style="padding:12%" src="../icons/${icon_path}.svg" alt="${name} Icon">\
+        `<div class="card saas-card shadow-lg">\
+            <img class="card-img-top" \
+            style="padding:12%" src="../icons/${icon_path}.svg" alt="${name} Icon">\
             <div class="card-body">\
-                <div class="saas-heading">\
-                    <a href="../app/${bundle_id}.html" style="color:#000"><h5 class="card-title saas-h1">${name}</h5></a>
-                </div>\
-                ${version}
+                <h3 class="card-title saas-h1">
+                    <a href="../app/${bundle_id}.html" style="color:#000">
+                    ${name}</a>  
+                    ${version}
+                </h3>
                 <p class="card-text">${summary}</p>\
                 <a href="${bundle_path}" class="btn btn-primary"><i class="fa fa-download"></i></a>\
                 ${url_container}
