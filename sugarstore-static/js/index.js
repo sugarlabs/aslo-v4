@@ -28,13 +28,23 @@ function addActivityCard(item) {
     } else {
         var exec_type = ""
     }
+    if (item['v']) {
+        var version = `<div class="card-version">\
+                    <p class="card-version-text">v<span style="font-weight:700">${item['v']}</span></p>\
+                </div>`
+    } else {
+        var version = ''
+    }
     
     
     $('#activity-card-column').append(
         `<div class="card saas-card">\
             <img class="card-img-top" style="padding:12%" src="../icons/${icon_path}.svg" alt="${name} Icon">\
             <div class="card-body">\
-                <h5 class="card-title">${name}</h5>\
+                <div class="saas-heading">\
+                    <h5 class="card-title saas-h1">${name}</h5>
+                </div>\
+                ${version}
                 <p class="card-text">${summary}</p>\
                 <a href="${bundle_path}" class="btn btn-primary"><i class="fa fa-download"></i></a>\
                 ${url_container}
@@ -58,7 +68,7 @@ function loadAllActivities () {
                 console.log("minisearch indexed.")
                 miniSearch = new MiniSearch({
                     fields: ['name', 'summary'], // fields to index for full-text search
-                    storeFields: ['name', 'summary', 'url', 'icon_name', 'bundle_name'], // fields to return with search results
+                    storeFields: ['name', 'summary', 'url', 'icon_name', 'bundle_name', 'v'], // fields to return with search results
                     searchOptions: {
                         boost: { title: 2 },
                         fuzzy: 0.5
