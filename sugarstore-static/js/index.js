@@ -10,6 +10,7 @@ function getActivityIndex () {
 
 function addActivityCard(item) {
     var name = item['name'];
+    var bundle_id = item['bundle_id']
     var icon_path = item['icon_name'];
     var summary = item['summary'] != null ? item['summary'] : 'No info provided';
     var url_container
@@ -42,7 +43,7 @@ function addActivityCard(item) {
             <img class="card-img-top" style="padding:12%" src="../icons/${icon_path}.svg" alt="${name} Icon">\
             <div class="card-body">\
                 <div class="saas-heading">\
-                    <h5 class="card-title saas-h1">${name}</h5>
+                    <a href="../app/${bundle_id}.html" style="color:#000"><h5 class="card-title saas-h1">${name}</h5></a>
                 </div>\
                 ${version}
                 <p class="card-text">${summary}</p>\
@@ -68,7 +69,7 @@ function loadAllActivities () {
                 console.log("minisearch indexed.")
                 miniSearch = new MiniSearch({
                     fields: ['name', 'summary'], // fields to index for full-text search
-                    storeFields: ['name', 'summary', 'url', 'icon_name', 'bundle_name', 'v'], // fields to return with search results
+                    storeFields: ['name', 'summary', 'url', 'icon_name', 'bundle_name', 'v', 'bundle_id'], // fields to return with search results
                     searchOptions: {
                         boost: { title: 2 },
                         fuzzy: 0.5
