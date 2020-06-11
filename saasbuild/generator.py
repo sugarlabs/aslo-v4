@@ -102,7 +102,10 @@ def copytree(src, dst, symlinks=False, ignore=None):
         s = os.path.join(src, item)
         d = os.path.join(dst, item)
         if os.path.isdir(s):
-            shutil.copytree(s, d, symlinks, ignore)
+            try:
+                shutil.copytree(s, d, symlinks, ignore)
+            except FileExistsError:
+                pass
         else:
             shutil.copy2(s, d)
 
@@ -232,9 +235,9 @@ class SaaSBuild:
             if os.path.exists(rel_path):
                 if not args.noconfirm:
                     # ask user for confirmation before removing directory
-                    proceed = "The operation will remove {}. Are you sure you want to proceed? (Y/n)"
+                    proceed = input("The operation will remove {}. Are you sure you want to proceed? (Y/n) ".format(rel_path))
                     if proceed not in ('y', 'Y'):
-                        print("Terminated.")
+                        print("Terminated on user request.")
                         sys.exit(-1)
                 shutil.rmtree(rel_path, ignore_errors=True)
             os.makedirs(rel_path)
@@ -298,7 +301,7 @@ class SaaSBuild:
             with open(os.path.join(
                     output_dir,
                     'app',
-                    '{}.html'.format(title)
+                    '{}.html'.format(bundle.get_bundle_id())
             ), 'w') as w:
                 w.write(parsed_html)
 
