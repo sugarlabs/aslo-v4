@@ -69,7 +69,7 @@ class Bundle:
             )
         bundle_activity_section = config['Activity']
         self._name = bundle_activity_section.get('name')
-        self._activity_version = bundle_activity_section.get('activity-version')
+        self._activity_version = bundle_activity_section.get('activity_version') or bundle_activity_section.get('activity-version') 
         self._bundle_id = bundle_activity_section.get('bundle_id')
         self.icon = bundle_activity_section.get('icon', 'activity-helloworld')
         self._exec = bundle_activity_section.get('exec')
@@ -313,7 +313,8 @@ class Bundle:
             "icon_name": self.get_bundle_id() if unique_icons else self.get_icon_name(),
             "bundle_name": bundle_path,
             "bundle_id": self.get_bundle_id(),
-            "exec_type": self.get_activity_type()
+            "exec_type": self.get_activity_type(),
+            "v": self.get_version()
         }
 
     def is_python3(self):
