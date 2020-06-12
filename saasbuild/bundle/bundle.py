@@ -65,11 +65,12 @@ class Bundle:
             # it then might be an invalid activity file
             raise BundleError(
                 "Invalid activity.info file in {}. "
-                "The file does not have a [Activity] section".format(self.activity_info_path)
-            )
+                "The file does not have a [Activity] section".format(
+                    self.activity_info_path))
         bundle_activity_section = config['Activity']
         self._name = bundle_activity_section.get('name')
-        self._activity_version = bundle_activity_section.get('activity_version') or bundle_activity_section.get('activity-version') 
+        self._activity_version = bundle_activity_section.get(
+            'activity_version') or bundle_activity_section.get('activity-version')
         self._bundle_id = bundle_activity_section.get('bundle_id')
         self.icon = bundle_activity_section.get('icon', 'activity-helloworld')
         self._exec = bundle_activity_section.get('exec')
@@ -82,7 +83,8 @@ class Bundle:
             bundle_activity_section.get('category', '').split(';') or \
             bundle_activity_section.get('tag', '').split(';') or \
             bundle_activity_section.get('categories', '').split(';')
-        self.screenshots = bundle_activity_section.get('screenshots', '').split()
+        self.screenshots = bundle_activity_section.get(
+            'screenshots', '').split()
 
         # bundle specific variables
         self._bundle_path = get_latest_bundle(
@@ -90,7 +92,8 @@ class Bundle:
         )
 
     def __repr__(self):
-        return '{name} ({path})'.format(name=self._name, path=self.activity_info_path)
+        return '{name} ({path})'.format(
+            name=self._name, path=self.activity_info_path)
 
     def get_bundle_path(self):
         return self._bundle_path
@@ -201,7 +204,11 @@ class Bundle:
         """
         return os.path.dirname(os.path.dirname(self.activity_info_path))
 
-    def do_generate_bundle(self, override_dist_xo=False, entrypoint_build_command=None, build_command_chdir=False):
+    def do_generate_bundle(
+            self,
+            override_dist_xo=False,
+            entrypoint_build_command=None,
+            build_command_chdir=False):
         """
         Generates a .xo file for the activities
         by spawning a subprocess
@@ -227,7 +234,8 @@ class Bundle:
             raise ValueError("entrypoint_build_command was not provided")
 
         current_path_ = os.getcwd()
-        if entrypoint_build_command and isinstance(entrypoint_build_command, str):
+        if entrypoint_build_command and isinstance(
+                entrypoint_build_command, str):
             # read the shell / python script
             with open(entrypoint_build_command, 'r') as r:
                 commands_to_pre_execute = r.read()
@@ -244,14 +252,16 @@ class Bundle:
                 icon_path=self.get_icon_path()
             ))
 
-            # restore the current working directory in the case directory was changed
+            # restore the current working directory in the case directory was
+            # changed
             if build_command_chdir:
                 os.chdir(current_path_)
 
             if override_dist_xo:
                 return exit_code, '', ''
 
-        python_exe = get_executable_path('python3', False) or get_executable_path('python')
+        python_exe = get_executable_path(
+            'python3', False) or get_executable_path('python')
         proc = subprocess.Popen(
             _s("{} setup.py dist_xo".format(python_exe)),
             cwd=self.get_activity_dir(),
@@ -275,7 +285,8 @@ class Bundle:
         :return:
         """
         flags = '' if system else '--user'
-        python_exe = get_executable_path('python3', False) or get_executable_path('python')
+        python_exe = get_executable_path(
+            'python3', False) or get_executable_path('python')
         proc = subprocess.Popen(
             _s("{} setup.py install {}".format(python_exe, flags)),
             cwd=self.get_activity_dir(),
@@ -295,7 +306,7 @@ class Bundle:
         >>> a = Bundle()
         >>> a.generate_fingerprint_json()
         {
-            "id": 
+            "id":
         :return:
         """
         bundle_path = self.get_bundle_path()
@@ -304,7 +315,9 @@ class Bundle:
         else:
             bundle_path = None
         return {
-            "id": hashlib.sha256(self.get_name().encode() + self.get_url().encode()).hexdigest(),
+            "id": hashlib.sha256(
+                self.get_name().encode() +
+                self.get_url().encode()).hexdigest(),
             "name": self.get_name(),
             "tags": self.get_tags(),
             "summary": self.get_summary(),
@@ -314,8 +327,7 @@ class Bundle:
             "bundle_name": bundle_path,
             "bundle_id": self.get_bundle_id(),
             "exec_type": self.get_activity_type(),
-            "v": self.get_version()
-        }
+            "v": self.get_version()}
 
     def is_python3(self):
         if isinstance(self._exec, str) and 'sugar-activity3' in self._exec:
