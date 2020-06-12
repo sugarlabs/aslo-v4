@@ -53,7 +53,7 @@ HTML_TEMPLATE = """
             <div class="row">
                 <div class="col-md-8 mx-auto"> 
                     <div class="card saas-activity-card-std shadow-lg">
-                        <img class="saas-activity-card-image" src="{icon_path}"></img>
+                        <img class="mx-auto saas-activity-card-image" src="{icon_path}"></img>
                         <h1 class="card-title text-center">{title}</h1>
                         
                         <div class="saas-activity-card-summary" id=summary>
