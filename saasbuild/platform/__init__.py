@@ -25,7 +25,8 @@ along with SAAS.  If not, see <https://www.gnu.org/licenses/>.
 import os
 import platform
 
-PATH = os.getenv('PATH').split(os.pathsep)  # gets the PATH environment variable
+# gets the PATH environment variable
+PATH = os.getenv('PATH').split(os.pathsep)
 SYSTEM = platform.system()
 
 
@@ -46,7 +47,7 @@ def get_executable_path(executable, raise_error=True):
         if raise_error:
             raise FileNotFoundError(
                 "Could not find {p} on PATH. "
-                "Make sure {p} is added to path and try again".format(p=executable)
-            )
+                "Make sure {p} is added to path and try again".format(
+                    p=executable))
         else:
             return False
