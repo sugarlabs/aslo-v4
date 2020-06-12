@@ -57,11 +57,11 @@ HTML_TEMPLATE = """
                         <h1 class="card-title text-center">{title}</h1>
                         
                         <div class="saas-activity-card-summary" id=summary>
-                            <h3>Summary</h2>
+                            <h3>Summary</h3>
                             <p>{summary}</p>
                         </div>
                         <div class="saas-activity-card-description" id=description>
-                            <h3>Description</h2>
+                            <h3>Description</h3>
                             <p>{description}</p>
                         </div>
                         <div class="saas-activity-card-tags"  id="tags">
