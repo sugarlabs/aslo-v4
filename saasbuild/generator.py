@@ -79,11 +79,11 @@ parser.add_argument(
     help='Start the process of HTML generation. (pass -b, if you are unsure if bundles are already created)'
 )
 parser.add_argument(
-    '-p', '--pull-static-css-js-html',
+    '-p',
+    '--pull-static-css-js-html',
     default='',
     help="Provide the path to js, css and index.html "
-         "(ideally from https://github.com/sugarlabs-appstore/sugarappstore-static)"
-)
+    "(ideally from https://github.com/sugarlabs-appstore/sugarappstore-static)")
 parser.add_argument(
     '-u', '--unique-icons',
     action='store_true',
@@ -114,6 +114,7 @@ class SaaSBuild:
     """
     The helper object to quickly create bundles and generate html web pages
     """
+
     def __init__(
             self,
             list_activities=False,
@@ -148,13 +149,16 @@ class SaaSBuild:
             # iterate through each activity in the directory
             full_path = os.path.join(path_to_search_xo, bundle_dir)
             if os.path.isdir(full_path):
-                activity_info_path = os.path.join(full_path, 'activity', 'activity.info')
+                activity_info_path = os.path.join(
+                    full_path, 'activity', 'activity.info')
                 if os.path.exists(activity_info_path):
                     # If an activity.info exists, its a valid sugar directory.
                     # We do not need to add other directories
-                    collected_sugar_activity_dirs.append(Bundle(activity_info_path))
+                    collected_sugar_activity_dirs.append(
+                        Bundle(activity_info_path))
 
-        print("[ACTIVITIES] Collected \n{}\n".format(collected_sugar_activity_dirs))
+        print("[ACTIVITIES] Collected \n{}\n".format(
+            collected_sugar_activity_dirs))
         return collected_sugar_activity_dirs
 
     def get_index(self):
@@ -235,7 +239,8 @@ class SaaSBuild:
             if os.path.exists(rel_path):
                 if not args.noconfirm:
                     # ask user for confirmation before removing directory
-                    proceed = input("The operation will remove {}. Are you sure you want to proceed? (Y/n) ".format(rel_path))
+                    proceed = input(
+                        "The operation will remove {}. Are you sure you want to proceed? (Y/n) ".format(rel_path))
                     if proceed not in ('y', 'Y'):
                         print("Terminated on user request.")
                         sys.exit(-1)
@@ -278,15 +283,19 @@ class SaaSBuild:
                 )
 
             # copy deps to respective folders
-            _bundle_path = shutil.copy2(bundle_path, output_bundles_dir, follow_symlinks=True)
+            _bundle_path = shutil.copy2(
+                bundle_path, output_bundles_dir, follow_symlinks=True)
             if args.unique_icons:
                 _icon_path = shutil.copy2(
                     icon_path,
-                    os.path.join(output_icon_dir, "{}.svg".format(bundle.get_bundle_id())),
-                    follow_symlinks=True
-                )
+                    os.path.join(
+                        output_icon_dir,
+                        "{}.svg".format(
+                            bundle.get_bundle_id())),
+                    follow_symlinks=True)
             else:
-                _icon_path = shutil.copy2(icon_path, output_icon_dir, follow_symlinks=True)
+                _icon_path = shutil.copy2(
+                    icon_path, output_icon_dir, follow_symlinks=True)
 
             # get the HTML_TEMPLATE and annotate with the saved
             # information
@@ -294,9 +303,11 @@ class SaaSBuild:
                 title=bundle.get_name(),
                 summary=bundle.get_summary(),
                 description='Nothing here yet!',  # TODO: Extract from README.md
-                bundle_path='../bundles/{}'.format(_bundle_path.split(os.path.sep)[-1]),
+                bundle_path='../bundles/{}'.format(
+                    _bundle_path.split(os.path.sep)[-1]),
                 tag_list_html_formatted=''.join(tags_html_list),
-                icon_path='../icons/{}'.format(_icon_path.split(os.path.sep)[-1])
+                icon_path='../icons/{}'.format(
+                    _icon_path.split(os.path.sep)[-1])
             )
 
             # write the html file to specified path
@@ -309,13 +320,16 @@ class SaaSBuild:
 
             # update the index files
             self.index.append(
-                bundle.generate_fingerprint_json(unique_icons=args.unique_icons)
-            )
+                bundle.generate_fingerprint_json(
+                    unique_icons=args.unique_icons))
 
         # write the json to the file
         with open(os.path.join(output_dir, 'index.json'), 'w') as w:
             json.dump(self.index, w)
-        print("Index file containing {n} items have been written successfully".format(n=len(self.index)))
+        print(
+            "Index file containing {n} items have been written successfully".format(
+                n=len(
+                    self.index)))
 
         # pull the files and unpack it if necessary
         if args.pull_static_css_js_html:
@@ -327,8 +341,12 @@ class SaaSBuild:
         copies static js/, css/ from upstream along with bundle
         """
         if not os.path.exists(args.pull_static_css_js_html):
-            raise FileNotFoundError("Could not find path {}".format(args.pull_static_css_js_html))
+            raise FileNotFoundError(
+                "Could not find path {}".format(
+                    args.pull_static_css_js_html))
         elif not os.path.isdir(args.pull_static_css_js_html):
-            raise IOError("{} is not a directory [20]".format(args.pull_static_css_js_html))
+            raise IOError(
+                "{} is not a directory [20]".format(
+                    args.pull_static_css_js_html))
         # unpack files into build_dir
         copytree(args.pull_static_css_js_html, extract_dir, True)
