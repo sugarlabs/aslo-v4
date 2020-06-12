@@ -43,6 +43,7 @@ h1 {
 }
 .saas-activity-main {
     margin-top: 4rem;
+    margin-bottom: 4rem;
 }
 .saas-activity-card-std {
     border-radius: 1.5rem;
@@ -54,6 +55,8 @@ h1 {
 
 .saas-activity-card-image {
     height: 25vh;
+    width: 25vh;
+    left: 50%;
 }
 
 .saas-badge {
