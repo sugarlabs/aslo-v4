@@ -1,5 +1,10 @@
 var miniSearch
 
+
+function compareAlphabetically(el1, el2, index) {
+  return el1[index] == el2[index] ? 0 : (el1[index] < el2[index] ? -1 : 1);
+}
+
 function clearActivityCards() {
     $('#activity-card-column').empty();
 }
@@ -86,9 +91,14 @@ function loadAllActivities () {
         $.getJSON("../index.json", function(data) {
         console.log(data)
         // update the UI with each card
-        $.each(data, function(i, item){
-            addActivityCard(item)
-        })
+
+        $.each(
+            data.sort(function(el1,el2){
+                return compareAlphabetically(el1, el2, "name")
+            }),
+            function(i, item){
+                addActivityCard(item)
+            })
         }); 
     }
     
