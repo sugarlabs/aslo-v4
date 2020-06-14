@@ -1,7 +1,35 @@
 var miniSearch
 
+function setCookie(cname, cvalue, exdays) {
+  // A function to set cookie from document.cookie
+  // https://www.w3schools.com/js/js_cookies.asp
+  var d = new Date();
+  d.setTime(d.getTime() + (exdays*24*60*60*1000));
+  var expires = "expires="+ d.toUTCString();
+  document.cookie = cname + "=" + cvalue + ";" + expires + ";path=/";
+}
+
+function getCookie(cname) {
+  // A function to get cookie from document.cookie
+  // https://www.w3schools.com/js/js_cookies.asp
+  var name = cname + "=";
+  var decodedCookie = decodeURIComponent(document.cookie);
+  var ca = decodedCookie.split(';');
+  for(var i = 0; i <ca.length; i++) {
+    var c = ca[i];
+    while (c.charAt(0) == ' ') {
+      c = c.substring(1);
+    }
+    if (c.indexOf(name) == 0) {
+      return c.substring(name.length, c.length);
+    }
+  }
+  return "";
+}
 
 function compareAlphabetically(el1, el2, index) {
+  // compares el1 and el2 and returns first occuring item according 
+  // to ASCII 
   return el1[index] == el2[index] ? 0 : (el1[index] < el2[index] ? -1 : 1);
 }
 
@@ -17,6 +45,9 @@ function addActivityCard(item) {
     var name = item['name'];
     var bundle_id = item['bundle_id']
     var icon_path = item['icon_name'];
+    if (icon_path == null) {
+        icon_path = 'org.sugarlabs.HelloWorld'
+    }
     var summary = item['summary'] != null ? item['summary'] : 'No info provided';
     var url_container
     if ($.trim( item['url']) != ""){
@@ -43,7 +74,7 @@ function addActivityCard(item) {
     $('#activity-card-column').append(
         `<div class="card saas-card shadow-lg">\
             <img class="card-img-top" \
-            style="padding:12%" src="../icons/${icon_path}.svg" alt="${name} Icon">\
+            style="padding:12%" src="../icons/${icon_path}.svg" alt="Activity Logo of ${name}">\
             <div class="card-body">\
                 <h3 class="card-title saas-h1">
                     <a href="../app/${bundle_id}.html" style="color:#000">

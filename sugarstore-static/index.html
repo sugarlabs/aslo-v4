@@ -14,6 +14,7 @@
     <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.1.3/css/bootstrap.min.css" integrity="sha384-MCw98/SFnGE8fJT3GXwEOngsV7Zt27NXFoaoApmYm81iuXoPkFOJwJ8ERdknLPMO" crossorigin="anonymous">
 
     <!-- style.css -->
+    <link rel="stylesheet" href="css/common.css">
     <link rel="stylesheet" href="css/search.css">
     <title>Sugar App Store</title>
     <link rel="apple-touch-icon" sizes="57x57" href="/favicon/apple-icon-57x57.png">
@@ -34,7 +35,8 @@
     <meta name="msapplication-TileImage" content="/favicon/ms-icon-144x144.png">
     <meta name="theme-color" content="#ffffff">
   </head>
-  <body>
+
+  <body class="boring-gradient-bg">
     <!-- navigation bar -->
     <nav class="navbar navbar-expand-lg navbar-dark bg-dark sass-navbar">
       <a class="navbar-brand" href="#">Sugar App Store</a>
@@ -72,23 +74,32 @@
           </li>
           <li class="nav-item">
             <a class="nav-link disabled" href="#">Disabled</a>
-          </li>
+          </li~-->
         </ul>
-        <form class="form-inline my-2 my-lg-0">
+        <!--form class="form-inline my-2 my-lg-0">
           <input class="form-control mr-sm-2" type="search" placeholder="Search" aria-label="Search">
           <button class="btn btn-outline-success my-2 my-sm-0" type="submit">Search</button>
-        </form-->
-        </ul>
+        </form>
+
+        </ul-->
+        <!--div class="custom-control custom-switch">
+          <input type="checkbox" class="custom-control-input" disabled id="customSwitch2">
+          <label class="custom-control-label" for="customSwitch2">Disabled switch element</label>
+        </div-->
+        <label class="switch">
+          <input type="checkbox" id="funCheckBox">
+          <span class="slider round"></span>
+        </label>
       </div>
     </nav>
     
     <div class="container saas-activity-search-container">
 
-
       <!-- Search bar -->
       <div class="col-md-10 col-lg-8 col-xl-7 mx-auto" style="margin: 23px;min-width: 70%">
       	<div class="col-sm-12 text-center">
-   			<img class="center-block mx-auto" src="img/sugarappstore_png.png" style="margin: 23px;width:50%">
+   			<img class="center-block mx-auto" src="img/sugarappstore_png.png" style="margin: 23px;width:50%"
+        alt="SugarLabs AppStore Logo">
    		</div>
           <form >
               <div class="form-row">
@@ -123,15 +134,35 @@
     <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.1.3/js/bootstrap.min.js" integrity="sha384-ChfqqxuZUCnJSK3+MXmPNIyE6ZbWh2IMqE241rYiqJxyMiZ6OW/JmZQ5stwEULTy" crossorigin="anonymous"></script>
     <script src="https://cdn.jsdelivr.net/npm/minisearch@2.2.2/dist/umd/index.min.js"></script>
     <script src="js/index.js"></script>
+
     <script>
       // show all activities on document load
       $(document).ready(function(){
+        // check if fun needs to be enabled
+
         loadAllActivities();
+
+        // add an event function to loadAllActivities
+        // on change of input
         $('#saas-search-box').on('input',function(e){
             clearActivityCards();
             loadAllActivities();
         });
+
+        // make the fun gradient background optional
+        // This is not enabled by default because of high CPU usage
+        // on Chromium Engine. Firefox Gecko engine does not show notable
+        // CPU usage
+        $('#funCheckBox').change(function() {
+          if (this.checked) {
+            $("body").addClass("fun-gradient-animation-bg")
+          } else {
+            $("body").removeClass("fun-gradient-animation-bg")
+          }
+        })
+
       });
+
     </script>
   </body>
 </html>
