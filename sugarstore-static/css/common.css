@@ -22,8 +22,8 @@ body {
     -moz-animation: GradientFun 30s ease infinite;
     -o-animation: GradientFun 30s ease infinite;
     animation: GradientFun 30s ease infinite;
-    /* 
-    Optimize CPU usage on Chromium 
+    /*
+    Optimize CPU usage on Chromium
     https://stackoverflow.com/questions/33313180/css-background-image-animation-high-cpu-usage
     */
     translate: translate3d(0, 0, 0)
@@ -123,3 +123,24 @@ input:checked + .slider:before {
   border-radius: 50%;
 }
 
+/* Cookie Modal Dialog */
+.modal-dialog {
+  margin-top: 1rem;
+  max-width: 90%;
+  position: absolute;
+  bottom: 0; right: 1rem;
+
+  .modal-content {
+    border-radius: 1rem;
+  }
+
+
+}
+
+.cookie-consent-button {
+  margin-right: 0.5rem;
+}
+
+.cookie-text-small {
+  font-size: 0.5rem;
+}
