@@ -40,8 +40,8 @@ function getCookie(cname) {
 }
 
 function compareAlphabetically(el1, el2, index) {
-  // compares el1 and el2 and returns first occuring item according 
-  // to ASCII 
+  // compares el1 and el2 and returns first occuring item according
+  // to ASCII
   return el1[index] == el2[index] ? 0 : (el1[index] < el2[index] ? -1 : 1);
 }
 
@@ -50,7 +50,7 @@ function clearActivityCards() {
 }
 
 function getActivityIndex () {
-  
+
 }
 
 function addActivityCard(item) {
@@ -90,7 +90,7 @@ function addActivityCard(item) {
             <div class="card-body">\
                 <h3 class="card-title saas-h1">
                     <a href="../app/${bundle_id}.html" style="color:#000">
-                    ${name}</a>  
+                    ${name}</a>
                     ${version}
                 </h3>
                 <p class="card-text">${summary}</p>\
@@ -142,8 +142,8 @@ function loadAllActivities () {
             function(i, item){
                 addActivityCard(item)
             })
-        }); 
+        });
     }
-    
+
 
 };
