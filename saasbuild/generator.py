@@ -26,12 +26,13 @@ along with SAAS.  If not, see <https://www.gnu.org/licenses/>.
 import argparse
 import json
 import os
+import time
 import shutil
 import sys
 from urllib.parse import quote
 
 from .bundle.bundle import Bundle
-from .constants import HTML_TEMPLATE
+from .constants import HTML_TEMPLATE, SITEMAP_HEADER, SITEMAP_URL
 from .lib.progressbar import progressbar
 
 parser = argparse.ArgumentParser(
@@ -77,6 +78,11 @@ parser.add_argument(
     '-g', '--generate-static-html',
     action='store_true',
     help='Start the process of HTML generation. (pass -b, if you are unsure if bundles are already created)'
+)
+parser.add_argument(
+    '-x', '--generate-sitemap',
+    default='',
+    help='Generate a sitemap.xml file to the output directory'
 )
 parser.add_argument(
     '-p',
@@ -133,6 +139,8 @@ class SaaSBuild:
             if args.generate_static_html or generate_static_html:
                 self.index = list()
                 self.generate_web_page()
+            if args.generate_sitemap:
+                self.generate_sitemap()
 
     @staticmethod
     def list_activities():
@@ -246,6 +254,35 @@ class SaaSBuild:
                         sys.exit(-1)
                 shutil.rmtree(rel_path, ignore_errors=True)
             os.makedirs(rel_path)
+
+    def generate_sitemap(self, domain=args.generate_sitemap):
+        """
+        Generates sitemap.xml
+        """
+        output_dir = args.output_directory
+
+        # get the bundles
+        bundles = self.list_activities()
+        sitemap_content = list()
+        current_formatted_time = time.strftime('%Y-%m-%d')
+        for bundle in progressbar(bundles, redirect_stdout=True):
+
+            # get the bundle and icon path
+            bundle_path = bundle.get_bundle_path()
+            icon_path = bundle.get_icon_path()
+            sitemap_content.append(
+                SITEMAP_URL.format(
+                    url="{domain}/app/{bundle_name}.html".format(
+                        domain=domain,
+                        bundle_name=bundle.get_bundle_id()
+                    ),
+                    lastmod=current_formatted_time,
+                    changefreq="weekly"
+                )
+            )
+        with open(os.path.join(output_dir, 'sitemap.xml'), 'w') as w:
+            w.write(SITEMAP_HEADER.format(content=''.join(sitemap_content)))
+        print("sitemap.xml written successfully")
 
     def generate_web_page(self):
         """
