@@ -199,10 +199,10 @@
         // CPU usage
         $('#funCheckBox').change(function() {
           if (this.checked) {
-            $("body").addClass("fun-gradient-animation-bg")
+            enableFunGradientBackground();
           } else {
-            $("body").removeClass("fun-gradient-animation-bg")
-          }
+            disableFunGradientBackground();
+          };
         })
 
       });
