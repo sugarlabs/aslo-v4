@@ -172,8 +172,11 @@
         // add an event function to loadAllActivities
         // on change of input
         $('#saas-search-box').on('input',function(e){
-            clearActivityCards();
-            loadAllActivities();
+          // on every new input clear the current stack
+          // add a new set of found out cards which otherwise might create
+          // repeated values
+          clearActivityCards();
+          loadAllActivities();
         });
 
         // make the fun gradient background optional
