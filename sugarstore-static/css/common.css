@@ -59,7 +59,7 @@ h1 {
 /*
 ==========================================
 https://www.w3schools.com/howto/howto_css_switch.asp
-The switch - the box around the slider 
+The switch - the box around the slider
 */
 .switch {
   position: relative;
@@ -121,4 +121,5 @@ input:checked + .slider:before {
 
 .slider.round:before {
   border-radius: 50%;
-} 
+}
+
