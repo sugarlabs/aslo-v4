@@ -45,15 +45,18 @@ HTML_TEMPLATE = """
 
         <!-- Bootstrap CSS -->
         <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.1.3/css/bootstrap.min.css" integrity="sha384-MCw98/SFnGE8fJT3GXwEOngsV7Zt27NXFoaoApmYm81iuXoPkFOJwJ8ERdknLPMO" crossorigin="anonymous">
-
+        <link rel="stylesheet" type="text/css" href="css/common.css">
         <link rel="stylesheet" type="text/css" href="../css/main.css"/>
     </head>
-    <body>
+    <body class="boring-gradient-bg">
         <div class="container saas-activity-main">
             <div class="row">
                 <div class="col-md-8 mx-auto">
                     <div class="card saas-activity-card-std shadow-lg">
-                        <img class="mx-auto saas-activity-card-image" src="{icon_path}"></img>
+                        <img class="mx-auto saas-activity-card-image" 
+                        src="{icon_path}" 
+                        alt="Logo of the activity {title}">
+                        </img>
                         <h1 class="card-title text-center">{title}</h1>
 
                         <div class="saas-activity-card-summary" id=summary>
@@ -64,7 +67,7 @@ HTML_TEMPLATE = """
                             <h3>Description</h3>
                             <p>{description}</p>
                         </div>
-                        <div class="saas-activity-card-tags"  id="tags">
+                        <div class="saas-activity-card-tags" id="tags">
                             <h3>Tags</h2>
                             {tag_list_html_formatted}
                         </div>
