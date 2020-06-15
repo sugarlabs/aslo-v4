@@ -1,5 +1,17 @@
 var miniSearch
 
+function enableFunGradientBackground(){
+    console.log("Enabling fun gradient background animation.");
+    $("body").addClass("fun-gradient-animation-bg");
+    setCookie("saas-fun", "true", 365);
+}
+
+function disableFunGradientBackground() {
+    console.log("Disabling fun gradient background animation");
+    $("body").removeClass("fun-gradient-animation-bg");
+    setCookie("saas-fun", "false", 365);
+}
+
 function setCookie(cname, cvalue, exdays) {
   // A function to set cookie from document.cookie
   // https://www.w3schools.com/js/js_cookies.asp
