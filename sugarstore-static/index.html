@@ -179,6 +179,20 @@
           loadAllActivities();
         });
 
+        // check if a cookie is set to true
+        if (!( getCookie("saas-fun") == "false" || getCookie("saas-fun") == "" )) {
+          // restore the saved cookie
+          console.log("Enabling fun gradient background animation from cookie.")
+          $("body").addClass("fun-gradient-animation-bg");
+          setCookie("saas-fun", "true", 365);
+          $('#funCheckBox').checked = true;
+        } else if (getCookie("saas-fun") == "") {
+          // means cookie is not set yet!
+          // ask the user for permission
+          $('#cookieModal').modal('show');
+
+        }
+
         // make the fun gradient background optional
         // This is not enabled by default because of high CPU usage
         // on Chromium Engine. Firefox Gecko engine does not show notable
