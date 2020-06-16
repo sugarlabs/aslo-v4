@@ -30,7 +30,10 @@ python3 -m saasbuild
 
 ```bash
 $ python3 -m saasbuild --help
-usage: Sugar Appstore generator [-h] [-i INPUT_DIRECTORY] [-o OUTPUT_DIRECTORY] [-b] [-l] [-g]
+usage: Sugar Appstore generator [-h] [-i INPUT_DIRECTORY] [-o OUTPUT_DIRECTORY] [-b]
+                                [--build-entrypoint BUILD_ENTRYPOINT] [--build-override]
+                                [--build-chdir] [-l] [-g] [-x GENERATE_SITEMAP]
+                                [-p PULL_STATIC_CSS_JS_HTML] [-u] [-y]
 
 Generates static HTML files for SAAS
 
@@ -41,11 +44,24 @@ optional arguments:
   -o OUTPUT_DIRECTORY, --output-directory OUTPUT_DIRECTORY
                         Provide the directory to output the parsed website for SAAS
   -b, --build-xo        Generate XO bundles for a large number of directories
+  --build-entrypoint BUILD_ENTRYPOINT
+                        Specify a path to any Linux compatible script which is intended to be executed
+                        on every build
+  --build-override      Override `python setup.py dist_xo` with --build-entrypoint argument shell
+                        script
+  --build-chdir         Changes directory to Activity dir
   -l, --list-activities
                         Lists all the activities available in the directory
   -g, --generate-static-html
-                        Start the process of HTML generation. (pass -b, if you are unsure if bundles are already
-                        created)
+                        Start the process of HTML generation. (pass -b, if you are unsure if bundles
+                        are already created)
+  -x GENERATE_SITEMAP, --generate-sitemap GENERATE_SITEMAP
+                        Generate a sitemap.xml file to the output directory
+  -p PULL_STATIC_CSS_JS_HTML, --pull-static-css-js-html PULL_STATIC_CSS_JS_HTML
+                        Provide the path to js, css and index.html (ideally from
+                        https://github.com/sugarlabs-appstore/sugarappstore-static)
+  -u, --unique-icons    Provides a unique icon name based on bundle id
+  -y, --noconfirm       Replace output directory (default: always ask)
 
 ```
 
@@ -63,10 +79,10 @@ bundles i.e. .xo files.
 ## TODO
 - [x] Create search function js file, JSON data file & html page stitching them together
 - [ ] NOTE: how will I ensure that results are presented in  some order when more than one search result is of equal standing in term of keywords match/ranking etc. Popularity/download counts or newest/last updated?
-- [ ] Python script to automatically add all apps to app store, generate html pages and append entry to JSON search index file.
+- [x] Python script to automatically add all apps to app store, generate html pages and append entry to JSON search index file.
 - [x] Create demo website
-- [ ] Add copyright & license information
-- [ ] For production version, compress index.json file. Also use compressed version of jquery.
+- [x] Add copyright & license information
+- [x] For production version, compress index.json file. Also use compressed version of jquery.
 - [ ] in parent directory of website write a script to start static file server serving website sub-directory. This will be used when not using web server such as Nginx or Apache for acting as backend eg. a user can start server from usb stick.
 - [x] in live website, a link to download entire website (as pre generated zip file?)
 
