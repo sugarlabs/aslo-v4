@@ -1,5 +1,7 @@
 # Backendless search and website generator from activity bundles prototype
 
+> Looking for the newer version? Click **[here](https://github.com/sugarlabs-appstore/sugarappstore/tree/oop-ss)** to switch deployed branch.
+
 ## Instruction to use
 
 Steps:
