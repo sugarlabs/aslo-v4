@@ -2,6 +2,7 @@
 
 [![Netlify Status](https://api.netlify.com/api/v1/badges/4f6dde9a-8b1c-4e8e-9f2f-13f453988e82/deploy-status)](https://app.netlify.com/sites/sugarstore/deploys)
 
+
 ## Introduction
 Sugar App Store is an app store to distribute apps
 and games made for sugar, which are commonly known as sugar-activities.
