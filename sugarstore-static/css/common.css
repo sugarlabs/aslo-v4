@@ -335,6 +335,25 @@ input:checked + .slider:before {
   animation: spin 2s linear 5;
 }
 
+/* 
+=======================
+Spinner 
+=======================
+*/
+
+.preloader-container {
+  position: fixed;
+  background-color: #fff;
+  height: 100%;
+  width: 100%;
+  top: 0;
+  left: 0;
+  -webkit-transition: opacity 3s ease-in-out;
+  -moz-transition: opacity 3s ease-in-out;
+  -ms-transition: opacity 3s ease-in-out;
+  -o-transition: opacity 3s ease-in-out;
+  opacity: 1;
+}
 
 
 @-webkit-keyframes spin {
@@ -365,3 +384,4 @@ input:checked + .slider:before {
   from{ bottom:-100px; opacity:0 } 
   to{ bottom:0; opacity:1 }
 }
+
