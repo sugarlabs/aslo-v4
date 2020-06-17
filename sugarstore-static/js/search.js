@@ -37,12 +37,12 @@ function addActivityCard(item) {
     } else if (item['exec_type'] == 'python3') {
         var exec_type = `<a data-toggle="tooltip" title="Powered by Python3. Supported by Sugar 0.116+"><img src="../img/python3.png" alt="Powered by Python3.x" height=38px ></a>`
     } else {
-        var exec_type = ""
+        var exec_type = "";
     }
     if (item['v']) {
         var version = `<span class="badge badge-secondary">${item['v']}</span>`
     } else {
-        var version = ''
+        var version = '';
     }
 
     $('#activity-card-column').append(
