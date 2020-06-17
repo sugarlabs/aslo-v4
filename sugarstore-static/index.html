@@ -14,13 +14,18 @@
     <!-- Enable caching --> 
     <meta http-equiv="cache-control" content="public">
 
-
     <!-- style.css -->
     <link rel="stylesheet" href="css/common.css">
     <link rel="stylesheet" href="css/search.css">
     <link rel="stylesheet" href="css/fun.css">
     <link rel="stylesheet" href="css/light.css">
     <link rel="stylesheet" href="css/dark.css">
+
+
+    <!-- PRELOADER -- Will remain at the top before the whole website is loaded -->
+    <div class="preloader">
+      <img class="preloader-img" src="img/saas.gif">
+    </div>
 
     <!-- Font Awesome icon pack -->
     <script src="https://kit.fontawesome.com/52ec62d041.js" crossorigin="anonymous" async></script>
@@ -30,6 +35,9 @@
 
     <!-- Bootstrap CSS -->
     <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.1.3/css/bootstrap.min.css" integrity="sha384-MCw98/SFnGE8fJT3GXwEOngsV7Zt27NXFoaoApmYm81iuXoPkFOJwJ8ERdknLPMO" crossorigin="anonymous">
+
+
+
     <title>Sugar App Store</title>
     <link rel="apple-touch-icon" sizes="57x57" href="/favicon/apple-icon-57x57.png">
     <link rel="apple-touch-icon" sizes="60x60" href="/favicon/apple-icon-60x60.png">
@@ -51,6 +59,8 @@
   </head>
 
   <body class="boring-gradient-bg">
+
+
     <!-- navigation bar -->
     <nav class="navbar navbar-expand-lg navbar-dark bg-dark sass-navbar">
       <a class="navbar-brand" href="#">Sugar App Store</a>
@@ -190,7 +200,7 @@
       $(document).ready(function(){
         // load all activities on intialize
         loadAllActivities();
-
+        
         // add an event function to loadAllActivities
         // on change of input
         $('#saas-search-box').on('input',function(e){
@@ -200,6 +210,7 @@
           clearActivityCards();
           loadAllActivities();
         });
+
 
         restoreConfigurationOnLoad();
 
