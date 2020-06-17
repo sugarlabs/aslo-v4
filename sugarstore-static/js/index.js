@@ -80,4 +80,41 @@ function disableFunGradientBackground() {
   setCookie("saas-fun", "false", 365);
 }
 
+function enableDarkTheme() {
+  setCookie("saas-theme", "dark", 365);
+  $("body").addClass("saas-dark-body");
+  $(".card").addClass("saas-card-dark");
+  $(".saas-card-heading-link").addClass("saas-card-heading-link-dark");
+  $(".saas-card-image-top").addClass("saas-card-image-top-dark");
+  $("#theme-dropdown").text("Light Theme");
+  $('#theme-dropdown').attr('onclick', "enableLightTheme()");
+}
+
+function enableLightTheme() {
+  setCookie("saas-theme", "light", 365);
+  $("body").removeClass("saas-dark-body");
+  $(".card").removeClass("saas-card-dark");
+  $(".saas-card-heading-link").removeClass("saas-card-heading-link-dark");
+  $(".saas-card-image-top").removeClass("saas-card-image-top-dark");
+  $("#theme-dropdown").text("Dark Theme");
+  $('#theme-dropdown').attr('onclick', "enableDarkTheme()");
+}
+
+
+function enableMultiColorTheme() {
+  setCookie("saas-style", "multi", 365);
+  $("body").addClass("boring-gradient-bg");
+  $("#classic-dropdown").text("Classic Theme");
+  $('#classic-dropdown').attr('onclick', "enableClassicTheme()");
+  $('#funCheckBox').removeAttr("disabled");
+}
+
+function enableClassicTheme() {
+  setCookie("saas-style", "classic", 365);
+  disableFunGradientBackground();
+  $("body").removeClass("boring-gradient-bg");
+  $("#classic-dropdown").text("Creativ Theme");
+  $('#classic-dropdown').attr('onclick', "enableMultiColorTheme()");
+  $('#funCheckBox').prop('checked', false);
+  $('#funCheckBox').attr("disabled", true);
 }
