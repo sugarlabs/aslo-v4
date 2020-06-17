@@ -53,6 +53,13 @@ function checkCookiesEnabledShowConsent(){
 function restoreConfigurationOnLoad() {
   /* Restores the configuration as set in cookies */
   // check if a cookie is set to true
+  if ( getCookie("saas-style") == "classic") {
+    enableClassicTheme();
+  }
+  if ( getCookie("saas-theme") == "dark") {
+    enableDarkTheme();
+  }
+  if ( getCookie("saas-style") == "multi") {
     if ( getCookie("saas-fun") == "true" ) {
       // restore the saved cookie
       console.log("Restoring configuration from cookie")
