@@ -117,7 +117,7 @@ function enableDarkTheme() {
   $(".card").addClass("saas-card-dark");
   $(".saas-card-heading-link").addClass("saas-card-heading-link-dark");
   $(".saas-card-image-top").addClass("saas-card-image-top-dark");
-  $("#theme-dropdown").text("Light Theme");
+  $("#theme-dropdown").html('<i class="fa fa-sun"></i> Light Theme');
   $('#theme-dropdown').attr('onclick', "enableLightTheme()");
 }
 
@@ -127,7 +127,7 @@ function enableLightTheme() {
   $(".card").removeClass("saas-card-dark");
   $(".saas-card-heading-link").removeClass("saas-card-heading-link-dark");
   $(".saas-card-image-top").removeClass("saas-card-image-top-dark");
-  $("#theme-dropdown").text("Dark Theme");
+  $("#theme-dropdown").html('<i class="fa fa-moon"></i> Dark Theme');
   $('#theme-dropdown').attr('onclick', "enableDarkTheme()");
 }
 
@@ -135,7 +135,7 @@ function enableLightTheme() {
 function enableMultiColorTheme() {
   setCookie("saas-style", "multi", 365);
   $("body").addClass("boring-gradient-bg");
-  $("#classic-dropdown").text("Classic Theme");
+  $("#classic-dropdown").html('<i class="fas fa-code"></i> Classic Theme');
   $('#classic-dropdown').attr('onclick', "enableClassicTheme()");
   $('#funCheckBox').removeAttr("disabled");
 }
@@ -144,7 +144,7 @@ function enableClassicTheme() {
   setCookie("saas-style", "classic", 365);
   disableFunGradientBackground();
   $("body").removeClass("boring-gradient-bg");
-  $("#classic-dropdown").text("Creativ Theme");
+  $("#classic-dropdown").html('<i class="fas fa-magic"></i> Creativ Theme');
   $('#classic-dropdown').attr('onclick', "enableMultiColorTheme()");
   $('#funCheckBox').prop('checked', false);
   $('#funCheckBox').attr("disabled", true);
