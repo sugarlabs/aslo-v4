@@ -65,6 +65,7 @@ function restoreConfigurationOnLoad() {
         checkCookiesEnabledShowConsent();
 
     }
+  }
 }
 
 function enableFunGradientBackground(){
