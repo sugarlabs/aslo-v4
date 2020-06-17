@@ -1,5 +1,5 @@
 .saas-card-heading-link {
-	color: #000;
+	color: #000 !important;
 }
 
 .saas-navbar{
@@ -7,7 +7,7 @@
 }
 
 .saas-card {
-    border-radius: 15px;
+    border-radius: 15px  !important;
     margin: 5px;
 }
 
@@ -18,7 +18,7 @@
 
 .card-version {
     display: inline-block;
-    background-color: #222;
+    background-color: #222 !important;
     color: #FFF;
     border-radius: 5px;
     width: auto;

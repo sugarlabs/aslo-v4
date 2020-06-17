@@ -1,17 +1,17 @@
 .saas-dark-body {
-	background-color: #111
+	background-color: #111  !important
 }
 
 
 .saas-card-heading-link-dark {
-	color: #FFF;
+	color: #FFF  !important;
 }
 
 .saas-card-dark {
-    border-radius: 15px;
+    border-radius: 15px  !important;
     margin: 5px;
-    background-color: #2b2a2a;
-    color: #DDD;
+    background-color: #2b2a2a !important;
+    color: #DDD  !important;
 }
 
 .saas-activity-search-container {
@@ -33,11 +33,11 @@
 }
 
 .saas-h1-dark {
-	color: #FFF;
+	color: #FFF  !important;
 }
 
 .saas-h1-dark:hover {
-	color: #FFF;
+	color: #FFF  !important;
 }
 .saas-card-image-top-dark {
 	padding: 12px;
