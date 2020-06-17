@@ -44,6 +44,15 @@ function addActivityCard(item) {
     } else {
         var version = '';
     }
+    if ( getCookie("saas-theme") == "dark") {
+        var theme = "saas-card-dark";
+        var themeHeading = "saas-card-heading-link-dark";
+        var themeImage = "saas-card-image-top-dark";
+    } else {
+        var theme = "";
+        var themeHeading = "";
+        var themeImage = "";
+    }
 
     $('#activity-card-column').append(
         `<div class="card saas-card shadow-lg">\
