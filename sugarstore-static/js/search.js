@@ -55,12 +55,12 @@ function addActivityCard(item) {
     }
 
     $('#activity-card-column').append(
-        `<div class="card saas-card shadow-lg">\
-            <img class="card-img-top" \
+        `<div class="card saas-card shadow-lg ${theme}">\
+            <img class="card-img-top saas-card-image-top ${themeImage}" \
             style="padding:12%" src="../icons/${icon_path}.svg" alt="Activity Logo of ${name}">\
             <div class="card-body">\
                 <h3 class="card-title saas-h1">
-                    <a href="../app/${bundle_id}.html" style="color:#000">
+                    <a href="../app/${bundle_id}.html" class="saas-card-heading-link ${themeHeading}">
                     ${name}</a>
                     ${version}
                 </h3>
