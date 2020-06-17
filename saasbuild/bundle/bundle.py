@@ -260,8 +260,21 @@ class Bundle:
             if override_dist_xo:
                 return exit_code, '', ''
 
-        python_exe = get_executable_path(
+        python3_exe = get_executable_path(
             'python3', False) or get_executable_path('python')
+        python2_exe = get_executable_path(
+            'python2', False) or get_executable_path('python')
+
+        # check the type of activity
+        if self.get_activity_type() == 'python2':
+            # in the case the software to be used is sugar-activity
+            # use python2 in that case.
+            python_exe = python2_exe
+        else:
+            # use the python3 version to build all the rest of the
+            # types of the activities
+            python_exe = python3_exe
+
         proc = subprocess.Popen(
             _s("{} setup.py dist_xo".format(python_exe)),
             cwd=self.get_activity_dir(),
