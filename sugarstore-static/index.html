@@ -200,6 +200,14 @@
     <script>
       // show all activities on document load
       $(document).ready(function(){
+        $('#funCheckBox').change(function() {
+          if (this.checked) {
+            enableFunGradientBackground();
+          } else {
+            disableFunGradientBackground();
+          };
+        });
+
         // load all activities on intialize
         loadAllActivities();
         
@@ -220,13 +228,7 @@
         // This is not enabled by default because of high CPU usage
         // on Chromium Engine. Firefox Gecko engine does not show notable
         // CPU usage
-        $('#funCheckBox').change(function() {
-          if (this.checked) {
-            enableFunGradientBackground();
-          } else {
-            disableFunGradientBackground();
-          };
-        });
+
 
       });
 
