@@ -16,8 +16,12 @@
     left: 50%;
 }
 
-.saas-badge {
+.saas-activity-card-tags {
     margin-bottom: 2rem;
+}
+
+.saas-badge {
+    margin: 0.2rem;
     font-size: 1em;
-    padding-bottom: 0.5rem;
+    padding: 0.2rem !important;
 }
