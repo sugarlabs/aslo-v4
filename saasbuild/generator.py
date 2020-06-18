@@ -96,6 +96,11 @@ parser.add_argument(
     help="Provides a unique icon name based on bundle id"
 )
 parser.add_argument(
+    '-P', '--disable-progress-bar',
+    action='store_true',
+    help="Provides a unique icon name based on bundle id"
+)
+parser.add_argument(
     '-y', '--noconfirm',
     action='store_true',
     help="Replace output directory (default: always ask)"
@@ -116,6 +121,13 @@ def copytree(src, dst, symlinks=False, ignore=None):
             shutil.copy2(s, d)
 
 
+def check_progressbar(*arg, **kwarg):
+
+    if kwarg.pop("enable_progressbar"):
+        return progressbar(*arg, **kwarg)
+    else:
+        return list(*arg)
+
 class SaaSBuild:
     """
     The helper object to quickly create bundles and generate html web pages
@@ -125,9 +137,11 @@ class SaaSBuild:
             self,
             list_activities=False,
             build_xo=False,
-            generate_static_html=False
+            generate_static_html=False,
+            progress_bar_disabled=False
 
     ):
+        self.progress_bar_disabled = args.disable_progress_bar or progress_bar_disabled
         if args.list_activities or list_activities:
             activities = self.list_activities()
             if not activities:
@@ -213,7 +227,11 @@ class SaaSBuild:
             if args.build_override:
                 override = True
 
-        for i in progressbar(range(len(activities)), redirect_stdout=True):
+        for i in check_progressbar(
+                range(len(activities)),
+                redirect_stdout=True,
+                enable_progressbar=not self.progress_bar_disabled
+        ):
             print("[BUILD] Building ", activities[i])
             # Add an option to provide additional build script
             ecode, out, err = activities[i].do_generate_bundle(
@@ -267,7 +285,11 @@ class SaaSBuild:
         bundles = self.list_activities()
         sitemap_content = list()
         current_formatted_time = time.strftime('%Y-%m-%d')
-        for bundle in progressbar(bundles, redirect_stdout=True):
+        for bundle in check_progressbar(
+                bundles,
+                redirect_stdout=True,
+                enable_progressbar=not self.progress_bar_disabled
+        ):
 
             # get the bundle and icon path
             bundle_path = bundle.get_bundle_path()
@@ -301,7 +323,11 @@ class SaaSBuild:
 
         # get the bundles
         bundles = self.list_activities()
-        for bundle in progressbar(bundles, redirect_stdout=True):
+        for bundle in check_progressbar(
+                bundles,
+                redirect_stdout=True,
+                enable_progressbar=not self.progress_bar_disabled
+        ):
 
             # get the bundle and icon path
             bundle_path = bundle.get_bundle_path()
