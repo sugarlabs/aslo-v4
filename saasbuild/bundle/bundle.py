@@ -380,3 +380,10 @@ class Bundle:
             self._exec.split()[0].split(os.path.sep)[-1],
             'other'
         )
+    def get_changelog(self):
+        news_file = os.path.join(self.get_activity_dir(), 'NEWS')
+        if not os.path.exists(news_file):
+            return
+        with open(news_file, 'r') as r:
+            news_file_instance = r.read()
+        return news_file_instance
