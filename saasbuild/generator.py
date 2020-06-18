@@ -380,6 +380,7 @@ class SaaSBuild:
             # information
             parsed_html = HTML_TEMPLATE.format(
                 title=bundle.get_name(),
+                version=bundle.get_version(),
                 summary=bundle.get_summary(),
                 description='Nothing here yet!',  # TODO: Extract from README.md
                 bundle_path='../bundles/{}'.format(
