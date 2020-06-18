@@ -39,12 +39,14 @@ HTML_TEMPLATE = """
         <!-- Font Awesome icon pack -->
         <link href="https://stackpath.bootstrapcdn.com/font-awesome/4.7.0/css/font-awesome.min.css" rel="stylesheet">
         <!-- Open Sans font -->
-        <link href="https://fonts.googleapis.com/css2?family=Open+Sans:wght@300;400;700;800&display=swap" rel="stylesheet">
+        <link href="https://fonts.googleapis.com/css2?family=Open+Sans:wght@300;400;700;800&display=swap" 
+        rel="stylesheet">
         <!-- Mobile Responsive compatibility layer -->
         <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
 
         <!-- Bootstrap CSS -->
-        <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.1.3/css/bootstrap.min.css" integrity="sha384-MCw98/SFnGE8fJT3GXwEOngsV7Zt27NXFoaoApmYm81iuXoPkFOJwJ8ERdknLPMO" crossorigin="anonymous">
+        <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.1.3/css/bootstrap.min.css" 
+        integrity="sha384-MCw98/SFnGE8fJT3GXwEOngsV7Zt27NXFoaoApmYm81iuXoPkFOJwJ8ERdknLPMO" crossorigin="anonymous">
         <link rel="stylesheet" type="text/css" href="../css/common.css">
         <link rel="stylesheet" type="text/css" href="../css/main.css"/>
         <link rel="stylesheet" type="text/css" href="../css/fun.css"/>
@@ -59,7 +61,6 @@ HTML_TEMPLATE = """
                         alt="Logo of the activity {title}">
                         </img>
                         <h1 class="card-title text-center">{title}</h1>
-
                         <div class="saas-activity-card-summary" id=summary>
                             <h3>Summary</h3>
                             <p>{summary}</p>
