@@ -380,6 +380,29 @@ class Bundle:
             self._exec.split()[0].split(os.path.sep)[-1],
             'other'
         )
+
+    def get_news(self):
+        news_file_instance = self.get_changelog()
+        if not news_file_instance:
+            return
+        news_parsed = news_file_instance.split('\n\n')
+        try:
+            for i in range(len(news_parsed)):
+                if news_parsed[i] == self.get_version():
+                    return news_parsed[i+1]
+                elif news_parsed[i] == 'v{}'.format(self.get_version()):
+                    return news_parsed[i+1]
+
+            for i in range(len(news_parsed)):
+                # as we iterated through the news file, we can try this again; but with lesser confidence
+                if len(news_parsed[i]) < 6 and self.get_version() in news_parsed[i]:
+                    return news_parsed[i+1]
+
+        except IndexError:
+            return
+
+        return
+
     def get_changelog(self):
         news_file = os.path.join(self.get_activity_dir(), 'NEWS')
         if not os.path.exists(news_file):
