@@ -104,14 +104,16 @@ input:checked + .slider:before {
   margin-top: 1rem;
   max-width: 90%;
   position: absolute;
-  bottom: 0; right: 1rem;
-
-  .modal-content {
-    border-radius: 1rem;
-  }
-
-
+  bottom: 0;
+  right: 1rem;
 }
+
+.modal-content {
+  border-radius: 1rem;
+}
+
+
+
 
 .cookie-consent-button {
   margin-right: 0.5rem;
