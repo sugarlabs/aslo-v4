@@ -24,6 +24,7 @@ along with SAAS.  If not, see <https://www.gnu.org/licenses/>.
 """
 
 import argparse
+import html
 import json
 import os
 import time
@@ -361,6 +362,10 @@ class SaaSBuild:
                     '</span>'.format(author=author, commits=authors[author])
                 )
 
+            # changelog all
+            changelog = bundle.get_changelog()
+            if changelog:
+                changelog = html.escape(changelog)
             # copy deps to respective folders
             _bundle_path = shutil.copy2(
                 bundle_path, output_bundles_dir, follow_symlinks=True)
