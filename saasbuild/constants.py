@@ -70,11 +70,11 @@ HTML_TEMPLATE = """
                             <p>{description}</p>
                         </div>
                         <div class="saas-activity-card-tags" id="authors">
-                            <h3>Authors</h2>
+                            <h3>Authors</h3>
                             {author_list_html_formatted}
                         </div>
                         <div class="saas-activity-card-tags" id="tags">
-                            <h3>Tags</h2>
+                            <h3>Tags</h3>
                             {tag_list_html_formatted}
                         </div>
                         <a href="{bundle_path}" class="btn btn-primary saas-activity-download-button">
