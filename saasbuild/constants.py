@@ -90,6 +90,11 @@ HTML_TEMPLATE = """
                                 {new_features}
                             </ul>
                         </div>
+                        <div class="saas-activity-changelog">
+                            <h4>Changelog</h4>
+                            <pre class="pre-scrollable"><code>{changelog}</code></pre>
+                        </div>
+
                         <a href="{bundle_path}" class="btn btn-primary saas-activity-download-button">
                             <i class="fa fa-download"></i>Download
                         </a>
