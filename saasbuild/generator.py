@@ -356,7 +356,9 @@ class SaaSBuild:
             authors_html_list = []
             for author in authors:
                 authors_html_list.append(
-                    '<span class="badge badge-secondary saas-badge">{author}</span>'.format(author=author)
+                    '<span class="badge badge-secondary saas-badge">{author}  '
+                    '<span class="badge badge-dark">{commits}</span>'
+                    '</span>'.format(author=author, commits=authors[author])
                 )
 
             # copy deps to respective folders
