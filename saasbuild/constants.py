@@ -84,6 +84,12 @@ HTML_TEMPLATE = """
                             <h3>Tags</h3>
                             {tag_list_html_formatted}
                         </div>
+                        <div class="saas-activity-new-features">
+                            <h4>New in this Version</h4>
+                            <ul>
+                                {new_features}
+                            </ul>
+                        </div>
                         <a href="{bundle_path}" class="btn btn-primary saas-activity-download-button">
                             <i class="fa fa-download"></i>Download
                         </a>
