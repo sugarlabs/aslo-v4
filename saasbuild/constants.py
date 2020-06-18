@@ -61,6 +61,13 @@ HTML_TEMPLATE = """
                         alt="Logo of the activity {title}">
                         </img>
                         <h1 class="card-title text-center">{title}</h1>
+                        <div class="saas-activity-card-version mx-auto">
+                            <span class="badge badge-success saas-badge">
+                                Version <span class="badge badge-dark">{version}</span>
+                            </span> <span class="badge badge-dark saas-badge">
+                                License {licenses}
+                            </span>
+                        </div>
                         <div class="saas-activity-card-summary" id=summary>
                             <h3>Summary</h3>
                             <p>{summary}</p>
