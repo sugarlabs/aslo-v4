@@ -22,6 +22,7 @@ along with SAAS.  If not, see <https://www.gnu.org/licenses/>.
 
 import hashlib
 import os
+import re
 import shlex
 import subprocess
 import uuid
@@ -347,6 +348,26 @@ class Bundle:
             return True
         else:
             return False
+
+    def get_authors(self):
+        """
+        Does minor checking if the word is like a NAME; Might have bugs.
+        Returns a set `<set>`
+        :return set
+        """
+        news_file = os.path.join(self.get_activity_dir(), "NEWS")
+        authors = list()
+        if os.path.exists(news_file) and os.path.isfile(news_file):
+            with open(news_file, 'r') as r:
+                news_file_read = r.read()
+
+            for author in re.findall(r'\(.*?\)', news_file_read):
+                if (len(author) >= 5) and all(x.isalpha() or x.isspace() for x in author[1:-1]) and \
+                        not (len(author) > 25) and all((x[0].isupper() for x in author[1:-1].split())) and \
+                        not author.isupper():
+                    authors.extend([x.strip() for x in author[1:-1].split(',')])
+
+        return set(authors)
 
     def get_activity_type(self):
         if not isinstance(self._exec, str):

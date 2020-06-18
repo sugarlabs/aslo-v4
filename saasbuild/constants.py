@@ -68,6 +68,10 @@ HTML_TEMPLATE = """
                             <h3>Description</h3>
                             <p>{description}</p>
                         </div>
+                        <div class="saas-activity-card-tags" id="authors">
+                            <h3>Authors</h2>
+                            {author_list_html_formatted}
+                        </div>
                         <div class="saas-activity-card-tags" id="tags">
                             <h3>Tags</h2>
                             {tag_list_html_formatted}

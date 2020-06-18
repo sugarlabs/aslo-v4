@@ -143,14 +143,16 @@ class SaaSBuild:
                 self.generate_sitemap()
 
     @staticmethod
-    def list_activities():
+    def list_activities(path_to_search_xo=None):
         """
         Generates a list<Bundle> of detected activities
         >>> sb = SaaSBuild()
         >>> sb.list_activities()
         :return:
         """
-        path_to_search_xo = args.input_directory
+        if path_to_search_xo is None:
+            path_to_search_xo = args.input_directory
+
         collected_sugar_activity_dirs = list()
 
         for bundle_dir in os.listdir(path_to_search_xo):
@@ -189,7 +191,7 @@ class SaaSBuild:
         """
         self.index = index
 
-    def generate_xo_all(self):
+    def generate_xo_all(self, path_to_search_xo=None):
         """
         Iteratively generate bundle .xo files for all detected activities
         given by self.list_activities()
@@ -198,7 +200,7 @@ class SaaSBuild:
         :return:
         """
         # list activities and store as variable
-        activities = self.list_activities()
+        activities = self.list_activities(path_to_search_xo)
         print("Beginning to process... This might take some time..")
         num_encountered_errors = 0
         num_completed_success = 0
@@ -284,11 +286,13 @@ class SaaSBuild:
             w.write(SITEMAP_HEADER.format(content=''.join(sitemap_content)))
         print("sitemap.xml written successfully")
 
-    def generate_web_page(self):
+    def generate_web_page(self, output_dir=None):
         """
         Generates web page static files
         """
-        output_dir = args.output_directory
+        if output_dir is None:
+            output_dir = args.output_directory
+
         output_icon_dir = os.path.join(output_dir, 'icons')
         output_bundles_dir = os.path.join(output_dir, 'bundles')
 
@@ -319,6 +323,14 @@ class SaaSBuild:
                     '<span class="badge badge-primary saas-badge">{tag}</span>'.format(tag=tag)
                 )
 
+            # Get the authors and process it
+            authors = bundle.get_authors()
+            authors_html_list = []
+            for author in authors:
+                authors_html_list.append(
+                    '<span class="badge badge-secondary saas-badge">{author}</span>'.format(author=author)
+                )
+
             # copy deps to respective folders
             _bundle_path = shutil.copy2(
                 bundle_path, output_bundles_dir, follow_symlinks=True)
@@ -343,6 +355,7 @@ class SaaSBuild:
                 bundle_path='../bundles/{}'.format(
                     _bundle_path.split(os.path.sep)[-1]),
                 tag_list_html_formatted=''.join(tags_html_list),
+                author_list_html_formatted=''.join(authors_html_list),
                 icon_path='../icons/{}'.format(
                     _icon_path.split(os.path.sep)[-1])
             )
