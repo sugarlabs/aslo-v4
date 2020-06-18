@@ -393,6 +393,9 @@ class SaaSBuild:
                     parsed_licenses.append(i.strip())
             for i in parsed_licenses:
                 html_parsed_licenses.append('<span class="badge badge-info">{lic}</span> '.format(lic=i))
+            if not parsed_licenses:
+                html_parsed_licenses.append('<span class="badge badge-warning">NOASSERTION</span> ')
+
             # copy deps to respective folders
             _bundle_path = shutil.copy2(
                 bundle_path, output_bundles_dir, follow_symlinks=True)
