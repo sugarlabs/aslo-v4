@@ -362,6 +362,23 @@ class SaaSBuild:
                     '</span>'.format(author=author, commits=authors[author])
                 )
 
+            # Changelog gen
+            changelog_latest_version = bundle.get_news()
+            html_changelog_latest_version = list()
+            if changelog_latest_version:
+                changelog_latest_version = html.escape(changelog_latest_version)
+                html_changelog_latest_version = list()
+                for log in changelog_latest_version.split('\n'):
+                    log_parsed = log[0:2].replace('*', '') + log[2:]
+                    html_changelog_latest_version.append('<li>{}</li>'.format(log_parsed))
+                if len(html_changelog_latest_version) >= 1:
+                    if html_changelog_latest_version[-1] == "<li></li>":
+                        html_changelog_latest_version.pop()
+                else:
+                    html_changelog_latest_version.append("<li>Nothing here :( </li>")
+            else:
+                html_changelog_latest_version.append("<li>Nothing here :( </li>")
+
             # changelog all
             changelog = bundle.get_changelog()
             if changelog:
