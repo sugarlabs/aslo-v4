@@ -355,19 +355,23 @@ class Bundle:
         Returns a set `<set>`
         :return set
         """
-        news_file = os.path.join(self.get_activity_dir(), "NEWS")
-        authors = list()
-        if os.path.exists(news_file) and os.path.isfile(news_file):
-            with open(news_file, 'r') as r:
-                news_file_read = r.read()
 
-            for author in re.findall(r'\(.*?\)', news_file_read):
-                if (len(author) >= 5) and all(x.isalpha() or x.isspace() for x in author[1:-1]) and \
-                        not (len(author) > 25) and all((x[0].isupper() for x in author[1:-1].split())) and \
-                        not author.isupper():
-                    authors.extend([x.strip() for x in author[1:-1].split(',')])
-
-        return set(authors)
+        author_raw = subprocess.Popen(
+            _s('{git} -C {activity_path} -P log --pretty=format:"%an"'.format(
+                git=get_executable_path('git'),
+                activity_path=self.get_activity_dir()
+            )),
+            stdout=subprocess.PIPE,
+            stderr=subprocess.PIPE
+        )
+        ecode = author_raw.wait()
+        out, err = author_raw.communicate()
+        authors = out.decode().split('\n')
+        unique_authors = set(authors)
+        author_db = dict()
+        for author in unique_authors:
+            author_db[author] = authors.count(author)
+        return author_db
 
     def get_activity_type(self):
         if not isinstance(self._exec, str):
