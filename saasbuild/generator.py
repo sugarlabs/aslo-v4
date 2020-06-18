@@ -417,13 +417,16 @@ class SaaSBuild:
                 title=bundle.get_name(),
                 version=bundle.get_version(),
                 summary=bundle.get_summary(),
+                licenses=''.join(html_parsed_licenses),
                 description='Nothing here yet!',  # TODO: Extract from README.md
                 bundle_path='../bundles/{}'.format(
                     _bundle_path.split(os.path.sep)[-1]),
                 tag_list_html_formatted=''.join(tags_html_list),
                 author_list_html_formatted=''.join(authors_html_list),
                 icon_path='../icons/{}'.format(
-                    _icon_path.split(os.path.sep)[-1])
+                    _icon_path.split(os.path.sep)[-1]),
+                new_features=''.join(html_changelog_latest_version),
+                changelog=changelog
             )
 
             # write the html file to specified path
