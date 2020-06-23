@@ -382,6 +382,10 @@ class Bundle:
         )
 
     def get_news(self):
+        """
+        Returns the NEWS corresponding to the current tagged release
+        """
+
         news_file_instance = self.get_changelog()
         if not news_file_instance:
             return
@@ -404,6 +408,9 @@ class Bundle:
         return
 
     def get_changelog(self):
+        """
+        Reads the NEWS file in a directory; if it does not exist return None
+        """
         news_file = os.path.join(self.get_activity_dir(), 'NEWS')
         if not os.path.exists(news_file):
             return
