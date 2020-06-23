@@ -429,11 +429,14 @@ class SaaSBuild:
                     icon_path, output_icon_dir, follow_symlinks=True)
 
             # check if flatpak is supported
-            if include_flatpaks and flatpak_bundle_info.get(bundle.get_git_url()):
+            bundle_git_url_stripped = bundle.get_git_url()
+            if bundle_git_url_stripped[-4:] == ".git":
+                bundle_git_url_stripped = bundle_git_url_stripped[:-4]
+            if include_flatpaks and flatpak_bundle_info.get(bundle_git_url_stripped):
                 flatpak_html_div = FLATPAK_HTML_TEMPLATE.format(
-                        activity_name=bundle.get_name(),
-                        bundle_id=flatpak_bundle_info.get(bundle.get_git_url())
-                    )
+                    activity_name=bundle.get_name(),
+                    bundle_id=flatpak_bundle_info.get(bundle_git_url_stripped)
+                )
             else:
                 flatpak_html_div = ""
 
