@@ -110,7 +110,7 @@ HTML_TEMPLATE = """
                         </div>
 
                         <a href="{bundle_path}" class="btn btn-primary saas-activity-download-button">
-                            <i class="fa fa-download"></i>Download
+                            <i class="fa fa-download"></i> Download
                         </a>
                     </div>
                 </div>
