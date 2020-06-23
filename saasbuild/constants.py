@@ -108,7 +108,11 @@ HTML_TEMPLATE = """
                             <h4>Changelog</h4>
                             <pre class="pre-scrollable"><code>{changelog}</code></pre>
                         </div>
-
+                        {flatpak_html_div}
+                        <a href="{git_url}" class="btn btn-secondary saas-activity-download-button"
+                        style="margin-bottom: 0.25rem">
+                            <i class="fab fa-git-alt"></i> Source Code
+                        </a>
                         <a href="{bundle_path}" class="btn btn-primary saas-activity-download-button">
                             <i class="fa fa-download"></i> Download
                         </a>

@@ -144,9 +144,11 @@ class SaaSBuild:
             list_activities=False,
             build_xo=False,
             generate_static_html=False,
-            progress_bar_disabled=False
+            progress_bar_disabled=False,
+            include_flatpaks=False
 
     ):
+        self.include_flatpaks = args.include_flatpaks or include_flatpaks
         self.progress_bar_disabled = args.disable_progress_bar or progress_bar_disabled
         if args.list_activities or list_activities:
             activities = self.list_activities()
@@ -314,10 +316,20 @@ class SaaSBuild:
             w.write(SITEMAP_HEADER.format(content=''.join(sitemap_content)))
         print("sitemap.xml written successfully")
 
-    def generate_web_page(self, output_dir=None):
+    def generate_web_page(self, output_dir=None, include_flatpaks=False):
         """
         Generates web page static files
         """
+        include_flatpaks = include_flatpaks or self.include_flatpaks
+        flatpak_file = os.path.join(os.path.dirname(__file__), 'data', 'flatpak.json')
+        flatpak_bundle_info = dict()
+        if include_flatpaks and os.path.exists(flatpak_file):
+            with open(flatpak_file, 'r') as r:
+                flatpak_bundle_info = json.load(r)
+        elif include_flatpaks:
+            print("[ERR] flatpak.json was not found in data/.; Please get a new copy from the source")
+            print("[ERR] Ignoring error and continuing to process bundles. ")
+
         if output_dir is None:
             output_dir = args.output_directory
 
@@ -416,6 +428,15 @@ class SaaSBuild:
                 _icon_path = shutil.copy2(
                     icon_path, output_icon_dir, follow_symlinks=True)
 
+            # check if flatpak is supported
+            if include_flatpaks and flatpak_bundle_info.get(bundle.get_git_url()):
+                flatpak_html_div = FLATPAK_HTML_TEMPLATE.format(
+                        activity_name=bundle.get_name(),
+                        bundle_id=flatpak_bundle_info.get(bundle.get_git_url())
+                    )
+            else:
+                flatpak_html_div = ""
+
             # get the HTML_TEMPLATE and annotate with the saved
             # information
             parsed_html = HTML_TEMPLATE.format(
@@ -431,7 +452,9 @@ class SaaSBuild:
                 icon_path='../icons/{}'.format(
                     _icon_path.split(os.path.sep)[-1]),
                 new_features=''.join(html_changelog_latest_version),
-                changelog=changelog
+                changelog=changelog,
+                git_url=bundle.get_git_url(),
+                flatpak_html_div=flatpak_html_div
             )
 
             # write the html file to specified path
