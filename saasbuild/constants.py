@@ -51,7 +51,7 @@ HTML_TEMPLATE = """
         <!-- Required meta tags -->
         <meta charset="utf-8">
         <!-- Font Awesome icon pack -->
-        <link href="https://stackpath.bootstrapcdn.com/font-awesome/4.7.0/css/font-awesome.min.css" rel="stylesheet">
+        <script src="https://kit.fontawesome.com/52ec62d041.js" crossorigin="anonymous" async></script>
         <!-- Open Sans font -->
         <link href="https://fonts.googleapis.com/css2?family=Open+Sans:wght@300;400;700;800&display=swap" 
         rel="stylesheet">
