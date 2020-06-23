@@ -435,7 +435,7 @@ class SaaSBuild:
             if include_flatpaks and flatpak_bundle_info.get(bundle_git_url_stripped):
                 flatpak_html_div = FLATPAK_HTML_TEMPLATE.format(
                     activity_name=bundle.get_name(),
-                    bundle_id=flatpak_bundle_info.get(bundle_git_url_stripped)
+                    bundle_id=flatpak_bundle_info.get(bundle_git_url_stripped)['bundle-id']
                 )
             else:
                 flatpak_html_div = ""
