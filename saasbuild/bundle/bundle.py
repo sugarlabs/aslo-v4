@@ -417,3 +417,21 @@ class Bundle:
         with open(news_file, 'r') as r:
             news_file_instance = r.read()
         return news_file_instance
+
+    def get_git_url(self):
+        """
+        Returns git url  by `git config --get remote.origin.url`
+        """
+        url_process = subprocess.Popen(
+            _s('{git} -C {activity_path} config --get remote.origin.url'.format(
+                git=get_executable_path('git'),
+                activity_path=self.get_activity_dir()
+            )),
+            stdout=subprocess.PIPE,
+            stderr=subprocess.PIPE
+        )
+        ecode = url_process.wait()
+        out, err = url_process.communicate()
+        url = out.decode().split('\n')
+        if len(url) >= 1:
+            return url[0]
