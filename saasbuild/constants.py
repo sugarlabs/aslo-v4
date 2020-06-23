@@ -28,6 +28,20 @@ ACTIVITY_BUILD_CLASSIFIER = {
     'sugar-activity-web': 'web'
 }
 
+FLATPAK_HTML_TEMPLATE = \
+"""<div class="card text-white bg-info mb-3" style="border-radius: 1rem;">
+  <div class="card-header"><i class="fa fa-box" aria-hidden="true"></i> Flatpak</div>
+  <div class="card-body">
+    <h5 class="card-title">{activity_name} Activity is also available as a flatpak!</h5>
+    <p class="card-text">Installing activities as flatpaks helps to run Activities made for Sugar desktop to be run on any linux.</p>
+    <a href="https://flathub.org/repo/appstream/{bundle_id}.flatpakref" class="btn btn-light saas-activity-download-button">
+        <i class="fa fa-download" aria-hidden="true"></i> Download .flatpakref
+    </a>
+    <a href="https://flathub.org/apps/details/{bundle_id}.flatpakref" class="btn btn-light saas-activity-download-button" style="margin-right:0.5rem">
+        <i class="fa fa-box" aria-hidden="true"></i> Flathub
+    </a>
+</div></div>"""
+
 HTML_TEMPLATE = """
 <!DOCTYPE html>
 <html>
