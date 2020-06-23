@@ -102,6 +102,11 @@ parser.add_argument(
     help="Provides a unique icon name based on bundle id"
 )
 parser.add_argument(
+    '-f', '--include-flatpaks',
+    action='store_true',
+    help="Includes a flatpak description card if the activity has a valid flatpak registered under flathub.org"
+)
+parser.add_argument(
     '-y', '--noconfirm',
     action='store_true',
     help="Replace output directory (default: always ask)"
@@ -123,11 +128,11 @@ def copytree(src, dst, symlinks=False, ignore=None):
 
 
 def check_progressbar(*arg, **kwarg):
-
     if kwarg.pop("enable_progressbar"):
         return progressbar(*arg, **kwarg)
     else:
         return list(*arg)
+
 
 class SaaSBuild:
     """
