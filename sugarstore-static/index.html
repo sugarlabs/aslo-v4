@@ -212,7 +212,15 @@
             $(obj).removeClass('saas-card-image-hidden').hide();
             $(obj).fadeIn(1000);
         }
+        const queryString = window.location.search;
+        console.log(queryString);
+        const urlParams = new URLSearchParams(queryString);
+        const query = urlParams.get('q')
+        console.log(query);
 
+        if (query) {
+          $('#saas-search-box').val(query)
+        } 
         // load all activities on intialize
         loadAllActivities();
         
