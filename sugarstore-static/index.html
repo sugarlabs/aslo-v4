@@ -224,6 +224,8 @@
           // repeated values
           clearActivityCards();
           loadAllActivities();
+          var params = {'q':`${ $('#saas-search-box').val() }`}
+          window.history.replaceState(null, null, `?${$.param(params)}`);
         });
 
 
