@@ -27,14 +27,55 @@ cd sugarappstore
 python3 -m saasbuild
 ```
 
+
+
+## Minimal usage
+
+Sugarlabs appstore generator (`saasbuild`) is highly customizable. A sample usage and explanation have been provided below
+
+### Pre-requisites
+
+* A collection of Sugarlabs Activities in a dedicated folder. (The folder may contain other stuff). `saasbuild` technically looks for `activity.info`, but not recursively. If the directory where you have clones is called `repo` (for example), then `saasbuild` will only check `repo/**/activity/activity.info` exists.  If, it does not match the pattern, then the folder is ignored. We have avoided recursion through directories, due to the possibility of a longer build time, etc.
+* `CPython 3.6+`, To build `python3` activities, you need `python3` executable in `PATH`. To support `python2` activities, you need `python2` on `PATH`.
+* `git`executable, should be available in `PATH`
+* (optional): `sugar-toolkit-gtk3`, `sugar-toolkit` (to build activities, i.e., to create bundle `.xo`)
+
+> NOTE: Executable `python` is ambiguous. It has different implementations on different linux. So we prefer to stick to stricter executable names. i.e, `python2` or `python3`
+
+### Simple Build Commands
+
+1. To list all activities 
+
+   ```bash
+   python -m saasbuild -i /path/to/repository --list-activities 
+   ```
+
+2. To build `.xo`
+
+   ```bash
+   python -m saasbuild -i /path/to/repository -b
+   ```
+
+3. To create appstore
+
+   ```bash
+   git clone https://github.com/sugarlabs-appstore/sugarappstore-static path/to/save/static/files
+   python -m saasbuild -i /path/to/repository -b -p path/to/save/static/files -o path/to/website/save/directory
+   ```
+
+   
+
+> For advanced usage, see [Usage](#usage)
+
 ## Usage
 
 ```bash
 $ python3 -m saasbuild --help
-usage: Sugar Appstore generator [-h] [-i INPUT_DIRECTORY] [-o OUTPUT_DIRECTORY] [-b]
-                                [--build-entrypoint BUILD_ENTRYPOINT] [--build-override]
-                                [--build-chdir] [-l] [-g] [-x GENERATE_SITEMAP]
-                                [-p PULL_STATIC_CSS_JS_HTML] [-u] [-y]
+usage: Sugar Appstore generator [-h] [-i INPUT_DIRECTORY] [-o OUTPUT_DIRECTORY]
+                                [-b] [--build-entrypoint BUILD_ENTRYPOINT]
+                                [--build-override] [--build-chdir] [-l] [-g]
+                                [-x GENERATE_SITEMAP] [-p PULL_STATIC_CSS_JS_HTML]
+                                [-u] [-P] [-s] [-f] [-y]
 
 Generates static HTML files for SAAS
 
@@ -46,22 +87,30 @@ optional arguments:
                         Provide the directory to output the parsed website for SAAS
   -b, --build-xo        Generate XO bundles for a large number of directories
   --build-entrypoint BUILD_ENTRYPOINT
-                        Specify a path to any Linux compatible script which is intended to be executed
-                        on every build
-  --build-override      Override `python setup.py dist_xo` with --build-entrypoint argument shell
-                        script
+                        Specify a path to any Linux compatible script which is
+                        intended to be executed on every build
+  --build-override      Override `python setup.py dist_xo` with --build-entrypoint
+                        argument shell script
   --build-chdir         Changes directory to Activity dir
   -l, --list-activities
                         Lists all the activities available in the directory
   -g, --generate-static-html
-                        Start the process of HTML generation. (pass -b, if you are unsure if bundles
-                        are already created)
+                        Start the process of HTML generation. (pass -b, if you are
+                        unsure if bundles are already created)
   -x GENERATE_SITEMAP, --generate-sitemap GENERATE_SITEMAP
                         Generate a sitemap.xml file to the output directory
   -p PULL_STATIC_CSS_JS_HTML, --pull-static-css-js-html PULL_STATIC_CSS_JS_HTML
                         Provide the path to js, css and index.html (ideally from
                         https://github.com/sugarlabs-appstore/sugarappstore-static)
   -u, --unique-icons    Provides a unique icon name based on bundle id
+  -P, --disable-progress-bar
+                        Provides a unique icon name based on bundle id
+  -s, --include-screenshots
+                        Includes screenshots of activity if its found as
+                        <activity>/screenshots/*.png
+  -f, --include-flatpaks
+                        Includes a flatpak description card if the activity has a
+                        valid flatpak registered under flathub.org
   -y, --noconfirm       Replace output directory (default: always ask)
 
 ```
