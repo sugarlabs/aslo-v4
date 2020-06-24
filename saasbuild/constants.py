@@ -28,6 +28,32 @@ ACTIVITY_BUILD_CLASSIFIER = {
     'sugar-activity-web': 'web'
 }
 
+CAROUSEL_ITEM_HTML_TEMPLATE = \
+"""<div class="carousel-item {active}">
+<img class="d-block w-100" src="{src}" alt="Picture {i} of {activity_name} Activity">
+</div>
+"""
+
+CAROUSEL_INDICATOR_HTML_TEMPLATE = \
+"""<li data-target="#carouselExampleIndicators" data-slide-to="{i}" class="{active}"></li>"""
+
+
+CAROUSEL_HTML_TEMPLATE = \
+"""
+<div id="carouselExampleIndicators" class="carousel slide" data-ride="carousel" style="margin-top:1rem;">
+  <ol class="carousel-indicators">{carousel_indicator_divs}</ol>
+  <div class="carousel-inner">{carousel_img_divs}</div>
+  <a class="carousel-control-prev" href="#carouselExampleIndicators" role="button" data-slide="prev">
+    <span class="carousel-control-prev-icon" aria-hidden="true"></span>
+    <span class="sr-only">Previous</span>
+  </a>
+  <a class="carousel-control-next" href="#carouselExampleIndicators" role="button" data-slide="next">
+    <span class="carousel-control-next-icon" aria-hidden="true"></span>
+    <span class="sr-only">Next</span>
+  </a>
+</div>
+"""
+
 FLATPAK_HTML_TEMPLATE = \
 """<div class="card text-white bg-info mb-3" style="border-radius: 1rem;">
   <div class="card-header"><i class="fa fa-box" aria-hidden="true"></i> Flatpak</div>
@@ -45,82 +71,84 @@ FLATPAK_HTML_TEMPLATE = \
 HTML_TEMPLATE = """
 <!DOCTYPE html>
 <html>
-
-    <head>
-        <title>{title} - Sugar AppStore</title>
-        <!-- Required meta tags -->
-        <meta charset="utf-8">
-        <!-- Font Awesome icon pack -->
-        <script src="https://kit.fontawesome.com/52ec62d041.js" crossorigin="anonymous" async></script>
-        <!-- Open Sans font -->
-        <link href="https://fonts.googleapis.com/css2?family=Open+Sans:wght@300;400;700;800&display=swap" 
-        rel="stylesheet">
-        <!-- Mobile Responsive compatibility layer -->
-        <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
-
-        <!-- Bootstrap CSS -->
-        <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.1.3/css/bootstrap.min.css" 
-        integrity="sha384-MCw98/SFnGE8fJT3GXwEOngsV7Zt27NXFoaoApmYm81iuXoPkFOJwJ8ERdknLPMO" crossorigin="anonymous">
-        <link rel="stylesheet" type="text/css" href="../css/common.css">
-        <link rel="stylesheet" type="text/css" href="../css/main.css"/>
-        <link rel="stylesheet" type="text/css" href="../css/fun.css"/>
-    </head>
-    <body class="boring-gradient-bg">
-        <div class="container saas-activity-main">
-            <div class="row">
-                <div class="col-md-8 mx-auto">
-                    <div class="card saas-activity-card-std shadow-lg">
-                        <img class="mx-auto saas-activity-card-image" 
-                        src="{icon_path}" 
-                        alt="Logo of the activity {title}">
-                        </img>
-                        <h1 class="card-title text-center">{title}</h1>
-                        <div class="saas-activity-card-version mx-auto">
-                            <span class="badge badge-success saas-badge">
-                                Version <span class="badge badge-dark">{version}</span>
-                            </span> <span class="badge badge-dark saas-badge">
-                                License {licenses}
-                            </span>
-                        </div>
-                        <div class="saas-activity-card-summary" id=summary>
-                            <h3>Summary</h3>
-                            <p>{summary}</p>
-                        </div>
-                        <div class="saas-activity-card-description" id=description>
-                            <h3>Description</h3>
-                            <p>{description}</p>
-                        </div>
-                        <div class="saas-activity-card-tags" id="authors">
-                            <h3>Authors</h3>
-                            {author_list_html_formatted}
-                        </div>
-                        <div class="saas-activity-card-tags" id="tags">
-                            <h3>Tags</h3>
-                            {tag_list_html_formatted}
-                        </div>
-                        <div class="saas-activity-new-features">
-                            <h4>New in this Version</h4>
-                            <ul>
-                                {new_features}
-                            </ul>
-                        </div>
-                        <div class="saas-activity-changelog">
-                            <h4>Changelog</h4>
-                            <pre class="pre-scrollable"><code>{changelog}</code></pre>
-                        </div>
-                        {flatpak_html_div}
-                        <a href="{git_url}" class="btn btn-secondary saas-activity-download-button"
-                        style="margin-bottom: 0.25rem">
-                            <i class="fab fa-git-alt"></i> Source Code
-                        </a>
-                        <a href="{bundle_path}" class="btn btn-primary saas-activity-download-button">
-                            <i class="fa fa-download"></i> Download
-                        </a>
-                    </div>
-                </div>
+  <head>
+    <title>{title} - Sugar AppStore</title>
+      <!-- Required meta tags -->
+      <meta charset="utf-8">
+      <!-- Font Awesome icon pack -->
+      <script src="https://kit.fontawesome.com/52ec62d041.js" crossorigin="anonymous" async></script>
+      <!-- Open Sans font -->
+      <link href="https://fonts.googleapis.com/css2?family=Open+Sans:wght@300;400;700;800&display=swap" 
+      rel="stylesheet">
+      <!-- Mobile Responsive compatibility layer -->
+      <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+      <!-- Bootstrap CSS -->
+      <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.1.3/css/bootstrap.min.css" 
+      integrity="sha384-MCw98/SFnGE8fJT3GXwEOngsV7Zt27NXFoaoApmYm81iuXoPkFOJwJ8ERdknLPMO" crossorigin="anonymous">
+      <link rel="stylesheet" type="text/css" href="../css/common.css">
+      <link rel="stylesheet" type="text/css" href="../css/main.css"/>
+      <link rel="stylesheet" type="text/css" href="../css/fun.css"/>
+  </head>
+  <body class="boring-gradient-bg">
+    <div class="container saas-activity-main">
+      <div class="row">
+        <div class="col-md-8 mx-auto">
+          <div class="card saas-activity-card-std shadow-lg">
+            <img class="mx-auto saas-activity-card-image" 
+            src="{icon_path}" 
+            alt="Logo of the activity {title}">
+            </img>
+            <h1 class="card-title text-center">{title}</h1>
+            <div class="saas-activity-card-version mx-auto">
+              <span class="badge badge-success saas-badge">
+              Version <span class="badge badge-dark">{version}</span>
+              </span> <span class="badge badge-dark saas-badge">
+              License {licenses}
+              </span>
             </div>
+            {carousel}
+            <div class="saas-activity-card-summary" id=summary>
+              <h3>Summary</h3>
+              <p>{summary}</p>
+            </div>
+            <div class="saas-activity-card-description" id=description>
+              <h3>Description</h3>
+              <p>{description}</p>
+            </div>
+            <div class="saas-activity-card-tags" id="authors">
+              <h3>Authors</h3>
+              {author_list_html_formatted}
+            </div>
+            <div class="saas-activity-card-tags" id="tags">
+              <h3>Tags</h3>
+              {tag_list_html_formatted}
+            </div>
+            <div class="saas-activity-new-features">
+              <h4>New in this Version</h4>
+              <ul>
+               {new_features}
+              </ul>
+            </div>
+            <div class="saas-activity-changelog">
+              <h4>Changelog</h4>
+              <pre class="pre-scrollable"><code>{changelog}</code></pre>
+            </div>
+            {flatpak_html_div}
+            <a href="{git_url}" class="btn btn-secondary saas-activity-download-button"
+            style="margin-bottom: 0.25rem">
+            <i class="fab fa-git-alt"></i> Source Code
+            </a>
+            <a href="{bundle_path}" class="btn btn-primary saas-activity-download-button">
+              <i class="fa fa-download"></i> Download
+            </a>
+          </div>
         </div>
-    </body>
+      </div>
+    </div>
+    <script src="https://code.jquery.com/jquery-3.2.1.slim.min.js" integrity="sha384-KJ3o2DKtIkvYIK3UENzmM7KCkRr/rE9/Qpg6aAZGJwFDMVNA/GpGFF93hXpG5KkN" crossorigin="anonymous"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.12.9/umd/popper.min.js" integrity="sha384-ApNbgh9B+Y1QKtv3Rn7W3mgPxhU9K/ScQsAP7hUibX39j7fakFPskvXusvfa0b4Q" crossorigin="anonymous"></script>
+    <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/js/bootstrap.min.js" integrity="sha384-JZR6Spejh4U02d8jOt6vLEHfe/JQGiRRSQQxSfFWpi1MquVdAyjUar5+76PVCmYl" crossorigin="anonymous"></script>
+  </body>
 </html>
 
 """

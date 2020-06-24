@@ -27,6 +27,7 @@ import shlex
 import subprocess
 import uuid
 from configparser import ConfigParser
+from pathlib import Path
 
 from saasbuild.constants import ACTIVITY_BUILD_CLASSIFIER
 from saasbuild.platform import get_executable_path, SYSTEM
@@ -156,17 +157,20 @@ class Bundle:
                 'assets', 'activity-helloworld.svg'
             )
 
-    def get_screenshots(self):
+    def get_screenshots(self, use_activity_info=False):
         """
         Returns a list of screenshots packaged in the activity
         TODO: Add support to extract screenshot from the screenshot / image directory
         returns screenshot if screenshot keyword is provided
         :return:
         """
-        if self.screenshots:
+        if self.screenshots and use_activity_info:
             return self.screenshots
         else:
-            raise NotImplementedError()
+            screenshots = []
+            for path in Path(os.path.join(self.get_activity_dir(), 'screenshots')).rglob('*.png'):
+                screenshots.append(path.resolve())
+            return screenshots
 
     def get_license(self):
         """

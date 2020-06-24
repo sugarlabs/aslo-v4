@@ -33,7 +33,13 @@ import sys
 from urllib.parse import quote
 
 from .bundle.bundle import Bundle
-from .constants import HTML_TEMPLATE, SITEMAP_HEADER, SITEMAP_URL, FLATPAK_HTML_TEMPLATE
+from .constants import HTML_TEMPLATE
+from .constants import SITEMAP_HEADER
+from .constants import SITEMAP_URL
+from .constants import FLATPAK_HTML_TEMPLATE
+from .constants import CAROUSEL_ITEM_HTML_TEMPLATE
+from .constants import CAROUSEL_INDICATOR_HTML_TEMPLATE
+from .constants import CAROUSEL_HTML_TEMPLATE
 from .lib.progressbar import progressbar
 
 parser = argparse.ArgumentParser(
@@ -102,6 +108,11 @@ parser.add_argument(
     help="Provides a unique icon name based on bundle id"
 )
 parser.add_argument(
+    '-s', '--include-screenshots',
+    action='store_true',
+    help="Includes screenshots of activity if its found as <activity>/screenshots/*.png"
+)
+parser.add_argument(
     '-f', '--include-flatpaks',
     action='store_true',
     help="Includes a flatpak description card if the activity has a valid flatpak registered under flathub.org"
@@ -145,9 +156,10 @@ class SaaSBuild:
             build_xo=False,
             generate_static_html=False,
             progress_bar_disabled=False,
-            include_flatpaks=False
-
+            include_flatpaks=False,
+            include_screenshots=False
     ):
+        self.include_screenshots = args.include_screenshots or include_screenshots
         self.include_flatpaks = args.include_flatpaks or include_flatpaks
         self.progress_bar_disabled = args.disable_progress_bar or progress_bar_disabled
         if args.list_activities or list_activities:
@@ -316,11 +328,12 @@ class SaaSBuild:
             w.write(SITEMAP_HEADER.format(content=''.join(sitemap_content)))
         print("sitemap.xml written successfully")
 
-    def generate_web_page(self, output_dir=None, include_flatpaks=False):
+    def generate_web_page(self, output_dir=None, include_flatpaks=False, include_screenshots=False):
         """
         Generates web page static files
         """
         include_flatpaks = include_flatpaks or self.include_flatpaks
+        include_screenshots = include_screenshots or self.include_screenshots
         flatpak_file = os.path.join(os.path.dirname(__file__), 'data', 'flatpak.json')
         flatpak_bundle_info = dict()
         if include_flatpaks and os.path.exists(flatpak_file):
@@ -440,6 +453,47 @@ class SaaSBuild:
             else:
                 flatpak_html_div = ""
 
+            # if screenshots need to be added as in a carousel, add them
+            carousel_div = ""
+            screenshots_list = bundle.get_screenshots()
+            if include_screenshots and len(screenshots_list) >= 1:
+                carousel_indicators = list()
+                carousel_images = list()
+                # copy files to their respective folders
+                screenshot_dir = os.path.join(output_dir, 'app', bundle.get_bundle_id())
+                if os.path.exists(screenshot_dir):
+                    shutil.rmtree(screenshot_dir, ignore_errors=True)
+                os.makedirs(screenshot_dir)
+                for i in range(len(screenshots_list)):
+                    active = ""
+                    if i == 0:
+                        active = "active"
+                    carousel_indicators.append(
+                        CAROUSEL_INDICATOR_HTML_TEMPLATE.format(
+                            i=i+1,
+                            active=active
+                        )
+                    )
+
+                    _screenshot_path = os.path.sep.join(shutil.copy2(
+                        screenshots_list[i],
+                        screenshot_dir,
+                        follow_symlinks=True
+                    ).split(os.path.sep)[-2:])
+
+                    carousel_images.append(
+                        CAROUSEL_ITEM_HTML_TEMPLATE.format(
+                            i=i+1,
+                            active=active,
+                            activity_name=bundle.get_name(),
+                            src=_screenshot_path
+                        )
+                    )
+                carousel_div = CAROUSEL_HTML_TEMPLATE.format(
+                    carousel_indicator_divs=''.join(carousel_indicators),
+                    carousel_img_divs=''.join(carousel_images)
+                )
+
             # get the HTML_TEMPLATE and annotate with the saved
             # information
             parsed_html = HTML_TEMPLATE.format(
@@ -457,7 +511,8 @@ class SaaSBuild:
                 new_features=''.join(html_changelog_latest_version),
                 changelog=changelog,
                 git_url=bundle.get_git_url(),
-                flatpak_html_div=flatpak_html_div
+                flatpak_html_div=flatpak_html_div,
+                carousel=carousel_div
             )
 
             # write the html file to specified path
