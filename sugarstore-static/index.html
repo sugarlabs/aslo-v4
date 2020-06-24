@@ -235,6 +235,8 @@
           loadAllActivities();
         });
 
+        $('#saas-search-container').on('submit', function(e) { //use on if jQuery 1.7+
+          e.preventDefault();  //prevent form from submitting
           // on every new input clear the current stack
           // add a new set of found out cards which otherwise might create
           // repeated values
