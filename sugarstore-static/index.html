@@ -209,9 +209,10 @@
         });
 
         window.fadeIn = function(obj) {
-            $(obj).removeClass('saas-card-image-hidden').hide();
-            $(obj).fadeIn(1000);
-        }
+          $(obj).removeClass('saas-card-image-hidden').hide();
+          $(obj).fadeIn(500);
+        };
+
         const queryString = window.location.search;
         console.log(queryString);
         const urlParams = new URLSearchParams(queryString);
