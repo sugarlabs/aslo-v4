@@ -134,9 +134,8 @@ function loadAllActivities () {
         });
     } else {
         $.getJSON("../index.json", function(data) {
-        console.log(data)
+        
         // update the UI with each card
-
         $.each(
             data.sort(function(el1,el2){
                 return compareAlphabetically(el1, el2, "name")
