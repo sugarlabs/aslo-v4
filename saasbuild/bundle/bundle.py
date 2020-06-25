@@ -169,10 +169,17 @@ class Bundle:
             return self.screenshots
         else:
             screenshots = []
-            if not os.path.exists(os.path.join(self.get_activity_dir(), 'screenshots')):
+            screenshot_dir = os.path.join(self.get_activity_dir(), 'screenshots')
+            if not os.path.exists(screenshot_dir):
                 return []
-            for path in Path(os.path.join(self.get_activity_dir(), 'screenshots')).glob('**/*.png'):
-                screenshots.append(path.resolve())
+            for path in os.listdir(screenshot_dir):
+                # please don't use glob; smh; its sick
+                if os.path.isdir(os.path.join(screenshot_dir, path)):
+                    for png in os.listdir(os.path.join(screenshot_dir, path)):
+                        if png.endswith('.png'):
+                            screenshots.append(os.path.join(screenshot_dir, path, png))
+                elif path.endswith('.png'):
+                    screenshots.append(os.path.join(screenshot_dir, path))
             return screenshots
 
     def get_license(self):
