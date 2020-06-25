@@ -169,6 +169,8 @@ class Bundle:
             return self.screenshots
         else:
             screenshots = []
+            if not os.path.exists(os.path.join(self.get_activity_dir(), 'screenshots')):
+                return []
             for path in Path(os.path.join(self.get_activity_dir(), 'screenshots')).glob('**/*.png'):
                 screenshots.append(path.resolve())
             return screenshots
