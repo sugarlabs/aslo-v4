@@ -74,6 +74,7 @@ class Bundle:
         self._activity_version = bundle_activity_section.get(
             'activity_version') or bundle_activity_section.get('activity-version')
         self._bundle_id = bundle_activity_section.get('bundle_id')
+        self._service_name = bundle_activity_section.get('service_name')
         self.icon = bundle_activity_section.get('icon', 'activity-helloworld')
         self._exec = bundle_activity_section.get('exec')
         self.license = bundle_activity_section.get('license', '').split(';')
@@ -378,8 +379,10 @@ class Bundle:
         return author_db
 
     def get_activity_type(self):
-        if not isinstance(self._exec, str):
+        if not isinstance(self._exec, str) and not self._service_name:
             return None
+        if not isinstance(self._exec, str) and self._service_name:
+            return 'python2'
         return ACTIVITY_BUILD_CLASSIFIER.get(
             self._exec.split()[0].split(os.path.sep)[-1],
             'other'
