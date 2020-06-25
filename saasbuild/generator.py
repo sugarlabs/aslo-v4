@@ -145,7 +145,7 @@ def check_progressbar(*arg, **kwarg):
         return list(*arg)
 
 
-class SaaSBuild:
+class SaasBuild:
     """
     The helper object to quickly create bundles and generate html web pages
     """
@@ -180,7 +180,7 @@ class SaaSBuild:
     def list_activities(path_to_search_xo=None):
         """
         Generates a list<Bundle> of detected activities
-        >>> sb = SaaSBuild()
+        >>> sb = SaasBuild()
         >>> sb.list_activities()
         :return:
         """
@@ -229,7 +229,7 @@ class SaaSBuild:
         """
         Iteratively generate bundle .xo files for all detected activities
         given by self.list_activities()
-        >>> sb = SaaSBuild()
+        >>> sb = SaasBuild()
         >>> sb.generate_xo_all()
         :return:
         """
