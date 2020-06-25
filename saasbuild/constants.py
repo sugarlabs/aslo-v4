@@ -63,7 +63,7 @@ FLATPAK_HTML_TEMPLATE = \
     <a href="https://flathub.org/repo/appstream/{bundle_id}.flatpakref" class="btn btn-light saas-activity-download-button">
         <i class="fa fa-download" aria-hidden="true"></i> Download .flatpakref
     </a>
-    <a href="https://flathub.org/apps/details/{bundle_id}.flatpakref" class="btn btn-light saas-activity-download-button" style="margin-right:0.5rem">
+    <a href="https://flathub.org/apps/details/{bundle_id}" class="btn btn-light saas-activity-download-button" style="margin-right:0.5rem">
         <i class="fa fa-box" aria-hidden="true"></i> Flathub
     </a>
 </div></div>"""
