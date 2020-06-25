@@ -289,7 +289,12 @@ class Bundle:
             stderr=subprocess.PIPE,
             stdout=subprocess.PIPE
         )
-        exit_code = proc.wait(timeout=5000)
+        try:
+            exit_code = proc.wait(timeout=120)
+        except subprocess.TimeoutExpired:
+            print("[ERR] TimeoutExpired: Skipping activity build.")
+            exit_code = -99
+            return exit_code, '', ''
         out, err = proc.communicate()
         if not exit_code:
             dist_path = os.path.join(self.get_activity_dir(), 'dist')
