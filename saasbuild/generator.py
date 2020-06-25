@@ -248,6 +248,7 @@ class SaaSBuild:
         print("Beginning to process... This might take some time..")
         num_encountered_errors = 0
         num_completed_success = 0
+        num_completed_warnings = 0
         override = False
         entrypoint_build_script = None
 
@@ -269,7 +270,10 @@ class SaaSBuild:
                 entrypoint_build_command=entrypoint_build_script,
                 build_command_chdir=args.build_chdir
             )
-            if err or ecode:
+            if err:
+                print("[BUILD][W] {} build completed with warnings.".format(activities[i]))
+                num_completed_warnings += 1
+            elif ecode:
                 print(
                     "[BUILD][E] Error while building {activity} "
                     "E: {err}. Build exited with exit code: {ecode}".format(
@@ -280,9 +284,10 @@ class SaaSBuild:
             else:
                 num_completed_success += 1
         print(
-            "[BUILD] {success} bundles "
-            "created with {failed} errors".format(
+            "[BUILD] Created {success} bundles successfully, {warn} bundles with warnings and "
+            "{failed} with errors".format(
                 success=num_completed_success,
+                warn=num_completed_warnings,
                 failed=num_encountered_errors
             )
         )
