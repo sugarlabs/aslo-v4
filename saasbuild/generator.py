@@ -483,7 +483,7 @@ class SaasBuild:
             # if screenshots need to be added as in a carousel, add them
             verbose("[STATIC][{}] Adding screenshots".format(bundle.get_name()))
             carousel_div = ""
-            screenshots_list = bundle.get_screenshots()
+            screenshots_list = []  # bundle.get_screenshots()
             if include_screenshots and len(screenshots_list) >= 1:
                 carousel_indicators = list()
                 carousel_images = list()
