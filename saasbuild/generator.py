@@ -376,6 +376,7 @@ class SaasBuild:
 
         # get the bundles
         bundles = self.list_activities()
+
         for bundle in check_progressbar(
             bundles,
             redirect_stdout=True,
