@@ -344,6 +344,10 @@ class Bundle:
         :return: Tuple (e_code, stdout, stderr)
 
         """
+        if self.is_xo:
+            # I am already a xo. Why build me? duh
+            return 0, '[xo] Already Built.', ''
+
         if override_dist_xo and not entrypoint_build_command:
             raise ValueError("entrypoint_build_command was not provided")
 
