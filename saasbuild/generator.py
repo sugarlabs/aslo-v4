@@ -429,6 +429,35 @@ class SaaSBuild:
                 '</span>'.format(author=author, commits=authors[author])
             )
         return authors_html_list
+
+    @staticmethod
+    def _process_changelog_html(changelog_latest_version):
+        """
+        Process changelog and generate HTML <pre> tags from the bundle
+        :param changelog_latest_version: changelog text
+        :type changelog_latest_version: str
+        :return:
+        :rtype: list<str>
+        """
+        html_changelog_latest_version = list()
+        if changelog_latest_version:
+            changelog_latest_version = \
+                html.escape(changelog_latest_version)
+            html_changelog_latest_version = list()
+            for log in changelog_latest_version.split('\n'):
+                log_parsed = log[0:2].replace('*', '') + log[2:]
+                html_changelog_latest_version.append(
+                    '<li>{}</li>'.format(log_parsed))
+            if len(html_changelog_latest_version) >= 1:
+                if html_changelog_latest_version[-1] == "<li></li>":
+                    html_changelog_latest_version.pop()
+            else:
+                html_changelog_latest_version.append(
+                    "<li>Nothing here :( </li>")
+        else:
+            html_changelog_latest_version.append(
+                "<li>Nothing here :( </li>")
+        return html_changelog_latest_version
     def generate_sitemap(self, domain=args.generate_sitemap):
         """
         Generates sitemap.xml
@@ -528,24 +557,8 @@ class SaaSBuild:
             # Changelog gen
             debug("[STATIC][{}] Processing news".format(bundle.get_name()))
             changelog_latest_version = bundle.get_news()
-            html_changelog_latest_version = list()
-            if changelog_latest_version:
-                changelog_latest_version = \
-                    html.escape(changelog_latest_version)
-                html_changelog_latest_version = list()
-                for log in changelog_latest_version.split('\n'):
-                    log_parsed = log[0:2].replace('*', '') + log[2:]
-                    html_changelog_latest_version.append(
-                        '<li>{}</li>'.format(log_parsed))
-                if len(html_changelog_latest_version) >= 1:
-                    if html_changelog_latest_version[-1] == "<li></li>":
-                        html_changelog_latest_version.pop()
-                else:
-                    html_changelog_latest_version.append(
-                        "<li>Nothing here :( </li>")
-            else:
-                html_changelog_latest_version.append(
-                    "<li>Nothing here :( </li>")
+            html_changelog_latest_version = \
+                self._process_changelog_html(changelog_latest_version)
 
             # changelog all
             debug("[STATIC][{}] "
