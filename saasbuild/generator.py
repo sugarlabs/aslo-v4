@@ -158,6 +158,18 @@ def verbose(x):
         print(x)
 
 
+def pre_check_dependencies(dependencies=DEPENDENCIES):
+    """
+    Checks if all the dependencies are met before build
+    """
+    for dependency in dependencies:
+        print("Checking {}... ".format(dependency), end="")
+        exe = get_executable_path(dependency)
+        cprint("Found at {}".format(exe), 'green')
+    else:
+        print()
+
+
 def copytree(src, dst, symlinks=False, ignore=None):
     for item in os.listdir(src):
         s = os.path.join(src, item)
