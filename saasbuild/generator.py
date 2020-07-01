@@ -387,6 +387,28 @@ class SaaSBuild:
                 shutil.rmtree(rel_path, ignore_errors=True)
             os.makedirs(rel_path)
 
+    @staticmethod
+    def _process_tags_html(bundle):
+        """
+        Extracts tags from tag_bundles and return formatted HTML
+        badges
+        :param bundle:
+        :type bundle:
+        :return:
+        :rtype:
+        """
+        # Get the tags and process it
+        tags = bundle.get_tags()
+        tags_html_list = []
+        if not tags or tags == ['']:
+            tags_html_list.append("<p> No tags found &#128531; </p>")
+        for tag in tags:
+            tags_html_list.append(
+                '<span class="badge badge-primary saas-badge">'
+                '{tag}</span>'.format(tag=tag)
+            )
+        return tags_html_list
+
     def generate_sitemap(self, domain=args.generate_sitemap):
         """
         Generates sitemap.xml
@@ -477,16 +499,7 @@ class SaaSBuild:
                 continue
 
             debug("[STATIC][{}] Processing tags".format(bundle.get_name()))
-            # Get the tags and process it
-            tags = bundle.get_tags()
-            tags_html_list = []
-            if not tags or tags == ['']:
-                tags_html_list.append("<p> No tags found &#128531; </p>")
-            for tag in tags:
-                tags_html_list.append(
-                    '<span class="badge badge-primary saas-badge">'
-                    '{tag}</span>'.format(tag=tag)
-                )
+            tags_html_list = self._process_tags_html(bundle)
 
             # Get the authors and process it
             debug("[STATIC][{}] Processing authors".format(bundle.get_name()))
