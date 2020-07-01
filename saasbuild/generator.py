@@ -482,6 +482,48 @@ class SaaSBuild:
             html_parsed_licenses.append(
                 '<span class="badge badge-warning">NOASSERTION</span> ')
         return html_parsed_licenses
+
+    @staticmethod
+    def _process_screenshot_carousel_html(bundle, screenshots_list,
+                                          output_dir):
+        carousel_indicators = list()
+        carousel_images = list()
+        # copy files to their respective folders
+        screenshot_dir = \
+            os.path.join(output_dir, 'app', bundle.get_bundle_id())
+        if os.path.exists(screenshot_dir):
+            shutil.rmtree(screenshot_dir, ignore_errors=True)
+        os.makedirs(screenshot_dir)
+        for i, screenshot in enumerate(screenshots_list):
+            active = ""
+            if i == 0:
+                active = "active"
+            carousel_indicators.append(
+                CAROUSEL_INDICATOR_HTML_TEMPLATE.format(
+                    i=i + 1,
+                    active=active
+                ))
+
+            _screenshot_path = os.path.sep.join(shutil.copy2(
+                screenshot,
+                screenshot_dir,
+                follow_symlinks=True
+            ).split(os.path.sep)[-2:])
+
+            carousel_images.append(
+                CAROUSEL_ITEM_HTML_TEMPLATE.format(
+                    i=i + 1,
+                    active=active,
+                    activity_name=bundle.get_name(),
+                    src=_screenshot_path
+                )
+            )
+        carousel_div = CAROUSEL_HTML_TEMPLATE.format(
+            carousel_indicator_divs=''.join(carousel_indicators),
+            carousel_img_divs=''.join(carousel_images)
+        )
+        return carousel_div
+
     def generate_sitemap(self, domain=args.generate_sitemap):
         """
         Generates sitemap.xml
@@ -638,43 +680,12 @@ class SaaSBuild:
             carousel_div = ""
             screenshots_list = bundle.get_screenshots()
             if include_screenshots and len(screenshots_list) >= 1:
-                carousel_indicators = list()
-                carousel_images = list()
-                # copy files to their respective folders
-                screenshot_dir = \
-                    os.path.join(output_dir, 'app', bundle.get_bundle_id())
-                if os.path.exists(screenshot_dir):
-                    shutil.rmtree(screenshot_dir, ignore_errors=True)
-                os.makedirs(screenshot_dir)
-                for i in range(len(screenshots_list)):
-                    active = ""
-                    if i == 0:
-                        active = "active"
-                    carousel_indicators.append(
-                        CAROUSEL_INDICATOR_HTML_TEMPLATE.format(
-                            i=i+1,
-                            active=active
-                        )
+                carousel_div = \
+                    self._process_screenshot_carousel_html(
+                        bundle,
+                        screenshots_list,
+                        output_dir
                     )
-
-                    _screenshot_path = os.path.sep.join(shutil.copy2(
-                        screenshots_list[i],
-                        screenshot_dir,
-                        follow_symlinks=True
-                    ).split(os.path.sep)[-2:])
-
-                    carousel_images.append(
-                        CAROUSEL_ITEM_HTML_TEMPLATE.format(
-                            i=i+1,
-                            active=active,
-                            activity_name=bundle.get_name(),
-                            src=_screenshot_path
-                        )
-                    )
-                carousel_div = CAROUSEL_HTML_TEMPLATE.format(
-                    carousel_indicator_divs=''.join(carousel_indicators),
-                    carousel_img_divs=''.join(carousel_images)
-                )
 
             # get the HTML_TEMPLATE and annotate with the saved
             # information
