@@ -408,7 +408,7 @@ class Bundle:
             stderr=subprocess.PIPE,
             stdout=subprocess.PIPE
         )
-        exit_code = proc.wait(timeout=5000)
+        exit_code = proc.wait(timeout=120)
         out, err = proc.communicate()
         return exit_code, out.decode(), err.decode()
 
