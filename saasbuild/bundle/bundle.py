@@ -406,7 +406,7 @@ class Bundle:
             stdout=subprocess.PIPE,
             stderr=subprocess.PIPE
         )
-        ecode = author_raw.wait()
+        author_raw.wait(timeout=10)
         out, err = author_raw.communicate()
         authors = out.decode().split('\n')
         unique_authors = set(authors)
