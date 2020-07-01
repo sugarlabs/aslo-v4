@@ -322,7 +322,8 @@ class Bundle:
             self,
             override_dist_xo=False,
             entrypoint_build_command=None,
-            build_command_chdir=False):
+            build_command_chdir=False
+    ):
         """
         Generates a .xo file for the activities
         by spawning a subprocess
