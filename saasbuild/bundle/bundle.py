@@ -47,6 +47,27 @@ def get_latest_bundle(bundle_path):
         return False
 
 
+def wait_for_process_completion(proc, retry=False):
+    """
+    Waits for process completion
+    """
+    try:
+        exit_code = proc.wait(timeout=120)
+    except subprocess.TimeoutExpired:
+        if not retry:
+            return -99
+        # try once again. Hopefully it works
+        try:
+            exit_code = proc.wait(timeout=240)
+        except subprocess.TimeoutExpired:
+            # Tried for total of 360 seconds == 6 minutes
+            # skip install, to prevent build stash
+            print("[ERR] TimeoutExpired: "
+                  "Skipping activity install.")
+            return -99
+    return exit_code
+
+
 class BundleError(Exception):
     pass
 
