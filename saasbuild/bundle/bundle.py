@@ -259,7 +259,25 @@ class Bundle:
             return self.screenshots  # likely to be live URLs
         else:
             screenshots = []
-            for path in Path(os.path.join(self.get_activity_dir(), 'screenshots')).rglob('*.png'):
+
+            if self.is_xo:
+                temp_folder = tempfile.TemporaryDirectory(prefix='saas-scrshot')
+                try:
+                    self.archive.extract(
+                        os.path.join(self.bundle_prefix, 'screenshots'),
+                        path=temp_folder.name
+                    )
+                except KeyError:
+                    # the screenshots directory does not exists
+                    # skip it
+                    return []
+
+                screenshot_directory = os.path.join(temp_folder.name, self.bundle_prefix, 'screenshots')
+                self.temp.append(temp_folder)
+            else:
+                screenshot_directory = os.path.join(self.get_activity_dir(), 'screenshots')
+
+            for path in Path(screenshot_directory).rglob('*.png'):
                 screenshots.append(path.resolve())
             return screenshots
 
