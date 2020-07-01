@@ -166,6 +166,8 @@ class Bundle:
                 os.path.join(self.get_activity_dir(), 'dist')
             )
 
+        self.temp = list()
+
     def __repr__(self):
         return '{name} ({path})'.format(
             name=self._name, path=self.activity_info_path)
