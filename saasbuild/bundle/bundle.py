@@ -549,6 +549,8 @@ class Bundle:
         """
         Returns git url  by `git config --get remote.origin.url`
         """
+        if self.is_xo:
+            return  # bundles does not have .git directory, skip
         url_process = subprocess.Popen(
             _s('{git} -C {activity_path} config --get remote.origin.url'.format(
                 git=get_executable_path('git'),
