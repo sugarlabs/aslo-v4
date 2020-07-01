@@ -205,7 +205,8 @@ class SaaSBuild:
             generate_static_html=False,
             progress_bar_disabled=False,
             include_flatpaks=False,
-            include_screenshots=False
+            include_screenshots=False,
+            python2=args.include_python2
     ):
         self.include_screenshots = args.include_screenshots or include_screenshots
         self.include_flatpaks = args.include_flatpaks or include_flatpaks
