@@ -505,8 +505,8 @@ class SaaSBuild:
                 _icon_path = shutil.copy2(
                     icon_path, output_icon_dir, follow_symlinks=True)
 
-            # check if flatpak is supported
-            verbose("[STATIC][{}] Checking flatpak support".format(bundle.get_name()))
+            # get git url
+            verbose("[STATIC][{}] Getting URL to git repository".format(bundle.get_name()))
             bundle_git_url_stripped = bundle.get_git_url()
             if bundle_git_url_stripped[-4:] == ".git":
                 bundle_git_url_stripped = bundle_git_url_stripped[:-4]
