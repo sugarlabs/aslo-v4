@@ -510,6 +510,9 @@ class SaaSBuild:
             bundle_git_url_stripped = bundle.get_git_url()
             if bundle_git_url_stripped[-4:] == ".git":
                 bundle_git_url_stripped = bundle_git_url_stripped[:-4]
+
+            # check if flatpak is supported
+            verbose("[STATIC][{}] Checking flatpak support".format(bundle.get_name()))
             if include_flatpaks and flatpak_bundle_info.get(bundle_git_url_stripped):
                 flatpak_html_div = FLATPAK_HTML_TEMPLATE.format(
                     activity_name=bundle.get_name(),
