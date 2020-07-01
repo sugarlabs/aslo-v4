@@ -24,6 +24,8 @@ import hashlib
 import os
 import shlex
 import subprocess
+import tempfile
+import zipfile
 from configparser import ConfigParser
 from pathlib import Path
 
