@@ -254,7 +254,15 @@ class SaaSBuild:
                     # If an activity.info exists, its a valid sugar directory.
                     # We do not need to add other directories
                     collected_sugar_activity_dirs.append(
-                        Bundle(activity_info_path))
+                        Bundle(full_path)
+                    )
+            elif full_path.endswith('.xo') and not do_not_search_for_xo:
+                if zipfile.is_zipfile(full_path):
+                    # only add the bundle if its a valid zip file
+                    __bundle = Bundle(full_path)
+                    if not __bundle.is_invalid:
+                        # skip invalid bundles to prevent conflict
+                        collected_sugar_activity_dirs.append(__bundle)
 
         print("[ACTIVITIES] Collected \n{}\n".format(
             collected_sugar_activity_dirs))
