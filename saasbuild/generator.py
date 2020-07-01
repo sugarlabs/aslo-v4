@@ -142,6 +142,16 @@ parser.add_argument(
 )
 args = parser.parse_args()
 
+DEPENDENCIES_PYTHON2 = (
+    'python2', 'sugar-activity'
+)
+
+DEPENDENCIES = (
+    'git', 'sugar-activity3',
+    'python3', 'sugar-install-bundle'
+)
+
+
 
 def verbose(x):
     if args.verbose:
