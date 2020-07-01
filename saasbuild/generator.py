@@ -208,6 +208,12 @@ class SaaSBuild:
             include_screenshots=False,
             python2=args.include_python2
     ):
+        # check if dependencies are met
+        dependencies = DEPENDENCIES
+        if python2:
+            dependencies += DEPENDENCIES_PYTHON2
+        pre_check_dependencies(dependencies)
+
         self.include_screenshots = args.include_screenshots or include_screenshots
         self.include_flatpaks = args.include_flatpaks or include_flatpaks
         self.progress_bar_disabled = args.disable_progress_bar or progress_bar_disabled
