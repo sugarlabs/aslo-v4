@@ -109,10 +109,9 @@ class Bundle:
 
             self.bundle_prefix = "{}.activity".format(__activity_name)
             try:
-                activity_info_file = self.archive.read(
-                    '{activity_name}.activity/activity/activity.info'
-                    .format(activity_name=__activity_name)
-                ).decode()
+                self.activity_info_path = \
+                    os.path.join(self.bundle_prefix, 'activity', 'activity.info')
+                activity_info_file = self.archive.read(self.activity_info_path).decode()
             except KeyError:
                 # raises KeyError if the bundle does not have
                 # an activity.info file
@@ -127,11 +126,11 @@ class Bundle:
 
         else:
             self._is_xo = False
+            self.activity_info_path = \
+                os.path.join(activity_path, 'activity', 'activity.info')
             # not a bundle. This is a directory
             config.read(self.activity_info_path)
 
-        self.activity_info_path = \
-            os.path.join(activity_path, 'activity', 'activity.info')
 
         # Read the activity.info and derive attributes
         if 'Activity' not in config:
