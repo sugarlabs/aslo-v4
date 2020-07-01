@@ -409,6 +409,17 @@ class SaaSBuild:
             )
         return tags_html_list
 
+    @staticmethod
+    def _process_authors_html(bundle):
+        """
+        Retrieves authors from get_authors, and creates_html
+        :param bundle: Bundle
+        :type bundle: Bundle
+        :return:
+        :rtype:
+        """
+        # Get the authors and process it
+
     def generate_sitemap(self, domain=args.generate_sitemap):
         """
         Generates sitemap.xml
@@ -503,14 +514,7 @@ class SaaSBuild:
 
             # Get the authors and process it
             debug("[STATIC][{}] Processing authors".format(bundle.get_name()))
-            authors = bundle.get_authors()
-            authors_html_list = []
-            for author in authors:
-                authors_html_list.append(
-                    '<span class="badge badge-secondary saas-badge">{author}  '
-                    '<span class="badge badge-dark">{commits}</span>'
-                    '</span>'.format(author=author, commits=authors[author])
-                )
+            authors_html_list = self._process_authors_html(bundle)
 
             # Changelog gen
             debug("[STATIC][{}] Processing news".format(bundle.get_name()))
