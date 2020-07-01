@@ -37,28 +37,36 @@ _s = shlex.split if SYSTEM != 'Windows' else lambda x: x
 
 
 def get_latest_bundle(bundle_path):
+    """
+    Semantically searches the dist directory for the latest
+    bundle.
+    :param bundle_path:
+    :type bundle_path:
+    :return:
+    :rtype:
+    """
     if not os.path.exists(bundle_path):
         return False
     bundles = os.listdir(bundle_path)
     bundles.sort(reverse=True)
     for bundle in bundles:
         return os.path.join(bundle_path, bundle)
-    else:
-        return False
+    return False  # if nothing is found
 
 
-def wait_for_process_completion(proc, retry=False):
+def wait_for_process_completion(proc, retry=False, timeout=120):
     """
-    Waits for process completion
+    Waits for process completion first for 120 seconds
+    and then for 240 seconds by default
     """
     try:
-        exit_code = proc.wait(timeout=120)
+        exit_code = proc.wait(timeout=timeout)
     except subprocess.TimeoutExpired:
         if not retry:
             return -99
         # try once again. Hopefully it works
         try:
-            exit_code = proc.wait(timeout=240)
+            exit_code = proc.wait(timeout=timeout*2)
         except subprocess.TimeoutExpired:
             # Tried for total of 360 seconds == 6 minutes
             # skip install, to prevent build stash
@@ -170,21 +178,51 @@ class Bundle:
         self.temp = list()
 
     def __repr__(self):
+        """
+        Represents the bundle in a human readable format
+        >>> Bundle('path/to/bundle')
+        Pippy Activity ('path/to/bundle', is_xo=True)
+        :return:
+        :rtype:
+        """
         return '{name} ({path}, xo={is_xo})'.format(
             name=self._name, path=self.activity_info_path, is_xo=self.is_xo)
 
     @property
     def is_xo(self):
+        """
+        Property which returns self._is_xo which implies if the current
+        activity bundle is an xo or an activity_dir
+        :return:
+        :rtype:
+        """
         return self._is_xo
 
     @property
     def is_invalid(self):
+        """
+        Returns true if the zipped bundle is invalid, else false
+        :return:
+        :rtype:
+        """
         return self._is_invalid
 
     def get_bundle_path(self):
+        """
+        Returns the full path to the bundle
+        :return: bundle path
+        :rtype: str
+        """
         return self._bundle_path
 
     def set_bundle_path(self, bundle_path):
+        """
+        Explicitly set the bundle path
+        :param bundle_path: new bundle path
+        :type bundle_path:
+        :return: None
+        :rtype: None
+        """
         self._bundle_path = bundle_path
 
     def get_tags(self):
@@ -509,6 +547,11 @@ class Bundle:
         }
 
     def is_python3(self):
+        """
+        Returns true if the activity is build on python3 else False
+        :return:
+        :rtype:
+        """
         if isinstance(self._exec, str) and 'sugar-activity3' in self._exec:
             return True
         else:
@@ -610,6 +653,12 @@ class Bundle:
         return author_db
 
     def get_activity_type(self):
+        """
+        Returns the type of activity, which inherits values from the Exec
+        attribute of the activity.info
+        :return:
+        :rtype: str
+        """
         if not isinstance(self._exec, str):
             return None
         return ACTIVITY_BUILD_CLASSIFIER.get(
@@ -620,8 +669,9 @@ class Bundle:
     def get_news(self):
         """
         Returns the NEWS corresponding to the current tagged release
+        :return:
+        :rtype: str
         """
-
         news_file_instance = self.get_changelog()
         if not news_file_instance:
             return
