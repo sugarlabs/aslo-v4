@@ -152,6 +152,9 @@ DEPENDENCIES = (
 )
 
 
+if args.no_colors:
+    os.environ['SAAS_NO_COLORS'] = 'true'
+
 
 def verbose(x):
     if args.verbose:
