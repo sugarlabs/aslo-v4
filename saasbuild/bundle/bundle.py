@@ -316,7 +316,7 @@ class Bundle:
 
         :return: path to bundle activity : str
         """
-        return os.path.dirname(os.path.dirname(self.activity_info_path))
+        return self.activity_path
 
     def do_generate_bundle(
             self,
