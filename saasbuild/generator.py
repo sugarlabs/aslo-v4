@@ -458,6 +458,30 @@ class SaaSBuild:
             html_changelog_latest_version.append(
                 "<li>Nothing here :( </li>")
         return html_changelog_latest_version
+
+    @staticmethod
+    def _process_licenses_html(bundle):
+        """
+        Process licenses and creates static html
+        :param bundle:
+        :type bundle:
+        :return:
+        :rtype:
+        """
+        licenses = bundle.get_license()
+        parsed_licenses = list()
+        html_parsed_licenses = list()
+        for i in licenses:
+            if i and not i.isspace():
+                parsed_licenses.append(i.strip())
+        for i in parsed_licenses:
+            html_parsed_licenses.append(
+                '<span class="badge badge-info">'
+                '{lic}</span>'.format(lic=i))
+        if not parsed_licenses:
+            html_parsed_licenses.append(
+                '<span class="badge badge-warning">NOASSERTION</span> ')
+        return html_parsed_licenses
     def generate_sitemap(self, domain=args.generate_sitemap):
         """
         Generates sitemap.xml
@@ -569,19 +593,7 @@ class SaaSBuild:
 
             # get Licenses
             debug("[STATIC][{}] Processing Licenses".format(bundle.get_name()))
-            licenses = bundle.get_license()
-            parsed_licenses = list()
-            html_parsed_licenses = list()
-            for i in licenses:
-                if i and not i.isspace():
-                    parsed_licenses.append(i.strip())
-            for i in parsed_licenses:
-                html_parsed_licenses.append(
-                    '<span class="badge badge-info">'
-                    '{lic}</span>'.format(lic=i))
-            if not parsed_licenses:
-                html_parsed_licenses.append(
-                    '<span class="badge badge-warning">NOASSERTION</span> ')
+            html_parsed_licenses = self._process_licenses_html(bundle)
 
             # copy deps to respective folders
             debug("[STATIC][{}] "
