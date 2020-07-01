@@ -460,7 +460,11 @@ class Bundle:
             stdout=subprocess.PIPE,
             stderr=subprocess.PIPE
         )
-        ecode = url_process.wait()
+        ecode = url_process.wait(timeout=5)
+        if ecode != 0:
+            # process did not complete successfully
+            # hence no git url
+            return None
         out, err = url_process.communicate()
         url = out.decode().split('\n')
         if len(url) >= 1:
