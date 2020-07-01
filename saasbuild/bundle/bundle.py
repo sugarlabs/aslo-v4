@@ -473,7 +473,8 @@ class Bundle:
             "bundle_name": bundle_path,
             "bundle_id": self.get_bundle_id(),
             "exec_type": self.get_activity_type(),
-            "v": self.get_version()}
+            "v": self.get_version()
+        }
 
     def is_python3(self):
         if isinstance(self._exec, str) and 'sugar-activity3' in self._exec:
