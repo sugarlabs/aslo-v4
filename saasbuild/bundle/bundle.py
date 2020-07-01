@@ -505,7 +505,7 @@ class Bundle:
         if self.is_xo:
             # bundles does not have .git directory, skip
             # NotImplemented
-            return ['No authors found']
+            return {0: 'No authors found'}
         author_raw = subprocess.Popen(
             _s('{git} -C {activity_path} -P log --pretty=format:"%an"'.format(
                 git=get_executable_path('git'),
