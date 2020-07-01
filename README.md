@@ -1,6 +1,10 @@
 # sugarappstore
 
+
 [![Netlify Status](https://api.netlify.com/api/v1/badges/4f6dde9a-8b1c-4e8e-9f2f-13f453988e82/deploy-status)](https://app.netlify.com/sites/sugarstore/deploys)
+
+[![Codacy Badge](https://api.codacy.com/project/badge/Grade/c61d2501dca44ccbbd8b590470330b32)](https://app.codacy.com/gh/sugarlabs-appstore/sugarappstore?utm_source=github.com&utm_medium=referral&utm_content=sugarlabs-appstore/sugarappstore&utm_campaign=Badge_Grade_Dashboard)
+
 
 
 ## Introduction
