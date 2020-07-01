@@ -31,7 +31,6 @@ import time
 import shutil
 import sys
 import zipfile
-from urllib.parse import quote
 
 from .bundle.bundle import Bundle
 from .constants import HTML_TEMPLATE
