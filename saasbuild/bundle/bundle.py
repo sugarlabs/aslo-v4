@@ -131,7 +131,6 @@ class Bundle:
             # not a bundle. This is a directory
             config.read(self.activity_info_path)
 
-
         # Read the activity.info and derive attributes
         if 'Activity' not in config:
             # if the activity does not have a section [Activity]
