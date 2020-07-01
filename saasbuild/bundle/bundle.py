@@ -129,6 +129,13 @@ class Bundle:
     def __repr__(self):
         return '{name} ({path})'.format(
             name=self._name, path=self.activity_info_path)
+    @property
+    def is_xo(self):
+        return self._is_xo
+
+    @property
+    def is_invalid(self):
+        return self._is_invalid
 
     def get_bundle_path(self):
         return self._bundle_path
