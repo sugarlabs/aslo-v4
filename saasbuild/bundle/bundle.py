@@ -595,7 +595,7 @@ class Bundle:
             stderr=subprocess.PIPE
         )
         author_raw.wait(timeout=10)
-        out, err = author_raw.communicate()
+        out, _ = author_raw.communicate()
         authors = out.decode()
         return authors
 
@@ -677,17 +677,17 @@ class Bundle:
             return
         news_parsed = news_file_instance.split('\n\n')
         try:
-            for i in range(len(news_parsed)):
-                if news_parsed[i] == self.get_version():
+            for i, item in enumerate(news_parsed):
+                if item == self.get_version():
                     return news_parsed[i+1]
-                elif news_parsed[i] == 'v{}'.format(self.get_version()):
+                elif item == 'v{}'.format(self.get_version()):
                     return news_parsed[i+1]
 
-            for i in range(len(news_parsed)):
+            for i, item in enumerate(news_parsed):
                 # as we iterated through the news file,
                 # we can try this again; but with lesser confidence
-                if len(news_parsed[i]) < 6 and \
-                        self.get_version() in news_parsed[i]:
+                if len(item) < 6 and \
+                        self.get_version() in item:
                     return news_parsed[i+1]
 
         except IndexError:
