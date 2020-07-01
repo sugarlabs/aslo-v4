@@ -233,6 +233,14 @@ class Bundle:
         )
         if self.icon and os.path.exists(icon_path):
             return icon_path
+        elif self.is_xo and self.icon:
+            temp_folder = tempfile.TemporaryDirectory(prefix='saas-icon')
+            self.archive.extract(
+                os.path.join(self.bundle_prefix, 'activity', '{}.svg'.format(self.icon)),
+                path=temp_folder.name
+            )
+            self.temp.append(temp_folder)
+            return os.path.join(temp_folder.name, self.bundle_prefix, 'activity', '{}.svg'.format(self.icon))
         else:
             # return a dummy icon because the current icon was missing
             return os.path.join(
