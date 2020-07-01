@@ -69,6 +69,18 @@ def wait_for_process_completion(proc, retry=False):
 
 
 class BundleError(Exception):
+    """
+    Raised when the activity.info does not
+    contain the minimum required attributes
+    """
+    pass
+
+
+class InvalidBundleError(BundleError):
+    """
+    Raised when the bundle (.xo) is not a
+    valid packaged bundle
+    """
     pass
 
 
