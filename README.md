@@ -1,5 +1,7 @@
 # Backendless search and website generator from activity bundles prototype
 
+[![Codacy Badge](https://api.codacy.com/project/badge/Grade/c61d2501dca44ccbbd8b590470330b32)](https://app.codacy.com/gh/sugarlabs-appstore/sugarappstore?utm_source=github.com&utm_medium=referral&utm_content=sugarlabs-appstore/sugarappstore&utm_campaign=Badge_Grade_Dashboard)
+
 > Looking for the newer version? Click **[here](https://github.com/sugarlabs-appstore/sugarappstore/tree/oop-ss)** to switch deployed branch.
 
 ## Instruction to use
