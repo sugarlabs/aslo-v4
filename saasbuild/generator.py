@@ -43,6 +43,7 @@ from .constants import CAROUSEL_HTML_TEMPLATE
 from .lib.progressbar import progressbar
 from .lib.termcolors import cprint
 from .platform import get_executable_path
+from . import __version__
 
 parser = argparse.ArgumentParser(
     'Sugar Appstore generator',
@@ -139,7 +140,13 @@ parser.add_argument(
     action='store_true',
     help="Include python2 support (sugar-activity)"
 )
+parser.add_argument(
+    '--version',
+    action='store_true',
+    help="Show the version"
+)
 args = parser.parse_args()
+
 
 DEPENDENCIES_PYTHON2 = (
     'python2', 'sugar-activity'
@@ -191,6 +198,14 @@ def check_progressbar(*arg, **kwarg):
         return progressbar(*arg, **kwarg)
     else:
         return list(*arg)
+
+
+if args.version:
+    cprint("Sugarlabs Appstore Generator Tool", "green")
+    print(__version__)
+    print()
+    pre_check_dependencies(DEPENDENCIES)
+    sys.exit()
 
 
 class SaaSBuild:
