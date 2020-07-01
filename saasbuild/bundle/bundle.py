@@ -331,8 +331,16 @@ class Bundle:
         except subprocess.TimeoutExpired:
             print("[ERR] TimeoutExpired: Skipping activity build.")
             exit_code = -99
+
+        # wait for process to complete
+        exit_code = wait_for_process_completion(proc)
+        if exit_code:
+            # process did not complete successfully
             return exit_code, '', ''
+
+        # read the stdout and stderr
         out, err = proc.communicate()
+
         if not exit_code:
             dist_path = os.path.join(self.get_activity_dir(), 'dist')
             bundle = get_latest_bundle(dist_path)
@@ -347,6 +355,7 @@ class Bundle:
         otherwise installed to system `/usr` level
         :return:
         """
+        # get optional flags
         flags = '' if system else '--user'
         python_exe = get_executable_path(
             'python3', False) or get_executable_path('python')
