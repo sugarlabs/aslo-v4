@@ -67,12 +67,14 @@ parser.add_argument(
 parser.add_argument(
     '--build-entrypoint',
     default='',
-    help='Specify a path to any Linux compatible script which is intended to be executed on every build'
+    help='Specify a path to any Linux compatible script '
+         'which is intended to be executed on every build'
 )
 parser.add_argument(
     '--build-override',
     action='store_true',
-    help='Override `python setup.py dist_xo` with --build-entrypoint argument shell script'
+    help='Override `python setup.py dist_xo` with '
+         '--build-entrypoint argument shell script'
 )
 parser.add_argument(
     '--build-chdir',
@@ -87,7 +89,8 @@ parser.add_argument(
 parser.add_argument(
     '-g', '--generate-static-html',
     action='store_true',
-    help='Start the process of HTML generation. (pass -b, if you are unsure if bundles are already created)'
+    help='Start the process of HTML generation. '
+         '(pass -b, if you are unsure if bundles are already created)'
 )
 parser.add_argument(
     '-x', '--generate-sitemap',
@@ -103,8 +106,8 @@ parser.add_argument(
     '-p',
     '--pull-static-css-js-html',
     default='',
-    help="Provide the path to js, css and index.html "
-    "(ideally from https://github.com/sugarlabs-appstore/sugarappstore-static)")
+    help="Provide the path to js, css and index.html (ideally from "
+    "https://github.com/sugarlabs-appstore/sugarappstore-static)")
 parser.add_argument(
     '-u', '--unique-icons',
     action='store_true',
@@ -118,12 +121,14 @@ parser.add_argument(
 parser.add_argument(
     '-s', '--include-screenshots',
     action='store_true',
-    help="Includes screenshots of activity if its found as <activity>/screenshots/*.png"
+    help="Includes screenshots of activity if its found as"
+         " <activity>/screenshots/*.png"
 )
 parser.add_argument(
     '-f', '--include-flatpaks',
     action='store_true',
-    help="Includes a flatpak description card if the activity has a valid flatpak registered under flathub.org"
+    help="Includes a flatpak description card if the activity "
+         "has a valid flatpak registered under flathub.org"
 )
 parser.add_argument(
     '-y', '--noconfirm',
@@ -162,7 +167,7 @@ if args.no_colors:
     os.environ['SAAS_NO_COLORS'] = 'true'
 
 
-def verbose(x):
+def debug(x):
     if args.verbose:
         print(x)
 
@@ -228,9 +233,12 @@ class SaaSBuild:
             dependencies += DEPENDENCIES_PYTHON2
         pre_check_dependencies(dependencies)
 
-        self.include_screenshots = args.include_screenshots or include_screenshots
-        self.include_flatpaks = args.include_flatpaks or include_flatpaks
-        self.progress_bar_disabled = args.disable_progress_bar or progress_bar_disabled
+        self.include_screenshots = \
+            args.include_screenshots or include_screenshots
+        self.include_flatpaks = \
+            args.include_flatpaks or include_flatpaks
+        self.progress_bar_disabled = \
+            args.disable_progress_bar or progress_bar_disabled
         if args.list_activities or list_activities:
             activities = self.list_activities()
             if not activities:
@@ -338,7 +346,8 @@ class SaaSBuild:
                 build_command_chdir=args.build_chdir
             )
             if err:
-                print("[BUILD][W] {} build completed with warnings.".format(activities[i]))
+                print("[BUILD][W] {} build completed "
+                      "with warnings.".format(activities[i]))
                 num_completed_warnings += 1
             elif ecode:
                 print(
@@ -351,7 +360,8 @@ class SaaSBuild:
             else:
                 num_completed_success += 1
         print(
-            "[BUILD] Created {success} bundles successfully, {warn} bundles with warnings and "
+            "[BUILD] Created {success} bundles successfully, "
+            "{warn} bundles with warnings and "
             "{failed} with errors".format(
                 success=num_completed_success,
                 warn=num_completed_warnings,
@@ -369,8 +379,9 @@ class SaaSBuild:
             if os.path.exists(rel_path):
                 if not args.noconfirm:
                     # ask user for confirmation before removing directory
-                    proceed = input(
-                        "The operation will remove {}. Are you sure you want to proceed? (Y/n) ".format(rel_path))
+                    proceed = input("The operation will remove {}. "
+                                    "Are you sure you want to proceed? "
+                                    "(Y/n) ".format(rel_path))
                     if proceed not in ('y', 'Y'):
                         print("Terminated on user request.")
                         sys.exit(-1)
@@ -394,8 +405,8 @@ class SaaSBuild:
         ):
 
             # get the bundle and icon path
-            bundle_path = bundle.get_bundle_path()
-            icon_path = bundle.get_icon_path()
+            # bundle_path = bundle.get_bundle_path()
+            # icon_path = bundle.get_icon_path()
             sitemap_content.append(
                 SITEMAP_URL.format(
                     url="{domain}/app/{bundle_name}.html".format(
@@ -410,22 +421,28 @@ class SaaSBuild:
             w.write(SITEMAP_HEADER.format(content=''.join(sitemap_content)))
         print("sitemap.xml written successfully")
 
-    def generate_web_page(self, output_dir=None, include_flatpaks=False, include_screenshots=False):
+    def generate_web_page(
+            self, output_dir=None,
+            include_flatpaks=False,
+            include_screenshots=False
+    ):
         """
         Generates web page static files
         """
         include_flatpaks = include_flatpaks or self.include_flatpaks
         include_screenshots = include_screenshots or self.include_screenshots
-        flatpak_file = os.path.join(os.path.dirname(__file__), 'data', 'flatpak.json')
+        flatpak_file = os.path.join(
+            os.path.dirname(__file__), 'data', 'flatpak.json')
         flatpak_bundle_info = dict()
-        verbose("[STATIC] Starting Web Page Static Generation")
+        debug("[STATIC] Starting Web Page Static Generation")
 
         if include_flatpaks and os.path.exists(flatpak_file):
-            verbose("[STATIC] Reading flatpak.json")
+            debug("[STATIC] Reading flatpak.json")
             with open(flatpak_file, 'r') as r:
                 flatpak_bundle_info = json.load(r)
         elif include_flatpaks:
-            print("[ERR] flatpak.json was not found in data/.; Please get a new copy from the source")
+            print("[ERR] flatpak.json was not found in data/.; "
+                  "Please get a new copy from the source")
             print("[ERR] Ignoring error and continuing to process bundles. ")
 
         if output_dir is None:
@@ -433,12 +450,12 @@ class SaaSBuild:
 
         output_icon_dir = os.path.join(output_dir, 'icons')
         output_bundles_dir = os.path.join(output_dir, 'bundles')
-        verbose("[STATIC] Output directory: {}".format(output_dir))
-        verbose("[STATIC] Output icon directory: {}".format(output_icon_dir))
-        verbose("[STATIC] Output bundle directory: {}".format(output_bundles_dir))
+        debug("[STATIC] Output directory:{}".format(output_dir))
+        debug("[STATIC] Output icon directory:{}".format(output_icon_dir))
+        debug("[STATIC] Output bundle directory:{}".format(output_bundles_dir))
 
         # create the directories
-        verbose("[STATIC] Creating static directories: [icons, bundles, app]")
+        debug("[STATIC] Creating static directories: [icons, bundles, app]")
         self.create_web_static_directories(output_dir)
 
         # get the bundles
@@ -448,18 +465,19 @@ class SaaSBuild:
             redirect_stdout=True,
             enable_progressbar=not self.progress_bar_disabled
         ):
-            verbose("[STATIC][{}] Starting build".format(bundle.get_name()))
+            debug("[STATIC][{}] Starting build".format(bundle.get_name()))
             # get the bundle and icon path
             bundle_path = bundle.get_bundle_path()
             icon_path = bundle.get_icon_path()
 
             if not bundle_path:
-                verbose("[STATIC][{}] Valid dist *.xo was not found. Skipping .".format(bundle.get_name()))
+                debug("[STATIC][{}] Valid dist *.xo was not found. "
+                      "Skipping .".format(bundle.get_name()))
                 # the path to a bundle does not exist
                 # possibly the bundle was not generated / had bugs
                 continue
 
-            verbose("[STATIC][{}] Processing tags".format(bundle.get_name()))
+            debug("[STATIC][{}] Processing tags".format(bundle.get_name()))
             # Get the tags and process it
             tags = bundle.get_tags()
             tags_html_list = []
@@ -467,11 +485,12 @@ class SaaSBuild:
                 tags_html_list.append("<p> No tags found &#128531; </p>")
             for tag in tags:
                 tags_html_list.append(
-                    '<span class="badge badge-primary saas-badge">{tag}</span>'.format(tag=tag)
+                    '<span class="badge badge-primary saas-badge">'
+                    '{tag}</span>'.format(tag=tag)
                 )
 
             # Get the authors and process it
-            verbose("[STATIC][{}] Processing authors".format(bundle.get_name()))
+            debug("[STATIC][{}] Processing authors".format(bundle.get_name()))
             authors = bundle.get_authors()
             authors_html_list = []
             for author in authors:
@@ -482,31 +501,36 @@ class SaaSBuild:
                 )
 
             # Changelog gen
-            verbose("[STATIC][{}] Processing news".format(bundle.get_name()))
+            debug("[STATIC][{}] Processing news".format(bundle.get_name()))
             changelog_latest_version = bundle.get_news()
             html_changelog_latest_version = list()
             if changelog_latest_version:
-                changelog_latest_version = html.escape(changelog_latest_version)
+                changelog_latest_version = \
+                    html.escape(changelog_latest_version)
                 html_changelog_latest_version = list()
                 for log in changelog_latest_version.split('\n'):
                     log_parsed = log[0:2].replace('*', '') + log[2:]
-                    html_changelog_latest_version.append('<li>{}</li>'.format(log_parsed))
+                    html_changelog_latest_version.append(
+                        '<li>{}</li>'.format(log_parsed))
                 if len(html_changelog_latest_version) >= 1:
                     if html_changelog_latest_version[-1] == "<li></li>":
                         html_changelog_latest_version.pop()
                 else:
-                    html_changelog_latest_version.append("<li>Nothing here :( </li>")
+                    html_changelog_latest_version.append(
+                        "<li>Nothing here :( </li>")
             else:
-                html_changelog_latest_version.append("<li>Nothing here :( </li>")
+                html_changelog_latest_version.append(
+                    "<li>Nothing here :( </li>")
 
             # changelog all
-            verbose("[STATIC][{}] Processing changelog".format(bundle.get_name()))
+            debug("[STATIC][{}] "
+                  "Processing changelog".format(bundle.get_name()))
             changelog = bundle.get_changelog()
             if changelog:
                 changelog = html.escape(changelog)
 
             # get Licenses
-            verbose("[STATIC][{}] Processing Licenses".format(bundle.get_name()))
+            debug("[STATIC][{}] Processing Licenses".format(bundle.get_name()))
             licenses = bundle.get_license()
             parsed_licenses = list()
             html_parsed_licenses = list()
@@ -514,12 +538,16 @@ class SaaSBuild:
                 if i and not i.isspace():
                     parsed_licenses.append(i.strip())
             for i in parsed_licenses:
-                html_parsed_licenses.append('<span class="badge badge-info">{lic}</span> '.format(lic=i))
+                html_parsed_licenses.append(
+                    '<span class="badge badge-info">'
+                    '{lic}</span>'.format(lic=i))
             if not parsed_licenses:
-                html_parsed_licenses.append('<span class="badge badge-warning">NOASSERTION</span> ')
+                html_parsed_licenses.append(
+                    '<span class="badge badge-warning">NOASSERTION</span> ')
 
             # copy deps to respective folders
-            verbose("[STATIC][{}] Copying Dependencies".format(bundle.get_name()))
+            debug("[STATIC][{}] "
+                  "Copying Dependencies".format(bundle.get_name()))
             _bundle_path = shutil.copy2(
                 bundle_path, output_bundles_dir, follow_symlinks=True)
             if args.unique_icons:
@@ -535,31 +563,36 @@ class SaaSBuild:
                     icon_path, output_icon_dir, follow_symlinks=True)
 
             # get git url
-            verbose("[STATIC][{}] Getting URL to git repository".format(bundle.get_name()))
+            debug("[STATIC][{}] "
+                  "Getting URL to git repository".format(bundle.get_name()))
             bundle_git_url_stripped = bundle.get_git_url()
             if isinstance(bundle_git_url_stripped, str) and \
                     bundle_git_url_stripped[-4:] == ".git":
                 bundle_git_url_stripped = bundle_git_url_stripped[:-4]
 
             # check if flatpak is supported
-            verbose("[STATIC][{}] Checking flatpak support".format(bundle.get_name()))
-            if include_flatpaks and flatpak_bundle_info.get(bundle_git_url_stripped):
+            debug("[STATIC][{}] "
+                  "Checking flatpak support".format(bundle.get_name()))
+            if include_flatpaks and \
+                    flatpak_bundle_info.get(bundle_git_url_stripped):
                 flatpak_html_div = FLATPAK_HTML_TEMPLATE.format(
                     activity_name=bundle.get_name(),
-                    bundle_id=flatpak_bundle_info.get(bundle_git_url_stripped)['bundle-id']
+                    bundle_id=flatpak_bundle_info.get(
+                        bundle_git_url_stripped)['bundle-id']
                 )
             else:
                 flatpak_html_div = ""
 
             # if screenshots need to be added as in a carousel, add them
-            verbose("[STATIC][{}] Adding screenshots".format(bundle.get_name()))
+            debug("[STATIC][{}] Adding screenshots".format(bundle.get_name()))
             carousel_div = ""
             screenshots_list = bundle.get_screenshots()
             if include_screenshots and len(screenshots_list) >= 1:
                 carousel_indicators = list()
                 carousel_images = list()
                 # copy files to their respective folders
-                screenshot_dir = os.path.join(output_dir, 'app', bundle.get_bundle_id())
+                screenshot_dir = \
+                    os.path.join(output_dir, 'app', bundle.get_bundle_id())
                 if os.path.exists(screenshot_dir):
                     shutil.rmtree(screenshot_dir, ignore_errors=True)
                 os.makedirs(screenshot_dir)
@@ -595,13 +628,14 @@ class SaaSBuild:
 
             # get the HTML_TEMPLATE and annotate with the saved
             # information
-            verbose("[STATIC][{}] Writing static HTML".format(bundle.get_name()))
+            debug("[STATIC][{}] Writing static HTML".format(bundle.get_name()))
             parsed_html = HTML_TEMPLATE.format(
                 title=bundle.get_name(),
                 version=bundle.get_version(),
                 summary=bundle.get_summary(),
                 licenses=''.join(html_parsed_licenses),
-                description='Nothing here yet!',  # TODO: Extract from README.md
+                description='Nothing here yet!',
+                # TODO: Extract from README.md
                 bundle_path='../bundles/{}'.format(
                     _bundle_path.split(os.path.sep)[-1]),
                 tag_list_html_formatted=''.join(tags_html_list),
@@ -624,25 +658,23 @@ class SaaSBuild:
                 w.write(parsed_html)
 
             # update the index files
-            verbose("[STATIC][{}] Adding JSON".format(bundle.get_name()))
+            debug("[STATIC][{}] Adding JSON".format(bundle.get_name()))
             self.index.append(
                 bundle.generate_fingerprint_json(
                     unique_icons=args.unique_icons))
 
-        verbose("[STATIC] Writing Index file (index.json)")
+        debug("[STATIC] Writing Index file (index.json)")
         # write the json to the file
         with open(os.path.join(output_dir, 'index.json'), 'w') as w:
             json.dump(self.index, w)
-        print(
-            "Index file containing {n} items have been written successfully".format(
-                n=len(
-                    self.index)))
+        print("Index file containing {n} items have been written "
+              "successfully".format(n=len(self.index)))
 
         # pull the files and unpack it if necessary
         if args.pull_static_css_js_html:
-            verbose("[STATIC] Copying dependant js and css")
+            debug("[STATIC] Copying dependant js and css")
             self.unpack_static(extract_dir=output_dir)
-        verbose("[STATIC] Process Completed")
+        debug("[STATIC] Process Completed")
 
     @staticmethod
     def unpack_static(extract_dir):

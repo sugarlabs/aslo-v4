@@ -50,7 +50,9 @@ ATTRIBUTES = dict(
         )
 del ATTRIBUTES['']
 
-ATTRIBUTES_RE = '\033\[(?:%s)m' % '|'.join(['%d' % v for v in ATTRIBUTES.values()])
+ATTRIBUTES_RE = '\033\[(?:%s)m' % '|'.join(  # noqa:
+    ['%d' % v for v in ATTRIBUTES.values()]
+)
 
 HIGHLIGHTS = dict(
         list(zip([
@@ -67,7 +69,9 @@ HIGHLIGHTS = dict(
             ))
         )
 
-HIGHLIGHTS_RE = '\033\[(?:%s)m' % '|'.join(['%d' % v for v in HIGHLIGHTS.values()])
+HIGHLIGHTS_RE = '\033\[(?:%s)m' % '|'.join(  # noqa:
+    ['%d' % v for v in HIGHLIGHTS.values()]
+)
 
 COLORS = dict(
         list(zip([
@@ -84,10 +88,12 @@ COLORS = dict(
             ))
         )
 
-COLORS_RE = '\033\[(?:%s)m' % '|'.join(['%d' % v for v in COLORS.values()])
+COLORS_RE = '\033\[(?:%s)m' % '|'.join(  # noqa:
+    ['%d' % v for v in COLORS.values()]
+)
 
-RESET = '\033[0m'
-RESET_RE = '\033\[0m'
+RESET = '\033[0m'  # noqa:
+RESET_RE = '\033\[0m'  # noqa:
 
 
 def colored(text, color=None, on_color=None, attrs=None):
@@ -168,13 +174,11 @@ if __name__ == '__main__':
     cprint('Reversed blue color', 'blue', attrs=['reverse'])
     cprint('Concealed Magenta color', 'magenta', attrs=['concealed'])
     cprint('Bold underline reverse cyan color', 'cyan',
-            attrs=['bold', 'underline', 'reverse'])
+           attrs=['bold', 'underline', 'reverse'])
     cprint('Dark blink concealed white color', 'white',
-            attrs=['dark', 'blink', 'concealed'])
+           attrs=['dark', 'blink', 'concealed'])
     print(('-' * 78))
 
     print('Test mixing:')
-    cprint('Underline red on grey color', 'red', 'on_grey',
-            ['underline'])
+    cprint('Underline red on grey color', 'red', 'on_grey', ['underline'])
     cprint('Reversed green on red color', 'green', 'on_red', ['reverse'])
-
