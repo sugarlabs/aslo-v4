@@ -543,11 +543,17 @@ class Bundle:
         """
         Reads the NEWS file in a directory; if it does not exist return None
         """
+        if self.is_xo:
+            try:
+                return self.archive.read(os.path.join(self.bundle_prefix, 'NEWS')).decode()
+            except KeyError:
+                return
         news_file = os.path.join(self.get_activity_dir(), 'NEWS')
         if not os.path.exists(news_file):
             return
         with open(news_file, 'r') as r:
             news_file_instance = r.read()
+
         return news_file_instance
 
     def get_git_url(self):
