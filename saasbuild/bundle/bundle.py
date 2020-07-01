@@ -764,7 +764,7 @@ class Bundle:
             # process did not complete successfully
             # hence no git url
             return None
-        out, err = url_process.communicate()
+        out, _ = url_process.communicate()
         url = out.decode().split('\n')
         if len(url) >= 1:
             return url[0]

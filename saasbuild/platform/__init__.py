@@ -43,11 +43,10 @@ def get_executable_path(executable, raise_error=True):
     for i in PATH:
         if os.path.exists(os.path.join(i, executable)):
             return os.path.join(i, executable)
+    if raise_error:
+        raise FileNotFoundError(
+            "Could not find {p} on PATH. "
+            "Make sure {p} is added to path and try again".format(
+                p=executable))
     else:
-        if raise_error:
-            raise FileNotFoundError(
-                "Could not find {p} on PATH. "
-                "Make sure {p} is added to path and try again".format(
-                    p=executable))
-        else:
-            return False
+        return False

@@ -180,8 +180,7 @@ def pre_check_dependencies(dependencies=DEPENDENCIES):
         print("Checking {}... ".format(dependency), end="")
         exe = get_executable_path(dependency)
         cprint("Found at {}".format(exe), 'green')
-    else:
-        print()
+    print()
 
 
 def copytree(src, dst, symlinks=False, ignore=None):
@@ -340,7 +339,7 @@ class SaaSBuild:
         ):
             print("[BUILD] Building ", activities[i])
             # Add an option to provide additional build script
-            ecode, out, err = activities[i].do_generate_bundle(
+            ecode, _, err = activities[i].do_generate_bundle(
                 override_dist_xo=override,
                 entrypoint_build_command=entrypoint_build_script,
                 build_command_chdir=args.build_chdir
