@@ -420,6 +420,15 @@ class SaaSBuild:
         """
         # Get the authors and process it
 
+        authors = bundle.get_authors()
+        authors_html_list = []
+        for author in authors:
+            authors_html_list.append(
+                '<span class="badge badge-secondary saas-badge">{author}  '
+                '<span class="badge badge-dark">{commits}</span>'
+                '</span>'.format(author=author, commits=authors[author])
+            )
+        return authors_html_list
     def generate_sitemap(self, domain=args.generate_sitemap):
         """
         Generates sitemap.xml
