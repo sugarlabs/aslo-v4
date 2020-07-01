@@ -161,9 +161,10 @@ class Bundle:
             'screenshots', '').split()
 
         # bundle specific variables
-        self._bundle_path = get_latest_bundle(
-            os.path.join(self.get_activity_dir(), 'dist')
-        )
+        self._bundle_path = self.activity_path \
+            if self.is_xo else get_latest_bundle(
+                os.path.join(self.get_activity_dir(), 'dist')
+            )
 
     def __repr__(self):
         return '{name} ({path})'.format(
