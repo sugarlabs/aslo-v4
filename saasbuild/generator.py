@@ -181,7 +181,8 @@ def copytree(src, dst, symlinks=False, ignore=None):
             try:
                 shutil.copytree(s, d, symlinks, ignore)
             except FileExistsError:
-                pass
+                shutil.rmtree(d)
+                shutil.copytree(s, d, symlinks, ignore)
         else:
             shutil.copy2(s, d)
 
@@ -197,7 +198,6 @@ class SaaSBuild:
     """
     The helper object to quickly create bundles and generate html web pages
     """
-
     def __init__(
             self,
             list_activities=False,
