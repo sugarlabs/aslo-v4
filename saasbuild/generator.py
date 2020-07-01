@@ -30,6 +30,7 @@ import os
 import time
 import shutil
 import sys
+import zipfile
 from urllib.parse import quote
 
 from .bundle.bundle import Bundle
@@ -41,6 +42,8 @@ from .constants import CAROUSEL_ITEM_HTML_TEMPLATE
 from .constants import CAROUSEL_INDICATOR_HTML_TEMPLATE
 from .constants import CAROUSEL_HTML_TEMPLATE
 from .lib.progressbar import progressbar
+from .lib.termcolors import cprint
+from .platform import get_executable_path
 
 parser = argparse.ArgumentParser(
     'Sugar Appstore generator',
