@@ -130,6 +130,11 @@ parser.add_argument(
     action='store_true',
     help="Replace output directory (default: always ask)"
 )
+parser.add_argument(
+    '-c', '--no-colors',
+    action='store_true',
+    help="Suppress colors in terminal (default: env ANSI_COLORS_DISABLED)"
+)
 args = parser.parse_args()
 
 
