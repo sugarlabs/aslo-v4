@@ -232,7 +232,7 @@ class SaaSBuild:
                 self.generate_sitemap()
 
     @staticmethod
-    def list_activities(path_to_search_xo=None):
+    def list_activities(path_to_search_xo=None, do_not_search_for_xo=False):
         """
         Generates a list<Bundle> of detected activities
         >>> sb = SaaSBuild()
