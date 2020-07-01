@@ -135,6 +135,11 @@ parser.add_argument(
     action='store_true',
     help="Suppress colors in terminal (default: env ANSI_COLORS_DISABLED)"
 )
+parser.add_argument(
+    '-z', '--include-python2',
+    action='store_true',
+    help="Include python2 support (sugar-activity)"
+)
 args = parser.parse_args()
 
 
