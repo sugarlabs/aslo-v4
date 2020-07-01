@@ -7,6 +7,9 @@ setup(
     url='https://github.com/sugarlabs-appstore/sugarappstore',
     license='MIT',
     author='srevinsaju',
+    package_data={
+        'saasbuild': ['data/flatpak.json', 'assets/activity-helloworld.svg']
+    },
     author_email='srevinsaju@sugarlabs.org',
     description='A python package to build sugar app store',
     include_package_data=True,
