@@ -205,7 +205,7 @@ class Bundle:
         :return:
         """
         if self.screenshots and use_activity_info:
-            return self.screenshots
+            return self.screenshots  # likely to be live URLs
         else:
             screenshots = []
             for path in Path(os.path.join(self.get_activity_dir(), 'screenshots')).rglob('*.png'):
