@@ -85,16 +85,55 @@ class InvalidBundleError(BundleError):
 
 
 class Bundle:
-    def __init__(self, activity_info_path):
+    def __init__(self, activity_path):
         """
         Generates a information
-        :param activity_info_path: A full realpath to activity.info
+        :param activity_path: A full realpath to the bundle.
+        The bundle should have activity/activity.info
         """
-        self.activity_info_path = activity_info_path
+        # initialize config parser
+        config = ConfigParser()
+        self._is_xo = False
+        self._is_invalid = False
+        # path to activity dir / .xo
+        self.activity_path = activity_path
+
+        if str(activity_path).endswith('.xo'):
+            self._is_xo = True
+            # its a zipped .xo
+            # read the contents from the zip file
+            self.archive = zipfile.ZipFile(activity_path)
+
+            # extract temporary activity name from the archive
+            __activity_name = '-'.join(activity_path.split(os.path.sep)[-1].split('-')[:-1])
+
+            self.bundle_prefix = "{}.activity".format(__activity_name)
+            try:
+                activity_info_file = self.archive.read(
+                    '{activity_name}.activity/activity/activity.info'
+                    .format(activity_name=__activity_name)
+                ).decode()
+            except KeyError:
+                # raises KeyError if the bundle does not have
+                # an activity.info file
+                self._is_invalid = True
+                print(
+                    "[ERR][BUNDLE] {} is an invalid bundle. "
+                    "Provided bundle does not contain activity.info file"
+                    .format(__activity_name)
+                )
+                return
+            config.read_string(activity_info_file)
+
+        else:
+            self._is_xo = False
+            # not a bundle. This is a directory
+            config.read(self.activity_info_path)
+
+        self.activity_info_path = \
+            os.path.join(activity_path, 'activity', 'activity.info')
 
         # Read the activity.info and derive attributes
-        config = ConfigParser()
-        config.read(self.activity_info_path)
         if 'Activity' not in config:
             # if the activity does not have a section [Activity]
             # it then might be an invalid activity file
