@@ -22,10 +22,8 @@ along with SAAS.  If not, see <https://www.gnu.org/licenses/>.
 
 import hashlib
 import os
-import re
 import shlex
 import subprocess
-import uuid
 from configparser import ConfigParser
 from pathlib import Path
 
