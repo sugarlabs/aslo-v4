@@ -2,7 +2,7 @@ from setuptools import setup
 
 setup(
     name='sugarstore-generator',
-    version='0.1',
+    version='0.1.alpha',
     packages=['saasbuild', 'saasbuild.lib', 'saasbuild.lib.progressbar', 'saasbuild.bundle', 'saasbuild.platform'],
     url='https://github.com/sugarlabs-appstore/sugarappstore',
     license='MIT',
