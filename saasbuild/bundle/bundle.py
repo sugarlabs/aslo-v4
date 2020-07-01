@@ -400,11 +400,6 @@ class Bundle:
             stderr=subprocess.PIPE,
             stdout=subprocess.PIPE
         )
-        try:
-            exit_code = proc.wait(timeout=120)
-        except subprocess.TimeoutExpired:
-            print("[ERR] TimeoutExpired: Skipping activity build.")
-            exit_code = -99
 
         # wait for process to complete
         exit_code = wait_for_process_completion(proc)
@@ -431,6 +426,25 @@ class Bundle:
         """
         # get optional flags
         flags = '' if system else '--user'
+
+        # check if the current activity is already a bundle
+        if self.is_xo:
+            # I am a bundle. Install it by sugar-install-build provided
+            # by the sugar-toolkit-gtk3 package
+            sugar_install_bundle_exe = get_executable_path('sugar-install-bundle')
+            proc = subprocess.Popen(
+                _s("{exe} {activity_xo} {flag}".format(
+                    exe=sugar_install_bundle_exe,
+                    activity_xo=self.activity_path,
+                    flag=flags)),
+                cwd=self.get_activity_dir(),
+                stderr=subprocess.PIPE,
+                stdout=subprocess.PIPE
+            )
+            exit_code = wait_for_process_completion(proc, retry=True)
+            out, err = proc.communicate()
+            return exit_code, out.decode(), err.decode()
+
         python_exe = get_executable_path(
             'python3', False) or get_executable_path('python')
         proc = subprocess.Popen(
