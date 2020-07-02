@@ -58,7 +58,7 @@ jobs:
 
 
   Release:
-    needs: [Windows, AppImage, Wheel]
+    needs: [AppImage, Wheel]
     runs-on: ubuntu-latest
     strategy:
       matrix:
