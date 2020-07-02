@@ -1,0 +1,62 @@
+{
+  "https://github.com/sugarlabs/activity-abacus": {
+    "bundle-id": "org.sugarlabs.AbacusActivity"
+  },
+  "https://github.com/sugarlabs/chart": {
+    "bundle-id": "org.sugarlabs.Chart"
+  },
+  "https://github.com/sugarlabs/colordeducto": {
+    "bundle-id": "org.sugarlabs.ColorDeducto"
+  },
+  "https://github.com/sugarlabs/dimensions": {
+    "bundle-id": "org.sugarlabs.Dimensions"
+  },
+  "https://github.com/sugarlabs/finance-activity": {
+    "bundle-id": "org.sugarlabs.Finance"
+  },
+  "https://github.com/sugarlabs/fototoon-activity": {
+    "bundle-id": "org.sugarlabs.FotoToon"
+  },
+  "https://github.com/sugarlabs/fractionbounce": {
+    "bundle-id": "org.sugarlabs.FractionBounce"
+  },
+  "https://github.com/sugarlabs/implode-activity": {
+    "bundle-id": "org.sugarlabs.ImplodeActivity"
+  },
+  "https://github.com/sugarlabs/maze-activity": {
+    "bundle-id": "org.sugarlabs.Maze"
+  },
+  "https://github.com/sugarlabs/Measure": {
+    "bundle-id": "org.sugarlabs.Measure"
+  },
+  "https://github.com/sugarlabs/memorize-activity": {
+    "bundle-id": "org.sugarlabs.Memorize"
+  },
+  "https://github.com/godiard/music-keyboard-activity": {
+    "bundle-id": "org.sugarlabs.MusicKeyboard"
+  },
+  "https://github.com/sugarlabs/physics": {
+    "bundle-id": "org.sugarlabs.Physics"
+  },
+  "https://github.com/sugarlabs/Pippy": {
+    "bundle-id": "org.sugarlabs.Pippy"
+  },
+  "https://github.com/sugarlabs/readetexts": {
+    "bundle-id": "org.sugarlabs.ReadETexts"
+  },
+  "https://github.com/sugarlabs/slideruler": {
+    "bundle-id": "org.sugarlabs.Sliderule"
+  },
+  "https://github.com/sugarlabs/speak": {
+    "bundle-id": "org.sugarlabs.Speak"
+  },
+  "https://github.com/sugarlabs/story": {
+    "bundle-id": "org.sugarlabs.StoryActivity"
+  },
+  "https://github.com/sugarlabs/turtlepond": {
+    "bundle-id": "org.sugarlabs.TurtlePondActivity"
+  },
+  "https://github.com/sugarlabs/words-activity": {
+    "bundle-id": "org.sugarlabs.Words"
+  }
+}
