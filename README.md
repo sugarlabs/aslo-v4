@@ -11,6 +11,10 @@
 Sugar App Store is an app store to distribute apps
 and games made for sugar, which are commonly known as sugar-activities.
 
+### Install from PyPI
+```bash
+pip3 install sugarstore-generator
+```
 
 ## Setup
 * Clone the repository
