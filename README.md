@@ -1,13 +1,16 @@
-# sugarappstore
+![sugarlabs appstore logo](https://raw.githubusercontent.com/sugarlabs-appstore/appstore-assets/master/sugarappstore.svg)
 
+# sugarappstore
 
 [![Netlify Status](https://api.netlify.com/api/v1/badges/4f6dde9a-8b1c-4e8e-9f2f-13f453988e82/deploy-status)](https://app.netlify.com/sites/sugarstore/deploys)
 
 [![Codacy Badge](https://api.codacy.com/project/badge/Grade/c61d2501dca44ccbbd8b590470330b32)](https://app.codacy.com/gh/sugarlabs-appstore/sugarappstore?utm_source=github.com&utm_medium=referral&utm_content=sugarlabs-appstore/sugarappstore&utm_campaign=Badge_Grade_Dashboard)
 
-
+[![PyPI - Python Version](https://img.shields.io/pypi/pyversions/sugarstore-generator?style=flat-square) ![PyPI - Wheel](https://img.shields.io/pypi/wheel/sugarstore-generator?style=flat-square) ![PyPI](https://img.shields.io/pypi/v/sugarstore-generator?style=flat-square)](https://pypi.org/project/sugarstore-generator/)
+![GitHub repo size](https://img.shields.io/github/repo-size/sugarlabs-appstore/sugarappstore?style=flat-square) ![GitHub commits since latest release (by SemVer)](https://img.shields.io/github/commits-since/sugarlabs-appstore/sugarappstore/latest/master?sort=semver&style=flat-square) ![GitHub](https://img.shields.io/github/license/sugarlabs-appstore/sugarappstore?style=flat-square)
 
 ## Introduction
+
 Sugar App Store is an app store to distribute apps
 and games made for sugar, which are commonly known as sugar-activities.
 
