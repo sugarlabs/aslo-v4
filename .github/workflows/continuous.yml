@@ -48,6 +48,7 @@ jobs:
         echo $(realpath .) > appimage/requirements.txt
         python -m python_appimage build app appimage \
                                             --linux-tag=manylinux1_x86_64
+        ls
 
     - name: Upload artifact
       uses: actions/upload-artifact@v1.0.0
