@@ -55,7 +55,7 @@ jobs:
       uses: actions/upload-artifact@v1.0.0
       with:
         name: saasbuild-continuous-x86_64.AppImage
-        path: saasbuild-x86_64.AppImage
+        path: appimage-x86_64.AppImage
 
 
 
