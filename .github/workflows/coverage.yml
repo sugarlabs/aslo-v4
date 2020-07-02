@@ -102,7 +102,7 @@ jobs:
 
         python3 -m saasbuild -i $(realpath ../activities) -l
         echo "building bundle and regenerating appstore"
-        /home/runner/.local/bin/coverage run -m saasbuild -i $(realpath ../activities) -lbguypfs sugarappstore-static -x https://sugarstore.netlify.app
+        /home/runner/.local/bin/coverage run -m saasbuild -i $(realpath ../activities) -lbguyfs -p ../sugarappstore-static -x https://sugarstore.netlify.app
         echo "Compressing and prepareing for upload"
         tar -czvf saas.tar.gz ./saas_compiled
         bash <(curl -s https://codecov.io/bash)
