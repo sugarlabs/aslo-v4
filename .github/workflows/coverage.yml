@@ -82,7 +82,7 @@ jobs:
         git clone https://github.com/sugarlabs/GSoC
         git clone https://github.com/sugarlabs/pointillism
         cd ..
-2
+
 
     - name: Get tools
       env:
