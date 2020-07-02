@@ -1,0 +1,16 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<component type="desktop-application">
+	<id>saasbuild</id>
+	<name>saasbuild</name>
+    <metadata_license>MIT</metadata_license>
+    <project_license>AGPL3+</project_license>
+    <summary>Tools for generating Sugar App Store website</summary>
+    <description>
+        <p>Sugar App Store is an app store to distribute apps and games made for sugar, which are commonly known as sugar-activities.</p>
+    </description>
+    
+    <url type="homepage">https://github.com/sugarlabs-appstore/saasbuild</url>
+    <provides>
+        <binary>python{{ python-version }}</binary>
+    </provides>
+</component>
