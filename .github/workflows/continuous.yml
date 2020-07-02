@@ -28,38 +28,8 @@ jobs:
         name: saasbuild-continuous-none-any-py3.whl
         path: dist/${{ env.VERSION }}
 
-  AppImage:
-    runs-on: ubuntu-18.04
-    strategy:
-      matrix:
-        version: ['3.8']
-
-    steps:
-    - uses: actions/checkout@v2
-    - uses: actions/setup-python@v1
-      with:
-        python-version: ${{ matrix.version }}
-    - name: Download dependencies
-      run: |
-        sudo apt install libxkbcommon0 libxcb-xkb-dev libxkbcommon-x11-0 libxcb-xkb1
-    - name: Test AppImage
-      run: |
-        python -m pip install python-appimage
-        echo $(realpath .) > appimage/requirements.txt
-        python -m python_appimage build app appimage \
-                                            --linux-tag=manylinux1_x86_64
-
-
-    - name: Upload artifact
-      uses: actions/upload-artifact@v1.0.0
-      with:
-        name: saasbuild-continuous-x86_64.AppImage
-        path: appimage-x86_64.AppImage
-
-
-
   Release:
-    needs: [AppImage, Wheel]
+    needs: [Wheel]
     runs-on: ubuntu-latest
     strategy:
       matrix:
@@ -70,9 +40,6 @@ jobs:
     - uses: actions/download-artifact@v1
       with:
         name: saasbuild-continuous-none-any-py3.whl
-    - uses: actions/download-artifact@v1
-      with:
-        name: saasbuild-continuous-x86_64.AppImage
 
     - name: Release
       uses: marvinpinto/action-automatic-releases@latest
@@ -81,7 +48,6 @@ jobs:
         automatic_release_tag: continuous
         title: continuous
         files: |
-          saasbuild-continuous-x86_64.AppImage
           saasbuild-continuous-none-any-py3.whl
           
         repo_token: ${{ secrets.GITHUB_TOKEN }}
