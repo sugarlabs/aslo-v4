@@ -82,8 +82,7 @@ jobs:
         git clone https://github.com/sugarlabs/GSoC
         git clone https://github.com/sugarlabs/pointillism
         cd ..
-
-    - uses: actions/checkout@v2
+2
 
     - name: Get tools
       env:
@@ -92,16 +91,18 @@ jobs:
         export PATH=$PATH:$SUGAR_PATH
         echo "clone static"
         git clone https://github.com/sugarlabs-appstore/sugarappstore-static
+        git clone https://github.com/sugarlabs-appstore/sugarappstore
+        cd sugarappstore
         pip3 install .
         pip3 install coverage
 
         python3 -m pip install -r requirements.txt
-        ls activities
+        ls ../activities
         echo "checking if the activity is visible"
 
-        python3 -m saasbuild -i $(realpath activities) -l
+        python3 -m saasbuild -i $(realpath ../activities) -l
         echo "building bundle and regenerating appstore"
-        coverage run $(which saasbuild) -i $(realpath ./activities) -lbguypfs sugarappstore-static -x https://sugarstore.netlify.app
+        coverage run $(which saasbuild) -i $(realpath ../activities) -lbguypfs sugarappstore-static -x https://sugarstore.netlify.app
         echo "Compressing and prepareing for upload"
         tar -czvf saas.tar.gz ./saas_compiled
         bash <(curl -s https://codecov.io/bash)
