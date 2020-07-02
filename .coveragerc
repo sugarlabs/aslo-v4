@@ -1,0 +1,2 @@
+[run]
+omit = saasbuild/lib/termcolors.py,saasbuild/lib/progressbar/*

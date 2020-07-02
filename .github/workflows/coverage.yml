@@ -1,0 +1,109 @@
+# Sugar Build System
+# (c) Srevin Saju 2020. All rights reserved 
+# Licensed under MIT OSI License
+# Continuous Integration to clone all the activities and then create a bundle
+
+name: Sugar Bundle Pre-merge Deploy Test 
+
+on:
+  push:
+    branches:
+      - 'master'
+  pull_request:
+    branches: 
+        - 'master'
+
+jobs:
+  buildxo:
+    runs-on: ubuntu-latest
+    steps:
+    - name: Install dependencies
+      run: |
+        sudo apt install python3-pip python3-setuptools python3-dev
+        python3 -m pip install --upgrade pip
+        python3 -m pip install empy
+    
+    - name: Checkout current repository
+      run: |
+        git clone https://github.com/${{ github.repository }} x
+        cd x
+        git fetch --all
+        git fetch origin ${{ github.ref }}
+        git checkout FETCH_HEAD
+        git diff master.. --name-only > diff_file
+        echo "received diff ++ "
+        cat diff_file
+
+    - name: Download sugar and install 
+      run: |
+        sudo sed -i '/deb-src/s/^# //' /etc/apt/sources.list
+        for module in sugar{-datastore,-artwork,-toolkit,-toolkit-gtk3,}; do
+            git clone https://github.com/sugarlabs/$module.git
+        done
+        sudo apt update
+        for module in sugar{-datastore,-artwork,-toolkit-gtk3,}; do
+            sudo apt build-dep $module
+        done
+        sudo apt install python{,3}-six python3-empy
+        for module in sugar{-artwork,-toolkit-gtk3,-datastore,}; do
+            cd $module
+            ./autogen.sh --with-python3 --prefix=/usr
+            make
+            sudo make install
+            cd ..
+        done
+        for module in sugar{-artwork,-toolkit-gtk3,-datastore,}; do
+            cd $module
+            ./autogen.sh --with-python2 --prefix=/usr
+            make
+            sudo make install
+            cd ..
+        done
+        sudo mkdir -p /usr/lib/python3.6/dist-packages
+        sudo cp -r /usr/lib/python3.6/site-packages/sugar3 /usr/lib/python3.6/dist-packages/.
+        sudo cp -r /usr/lib/python3.6/site-packages/jarabe /usr/lib/python3.6/dist-packages/.
+        sudo cp -r /usr/lib/python3.6/site-packages/carquinyol /usr/lib/python3.6/dist-packages/.
+        echo 'Sugar Installed'
+        echo $(which sugar-activity)
+        
+    - name: Test Sugar
+
+      run: |
+        echo $PYTHONPATH
+        echo $PATH
+        
+        python3 -c "import sugar3"
+    
+    - name: Clone the new activity
+      run: |
+        mkdir activities
+        cd activities
+        git clone https://github.com/sugarlabs/Pippy
+        git clone https://github.com/sugarlabs/GSoC
+        git clone https://github.com/sugarlabs/pointillism
+        cd ..
+
+
+    - name: Get tools
+      env:
+        CODECOV_TOKEN: ${{ secrets.CODECOV_TOKEN }}
+      run: |
+        export PATH=$PATH:$SUGAR_PATH:/home/runner/.local/bin
+        echo "clone static"
+        git clone https://github.com/sugarlabs-appstore/sugarappstore-static
+        git clone https://github.com/sugarlabs-appstore/sugarappstore
+        cd sugarappstore
+        pip3 install .
+        pip3 install coverage
+
+        python3 -m pip install -r requirements.txt
+        ls ../activities
+        echo "checking if the activity is visible"
+
+        python3 -m saasbuild -i $(realpath ../activities) -l
+        echo "building bundle and regenerating appstore"
+
+        /home/runner/.local/bin/coverage run -m saasbuild -i $(realpath ../activities) -lbguyfs -p ../sugarappstore-static -x https://sugarstore.netlify.app
+
+        bash <(curl -s https://codecov.io/bash)
+
