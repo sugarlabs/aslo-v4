@@ -66,7 +66,7 @@ def wait_for_process_completion(proc, retry=False, timeout=120):
             return -99
         # try once again. Hopefully it works
         try:
-            exit_code = proc.wait(timeout=timeout*2)
+            exit_code = proc.wait(timeout=timeout * 2)
         except subprocess.TimeoutExpired:
             # Tried for total of 360 seconds == 6 minutes
             # skip install, to prevent build stash
@@ -679,16 +679,16 @@ class Bundle:
         try:
             for i, item in enumerate(news_parsed):
                 if item == self.get_version():
-                    return news_parsed[i+1]
+                    return news_parsed[i + 1]
                 elif item == 'v{}'.format(self.get_version()):
-                    return news_parsed[i+1]
+                    return news_parsed[i + 1]
 
             for i, item in enumerate(news_parsed):
                 # as we iterated through the news file,
                 # we can try this again; but with lesser confidence
                 if len(item) < 6 and \
                         self.get_version() in item:
-                    return news_parsed[i+1]
+                    return news_parsed[i + 1]
 
         except IndexError:
             return

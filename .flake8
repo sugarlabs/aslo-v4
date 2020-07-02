@@ -1,2 +1,2 @@
 [flake8]
-exclude = .git,__pycache__,old,build,dist,saasbuild/constants.py,assets,saasbuild/lib/progressbar
+exclude = .git,__pycache__,old,build,dist,saasbuild/constants.py,assets,saasbuild/lib/progressbar,saasbuild/lib/termcolors
