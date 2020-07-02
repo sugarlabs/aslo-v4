@@ -6,26 +6,17 @@
 name: Sugar Bundle Pre-merge Deploy Test 
 
 on:
+  push:
+    branches:
+      - 'master'
   pull_request:
     branches: 
         - 'master'
-    paths:
-        - 'bundles/**'
 
 jobs:
   buildxo:
     runs-on: ubuntu-latest
     steps:
-    - name: Announce
-      uses: thollander/actions-comment-pull-request@master
-      with:
-        message: |
-            Hello! :wave: Thanks for adding this activity. 
-            You will be mentioned if the build completes successfully. 
-            *Only builds that complete successfully will be merged.*
-
-        GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
-
     - name: Install dependencies
       run: |
         sudo apt install python3-pip python3-setuptools python3-dev
