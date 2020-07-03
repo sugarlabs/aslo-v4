@@ -1,6 +1,6 @@
 """
 Sugar Activities App Store (SAAS)
-https://github.com/sugarlabs-aslo/sugarappstore
+https://github.com/sugarlabs-appstore/sugarappstore
 
 Copyright (C) 2020 Srevin Saju <srevinsaju@sugarlabs.org>
 
