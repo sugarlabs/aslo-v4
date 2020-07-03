@@ -173,7 +173,7 @@ generator takes two arguments
 # License
 AGPL-3.0-or-later. See [LICENSE](LICENSE) for more information.
 
-Copyright 2020 
+Copyright (C) 2020 
 
 [Manish](https://github.com/free-libre-software) <sugar@radii.dev>,  
 [Srevin Saju](https://github.com/srevinsaju) <srevinsaju@sugarlabs.org>
