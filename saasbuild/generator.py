@@ -50,7 +50,7 @@ parser = argparse.ArgumentParser(
 parser.add_argument(
     '-i', '--input-directory',
     default=os.getcwd(),
-    help='Provide the directory to scan for Sugar Bundle XOs'
+    help='Provide the directory to scan for Sugar activity bundles *.xo'
 )
 parser.add_argument(
     '-o', '--output-directory',
