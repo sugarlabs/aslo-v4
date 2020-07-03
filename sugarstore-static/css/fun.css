@@ -1,8 +1,8 @@
 
 .boring-gradient-bg {
     /* Add the boring gradient here */
-    background: linear-gradient(270deg, #246655, #0086d2, #d100d2);
-    background-size: 600% 600%;
+    background: linear-gradient(270deg, #246655, #0086d2, #d100d2) !important;
+    background-size: 600% 600% !important;
 }
 
 .fun-gradient-animation-bg {
