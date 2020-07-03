@@ -6,7 +6,7 @@ body {
     background: linear-gradient(36deg, rgba(11,0,209,1) 0%, rgba(0,212,255,1) 100%);*/
     font-family: 'Open Sans', sans-serif !important;
     overflow-y:scroll;
-    transition: background-color .3s ease-in-out;
+    transition: background .3s ease-in-out;
 }
 
 h1 {
