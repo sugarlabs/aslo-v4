@@ -5,7 +5,7 @@ setup(
     version='0.1.alpha',
     packages=['saasbuild', 'saasbuild.lib', 'saasbuild.lib.progressbar', 'saasbuild.bundle', 'saasbuild.platform'],
     url='https://github.com/sugarlabs-appstore/sugarappstore',
-    license='MIT',
+    license='AGPLv3+',
     author='srevinsaju',
     package_data={
         'saasbuild': ['data/flatpak.json', 'assets/activity-helloworld.svg']
@@ -23,6 +23,5 @@ setup(
         'Operating System :: MacOS :: MacOS X',
         'Operating System :: Microsoft :: Windows',
         'Operating System :: POSIX',
-        'License :: OSI Approved :: GNU General Public License v3 (GPLv3)'
     ],
 )
