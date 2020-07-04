@@ -35,18 +35,18 @@ cd sugarappstore
 ```
 * Run the program
 ```bash
-python3 -m saasbuild
+python3 -m sugarstore_generator
 ```
 
 
 
 ## Minimal usage
 
-Sugarlabs appstore generator (`saasbuild`) is highly customizable. A sample usage and explanation have been provided below
+Sugarlabs appstore generator (`sugarstore_generator`) is highly customizable. A sample usage and explanation have been provided below
 
 ### Pre-requisites
 
-* A collection of Sugarlabs Activities in a dedicated folder. (The folder may contain other stuff). `saasbuild` technically looks for `activity.info`, but not recursively. If the directory where you have clones is called `repo` (for example), then `saasbuild` will only check `repo/**/activity/activity.info` exists.  If, it does not match the pattern, then the folder is ignored. We have avoided recursion through directories, due to the possibility of a longer build time, etc.
+* A collection of Sugarlabs Activities in a dedicated folder. (The folder may contain other stuff). `sugarstore_generator` technically looks for `activity.info`, but not recursively. If the directory where you have clones is called `repo` (for example), then `sugarstore_generator` will only check `repo/**/activity/activity.info` exists.  If, it does not match the pattern, then the folder is ignored. We have avoided recursion through directories, due to the possibility of a longer build time, etc.
 * `CPython 3.6+`, To build `python3` activities, you need `python3` executable in `PATH`. To support `python2` activities, you need `python2` on `PATH`.
 * `git`executable, should be available in `PATH`
 * (optional): `sugar-toolkit-gtk3`, `sugar-toolkit` (to build activities, i.e., to create bundle `.xo`)
@@ -58,20 +58,20 @@ Sugarlabs appstore generator (`saasbuild`) is highly customizable. A sample usag
 1. To list all activities 
 
    ```bash
-   python -m saasbuild -i /path/to/repository --list-activities 
+   python -m sugarstore_generator -i /path/to/repository --list-activities 
    ```
 
 2. To build `.xo`
 
    ```bash
-   python -m saasbuild -i /path/to/repository -b
+   python -m sugarstore_generator -i /path/to/repository -b
    ```
 
 3. To create appstore
 
    ```bash
    git clone https://github.com/sugarlabs-appstore/sugarappstore-static path/to/save/static/files
-   python -m saasbuild -i /path/to/repository -b -p path/to/save/static/files -o path/to/website/save/directory
+   python -m sugarstore_generator -i /path/to/repository -b -p path/to/save/static/files -o path/to/website/save/directory
    ```
 
    
@@ -81,7 +81,7 @@ Sugarlabs appstore generator (`saasbuild`) is highly customizable. A sample usag
 ## Usage
 
 ```bash
-$ python3 -m saasbuild --help
+$ python3 -m sugarstore_generator --help
 usage: Sugar Appstore generator [-h] [-i INPUT_DIRECTORY] [-o OUTPUT_DIRECTORY] [-b]
                                 [--build-entrypoint BUILD_ENTRYPOINT] [--build-override]
                                 [--build-chdir] [-l] [-g] [-x GENERATE_SITEMAP] [-v]
