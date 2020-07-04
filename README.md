@@ -82,34 +82,35 @@ Sugarlabs appstore generator (`saasbuild`) is highly customizable. A sample usag
 
 ```bash
 $ python3 -m saasbuild --help
-usage: Sugar Appstore generator [-h] [-i INPUT_DIRECTORY] [-o OUTPUT_DIRECTORY]
-                                [-b] [--build-entrypoint BUILD_ENTRYPOINT]
-                                [--build-override] [--build-chdir] [-l] [-g]
-                                [-x GENERATE_SITEMAP] [-p PULL_STATIC_CSS_JS_HTML]
-                                [-u] [-P] [-s] [-f] [-y]
+usage: Sugar Appstore generator [-h] [-i INPUT_DIRECTORY] [-o OUTPUT_DIRECTORY] [-b]
+                                [--build-entrypoint BUILD_ENTRYPOINT] [--build-override]
+                                [--build-chdir] [-l] [-g] [-x GENERATE_SITEMAP] [-v]
+                                [-p PULL_STATIC_CSS_JS_HTML] [-u] [-P] [-s] [-f] [-y] [-c] [-z]
+                                [--version]
 
 Generates static HTML files for SAAS
 
 optional arguments:
   -h, --help            show this help message and exit
   -i INPUT_DIRECTORY, --input-directory INPUT_DIRECTORY
-                        Provide the directory to scan for Sugar Bundle XOs
+                        Provide the directory to scan for Sugar activity bundles *.xo
   -o OUTPUT_DIRECTORY, --output-directory OUTPUT_DIRECTORY
                         Provide the directory to output the parsed website for SAAS
   -b, --build-xo        Generate XO bundles for a large number of directories
   --build-entrypoint BUILD_ENTRYPOINT
-                        Specify a path to any Linux compatible script which is
-                        intended to be executed on every build
-  --build-override      Override `python setup.py dist_xo` with --build-entrypoint
-                        argument shell script
+                        Specify a path to any Linux compatible script which is intended to be
+                        executed on every build
+  --build-override      Override `python setup.py dist_xo` with --build-entrypoint argument shell
+                        script
   --build-chdir         Changes directory to Activity dir
   -l, --list-activities
                         Lists all the activities available in the directory
   -g, --generate-static-html
-                        Start the process of HTML generation. (pass -b, if you are
-                        unsure if bundles are already created)
+                        Start the process of HTML generation. (pass -b, if you are unsure if
+                        bundles are already created)
   -x GENERATE_SITEMAP, --generate-sitemap GENERATE_SITEMAP
                         Generate a sitemap.xml file to the output directory
+  -v, --verbose         More verbose logging
   -p PULL_STATIC_CSS_JS_HTML, --pull-static-css-js-html PULL_STATIC_CSS_JS_HTML
                         Provide the path to js, css and index.html (ideally from
                         https://github.com/sugarlabs-appstore/sugarappstore-static)
@@ -120,9 +121,13 @@ optional arguments:
                         Includes screenshots of activity if its found as
                         <activity>/screenshots/*.png
   -f, --include-flatpaks
-                        Includes a flatpak description card if the activity has a
-                        valid flatpak registered under flathub.org
+                        Includes a flatpak description card if the activity has a valid flatpak
+                        registered under flathub.org
   -y, --noconfirm       Replace output directory (default: always ask)
+  -c, --no-colors       Suppress colors in terminal (default: env ANSI_COLORS_DISABLED)
+  -z, --include-python2
+                        Include python2 support (sugar-activity)
+  --version             Show the version
 
 ```
 
