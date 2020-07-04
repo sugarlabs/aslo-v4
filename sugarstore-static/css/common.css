@@ -1,16 +1,18 @@
+/**** common.css ***/
 html {
-    min-height: 100%;
+  min-height: 100%;
 }
+
 body {
     /*background: rgb(11,0,209);
     background: linear-gradient(36deg, rgba(11,0,209,1) 0%, rgba(0,212,255,1) 100%);*/
-    font-family: 'Open Sans', sans-serif !important;
-    overflow-y:scroll;
-    transition: background .3s ease-in-out;
+  font-family: 'Open Sans', sans-serif !important;
+  overflow-y: scroll;
+  transition: background .3s ease-in-out;
 }
 
 h1 {
-    font-weight: 700;
+  font-weight: 700;
 }
 
 .no-js .preloader {
@@ -25,13 +27,12 @@ h1 {
   z-index: 999;
 }
 
-
 .preloader-img {
-    position: fixed;
-    left: calc(50% - 50px);
-    top: calc(50% - 50px);
-    width: 50px;
-    height: 50px
+  position: fixed;
+  left: calc(50% - 50px);
+  top: calc(50% - 50px);
+  width: 50px;
+  height: 50px;
 }
 /*
 ==========================================
@@ -113,9 +114,6 @@ input:checked + .slider:before {
   border-radius: 1rem;
 }
 
-
-
-
 .cookie-consent-button {
   margin-right: 0.5rem;
 }
@@ -135,7 +133,6 @@ input:checked + .slider:before {
   color: #eee;
   font-size: 14px;
 }
-
 
 #footer .footer-top {
   background: #0a1f35;
@@ -319,15 +316,24 @@ Spinner
   opacity: 1;
 }
 
-
 @-webkit-keyframes spin {
-  0% { -webkit-transform: rotate(0deg); }
-  100% { -webkit-transform: rotate(360deg); }
+  0% {
+    -webkit-transform: rotate(0deg);
+  }
+
+  100% {
+    -webkit-transform: rotate(360deg);
+  }
 }
 
 @keyframes spin {
-  0% { transform: rotate(0deg); }
-  100% { transform: rotate(360deg); }
+  0% {
+    transform: rotate(0deg);
+  }
+
+  100% {
+    transform: rotate(360deg);
+  }
 }
 
 /* Add animation to "page content" */
@@ -336,16 +342,31 @@ Spinner
   -webkit-animation-name: animatebottom;
   -webkit-animation-duration: 1s;
   animation-name: animatebottom;
-  animation-duration: 1s
+  animation-duration: 1s;
 }
 
 @-webkit-keyframes animatebottom {
-  from { bottom:-100px; opacity:0 } 
-  to { bottom:0px; opacity:1 }
+  from {
+    bottom: -100px;
+    opacity: 0;
+  }
+
+  to {
+    bottom: 0px;
+    opacity: 1;
+  }
 }
 
-@keyframes animatebottom { 
-  from{ bottom:-100px; opacity:0 } 
-  to{ bottom:0; opacity:1 }
+@keyframes animatebottom {
+ 
+  from {
+    bottom: -100px;
+    opacity: 0;
+  }
+
+  to {
+    bottom: 0;
+    opacity: 1;
+  }
 }
 
