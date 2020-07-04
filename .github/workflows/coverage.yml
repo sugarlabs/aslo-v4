@@ -17,11 +17,17 @@ jobs:
   buildxo:
     runs-on: ubuntu-latest
     steps:
+    - uses: actions/checkout@v2
+
     - name: Install dependencies
       run: |
         sudo apt install python3-pip python3-setuptools python3-dev
         python3 -m pip install --upgrade pip
         python3 -m pip install empy
+
+    - name: Install sugarstore-gen
+      run: |
+        pip3 install .
     
     - name: Checkout current repository
       run: |
@@ -90,19 +96,16 @@ jobs:
       run: |
         export PATH=$PATH:$SUGAR_PATH:/home/runner/.local/bin
         echo "clone static"
-        git clone https://github.com/sugarlabs-appstore/sugarappstore
-        cd sugarappstore
-        pip3 install .
+             
         pip3 install coverage
 
-        python3 -m pip install -r requirements.txt
-        ls ../activities
+        ls activities
         echo "checking if the activity is visible"
 
-        python3 -m sugarstore_generator -i $(realpath ../activities) -l
+        python3 -m sugarstore_generator -i $(realpath ./activities) -l
         echo "building bundle and regenerating appstore"
 
-        /home/runner/.local/bin/coverage run -m sugarstore_generator -i $(realpath ../activities) -lbguyfs -p ./sugarstore-static -x https://sugarstore.netlify.app
+        /home/runner/.local/bin/coverage run -m sugarstore_generator -i $(realpath ./activities) -lbguyfs -p ./sugarstore-static -x https://sugarstore.netlify.app
 
         bash <(curl -s https://codecov.io/bash)
 
