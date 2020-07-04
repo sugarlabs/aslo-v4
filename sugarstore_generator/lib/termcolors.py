@@ -30,7 +30,7 @@ import re
 
 __ALL__ = ['colored', 'cprint']
 
-from saasbuild import platform
+from sugarstore_generator import platform
 
 VERSION = (1, 1, 0)
 

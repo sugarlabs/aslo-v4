@@ -1,2 +1,2 @@
 [run]
-omit = saasbuild/lib/termcolors.py,saasbuild/lib/progressbar/*
+omit = sugarstore_generator/lib/termcolors.py,sugarstore_generator/lib/progressbar/*
