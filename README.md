@@ -46,7 +46,7 @@ Sugar Labs appstore generator (`sugarstore_generator`) is highly customizable. A
 
 ### Pre-requisites
 
-* A collection of Sugar Labs Activities in a dedicated folder. (The folder may contain other stuff). `sugarstore_generator` technically looks for `activity.info`, but not recursively. If the directory where you have clones is called `repo` (for example), then `sugarstore_generator` will only check `repo/**/activity/activity.info` exists.  If, it does not match the pattern, then the folder is ignored. We have avoided recursion through directories, due to the possibility of a longer build time, etc.
+* A collection of Sugar Activities in a dedicated folder. (The folder may contain other stuff). `sugarstore_generator` technically looks for `activity.info`, but not recursively. If the directory where you have clones is called `repo` (for example), then `sugarstore_generator` will only check `repo/**/activity/activity.info` exists.  If, it does not match the pattern, then the folder is ignored. We have avoided recursion through directories, due to the possibility of a longer build time, etc.
 * `CPython 3.6+`, To build `python3` activities, you need `python3` executable in `PATH`. To support `python2` activities, you need `python2` on `PATH`.
 * `git`executable, should be available in `PATH`
 * (optional): `sugar-toolkit-gtk3`, `sugar-toolkit` (to build activities, i.e., to create bundle `.xo`)
