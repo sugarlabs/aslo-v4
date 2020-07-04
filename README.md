@@ -1,4 +1,4 @@
-![sugarlabs appstore logo](https://raw.githubusercontent.com/sugarlabs-appstore/appstore-assets/master/sugarappstore.svg)
+![sugarlabs appstore logo](assets/sugarappstore.svg)
 
 # sugarappstore
 
