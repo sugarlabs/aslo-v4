@@ -1,0 +1,45 @@
+.saas-dark-body {
+	background: linear-gradient(270deg, #111, #111);
+}
+
+
+.saas-card-heading-link-dark {
+	color: #FFF  !important;
+}
+
+.saas-card-dark {
+    border-radius: 15px  !important;
+    margin: 5px;
+    background-color: #2b2a2a !important;
+    color: #DDD  !important;
+}
+
+.saas-activity-search-container {
+    width: 100%;
+    padding-top: 50px;
+}
+
+.card-version-dark {
+    display: inline-block;
+    background-color: #222;
+    color: #FFF;
+    border-radius: 5px;
+    width: auto;
+}
+
+.card-version-text-dark {
+    padding: 5px;
+    margin-bottom: 0rem;
+}
+
+.saas-h1-dark {
+	color: #FFF  !important;
+}
+
+.saas-h1-dark:hover {
+	color: #FFF  !important;
+}
+.saas-card-image-top-dark {
+	padding: 12px;
+	filter: invert();
+}

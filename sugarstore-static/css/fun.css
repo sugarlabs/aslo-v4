@@ -1,0 +1,44 @@
+
+.boring-gradient-bg {
+    /* Add the boring gradient here */
+    background: linear-gradient(270deg, #246655, #0086d2, #d100d2) !important;
+    background-size: 600% 600% !important;
+}
+
+.fun-gradient-animation-bg {
+    /* Add some fun here */
+    background: linear-gradient(270deg, #246655, #0086d2, #d100d2);
+    background-size: 600% 600%;
+    -webkit-animation: GradientFun 30s ease infinite;
+    -moz-animation: GradientFun 30s ease infinite;
+    -o-animation: GradientFun 30s ease infinite;
+    animation: GradientFun 30s ease infinite;
+    /*
+    Optimize CPU usage on Chromium
+    https://stackoverflow.com/questions/33313180/css-background-image-animation-high-cpu-usage
+    */
+    translate: translate3d(0, 0, 0)
+}
+
+
+
+@-webkit-keyframes GradientFun {
+    0%{background-position:0% 50%}
+    50%{background-position:100% 50%}
+    100%{background-position:0% 50%}
+}
+@-moz-keyframes GradientFun {
+    0%{background-position:0% 50%}
+    50%{background-position:100% 50%}
+    100%{background-position:0% 50%}
+}
+@-o-keyframes GradientFun {
+    0%{background-position:0% 50%}
+    50%{background-position:100% 50%}
+    100%{background-position:0% 50%}
+}
+@keyframes GradientFun {
+    0%{background-position:0% 50%}
+    50%{background-position:100% 50%}
+    100%{background-position:0% 50%}
+}
