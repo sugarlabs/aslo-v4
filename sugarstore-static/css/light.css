@@ -1,0 +1,71 @@
+/**** light.css ***/
+.saas-card-heading-link {
+  color: #000 !important;
+}
+
+.saas-navbar {
+  font-weight: 700;
+}
+
+.saas-card {
+  border-radius: 15px  !important;
+  margin: 5px;
+}
+
+.saas-activity-search-container {
+  width: 100%;
+  padding-top: 50px;
+}
+
+.card-version {
+  display: inline-block;
+  background-color: #222 !important;
+  color: #FFF;
+  border-radius: 5px;
+  width: auto;
+}
+
+.card-version-text {
+  padding: 5px;
+  margin-bottom: 0rem;
+}
+
+.saas-heading {
+  display: inline-block;
+}
+
+.saas-h1 {
+  margin-bottom: 0rem !important;
+  margin-right: 0.25rem;
+  text-decoration: none;
+  font-weight: bold;
+}
+
+.saas-h1:hover {
+  margin-bottom: 0rem !important;
+  margin-right: 0.25rem;
+  text-decoration: underline;
+  font-weight: bold;
+}
+
+.saas-card-image-top {
+  padding: 12px;
+}
+
+.saas-image-placeholder {
+  width: 100%;
+  height: 0;
+  padding-top: 100%;
+  position: relative;
+}
+
+.saas-image-placeholder-placeholder {
+  background-image: url('/icons/org.sugarlabs.HelloWorld.svg');
+  background-repeat: no-repeat;
+  background-size: cover;
+  opacity: 0.6;
+}
+
+.saas-card-image-hidden {
+  visibility: hidden;
+}

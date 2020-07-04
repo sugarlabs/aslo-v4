@@ -1,0 +1,30 @@
+/**** main.css ***/
+.saas-activity-main {
+  margin-top: 4rem;
+  margin-bottom: 4rem;
+}
+
+.saas-activity-card-std {
+  border-radius: 1.5rem;
+  padding: 1rem;
+}
+
+.saas-activity-download-button {
+  border-radius: 1rem;
+}
+
+.saas-activity-card-image {
+  height: 25vh;
+  width: 25vh;
+  left: 50%;
+}
+
+.saas-activity-card-tags {
+  margin-bottom: 2rem;
+}
+
+.saas-badge {
+  margin: 0.2rem !important;
+  font-size: 1em !important;
+  padding: 0.3rem !important;
+}
