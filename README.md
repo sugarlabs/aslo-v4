@@ -39,7 +39,6 @@ python3 -m sugarstore_generator
 ```
 
 
-
 ## Minimal usage
 
 Sugar Labs appstore generator (`sugarstore_generator`) is highly customizable. A sample usage and explanation have been provided below
@@ -53,28 +52,60 @@ Sugar Labs appstore generator (`sugarstore_generator`) is highly customizable. A
 
 > NOTE: Executable `python` is ambiguous. It has different implementations on different linux. So we prefer to stick to stricter executable names. i.e, `python2` or `python3`
 
-### Simple Build Commands
+### Simple Build Commands (preferred)
 
-1. To list all activities 
-
+0. Clone a few activities, for this test case, I am considering the `Pippy` Activity and `speak` activity
    ```bash
-   python -m sugarstore_generator -i /path/to/repository --list-activities 
+   mkdir activities
+   git clone https://github.com/sugarlabs/Pippy.git activities/Pippy
+   git clone https://github.com/sugarlabs/speak.git activities/speak
+   ```
+   
+1. To list all activities 
+   The `./activities` contains the folders `Pippy` and `speak`. The names could be different too. But each of the
+   folder must contain a `./<activity_name>/activity/activity.info` to be detected as an activity.
+   ```bash
+   python -m sugarstore_generator -i ./activities --list-activities 
    ```
 
 2. To build `.xo`
 
    ```bash
-   python -m sugarstore_generator -i /path/to/repository -b
+   python -m sugarstore_generator -i ./activities -b
    ```
+   This command will generate `Pippy-9.xo` in `./activities/Pippy/dist/Pippy-9.xo` and `speak-X.xo` in `./activities/speak/dist/speak-X.xo`
+   
 
 3. To create appstore
 
    ```bash
-   git clone https://github.com/sugarlabs-appstore/sugarappstore-static path/to/save/static/files
-   python -m sugarstore_generator -i /path/to/repository -b -p path/to/save/static/files -o path/to/website/save/directory
+   python -m sugarstore_generator --input-directory ./activities --pull-static-css-js-html ./sugarstore-static --generate-static-html --build-xo
+   ```
+   This command will automatically extract the bundles from the `dist` folders of the respective activities, and parse
+   `NEWS` from `./activities/Pippy/NEWS` and get attributes from `./activities/Pippy/activity/activity.info`
+   
+#### Alternative build method (without Activity Source)
+
+This part provides instructions to build the `appstore` without cloning the activity / by only providing the finally built
+bundle `.xo`.
+
+1. Place all the bundles `*.xo` in a folder, say `bundles`
+   ```bash
+   mkdir bundles
+   cp /path/to/some/bundles/*.xo .  # copies all the bundles from /path/to/some/bundles to the current directory `bundles`
+   ```
+2. List all the activities to make sure the `*.xo` are detected 
+   ```bash
+   python3 -m sugarstore_generator -i ./bundles --list-activities 
+   ```
+3. Now create the appstrore
+   ```bash
+   python3 -m sugarstore_generator -i ./bundles --generate-sitemap --pull-static-css-js-html ./sugarstore-static 
    ```
 
-   
+Both the methods mentioned with build the appstore in `saas_compiled` directory. (The name `saas` will be changed in future) which can be overriden by using `-o` flag
+
+These commands will create a minimal appstore.    
 
 > For advanced usage, see [Usage](#usage)
 
