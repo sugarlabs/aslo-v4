@@ -8,13 +8,27 @@
     <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
     <!--SEO-->
     <meta name="google-site-verification" content="4cFWArBrjTrZXtRxLvjgzDXntMi1u7MJ2RuyTjaKmC0" />
-    <meta name="Description" content="Sugar Labs Appstore for Suar Activities">
+    <meta name="Description" content="Sugar Labs Appstore for Sugar Activities">
     
     <meta property="og:title" content="Sugar Labs Appstore" />
     <meta property="og:url" content="http://sugarstore.netlify.app" />
 
     <!-- Enable caching --> 
     <meta http-equiv="cache-control" content="public">
+    <script>
+        /* inline script checks User-Agent and returns to aslov1 if
+           Sugar is being used on Fedora 18 / python2-only Sugar */
+        ua = navigator.userAgent;
+        SugarVersion = ua.match(/SugarLabs\/(\d+\.\d+)/);
+        if (SugarVersion != null){
+            if (parseFloat(SugarVersion[1]) <= 0.112) {
+                console.log("Redirecting to Legacy ASLO (aslov1)")
+                window.location.replace("https://activities.sugarlabs.org");
+            }
+        }
+
+    </script>
+
 
     <!-- style.css -->
     <link rel="stylesheet" href="css/common.css">
