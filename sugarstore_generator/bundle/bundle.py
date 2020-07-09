@@ -1,5 +1,5 @@
 """
-Sugar Activities App Store (SAAS)
+Sugar Activities App Store (ASLOv4)
 https://github.com/sugarlabs-appstore/aslo-v4
 
 Copyright (C) 2020 Srevin Saju <srevinsaju@sugarlabs.org>
@@ -603,7 +603,7 @@ class Bundle:
         Returns a set `<set>`
         If the provided bundle inherits properties from a .xo file, then
         using git to extract commits is not sensible. A developer can tweak
-        this by setting environment variable SAAS_ACTIVITY_XO_AUTHORS to
+        this by setting environment variable ASLOv4_ACTIVITY_XO_AUTHORS to
         a list of authors contributed in a *.log file
 
         For example, if the app is called Pippy Activity, name the file
@@ -619,7 +619,7 @@ class Bundle:
         Finally place these information in a folder, say `foobar`
         then
 
-        $ export SAAS_ACTIVITY_XO_AUTHORS="/path/to/foobar"
+        $ export ASLOv4_ACTIVITY_XO_AUTHORS="/path/to/foobar"
         $ sugarstore_generator --parameters-here
 
         This will automatically parse the information in the .log files
@@ -630,11 +630,11 @@ class Bundle:
         """
         if self.is_xo:
             # bundles does not have .git directory, skip
-            if not os.getenv("SAAS_ACTIVITY_XO_AUTHORS"):
+            if not os.getenv("ASLOv4_ACTIVITY_XO_AUTHORS"):
                 return {0: 'No authors found'}
 
             saas_activity_xo_authors = os.path.join(
-                os.getenv('SAAS_ACTIVITY_XO_AUTHORS'),
+                os.getenv('ASLOv4_ACTIVITY_XO_AUTHORS'),
                 "{}.log".format(self.get_bundle_id())
             )
             if not os.path.exists(saas_activity_xo_authors):
@@ -717,7 +717,7 @@ class Bundle:
 
         If the provided bundle inherits properties from a .xo file, then
         using git to extract commits is not sensible. A developer can tweak
-        this by setting environment variable SAAS_ACTIVITY_XO_GITURL to
+        this by setting environment variable ASLOv4_ACTIVITY_XO_GITURL to
         a get the remote origin in a *.git file
 
         For example, if the app is called Pippy Activity, name the file
@@ -729,7 +729,7 @@ class Bundle:
         Finally place these information in a folder, say `foobar`
         then
 
-        $ export SAAS_ACTIVITY_XO_GITURL="/path/to/foobar"
+        $ export ASLOv4_ACTIVITY_XO_GITURL="/path/to/foobar"
         $ sugarstore_generator --parameters-here
 
         This will automatically parse the information in the .git files
@@ -738,10 +738,10 @@ class Bundle:
         """
 
         if self.is_xo:
-            if not os.getenv("SAAS_ACTIVITY_XO_GITURL"):
+            if not os.getenv("ASLOv4_ACTIVITY_XO_GITURL"):
                 return  # bundles does not have .git directory, skip
             saas_activity_xo_giturl = os.path.join(
-                os.getenv("SAAS_ACTIVITY_XO_GITURL"),
+                os.getenv("ASLOv4_ACTIVITY_XO_GITURL"),
                 "{}.git".format(self.get_bundle_id())
             )
             if not os.path.exists(saas_activity_xo_giturl):

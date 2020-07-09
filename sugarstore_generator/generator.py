@@ -1,5 +1,5 @@
 """
-Sugar Activities App Store (SAAS)
+Sugar Activities App Store (ASLOv4)
 https://github.com/sugarlabs-appstore/aslo-v4
 
 Copyright (C) 2020 Sugar Labs
@@ -45,7 +45,7 @@ from . import __version__
 
 parser = argparse.ArgumentParser(
     'Sugar Appstore generator',
-    description='Generates static HTML files for SAAS'
+    description='Generates static HTML files for ASLOv4'
 )
 parser.add_argument(
     '-i', '--input-directory',
@@ -55,7 +55,7 @@ parser.add_argument(
 parser.add_argument(
     '-o', '--output-directory',
     default=os.path.join(os.getcwd(), 'saas_compiled'),
-    help='Provide the directory to output the parsed website for SAAS'
+    help='Provide the directory to output the parsed website for ASLOv4'
 )
 parser.add_argument(
     '-b', '--build-xo',
@@ -162,7 +162,7 @@ DEPENDENCIES = (
 
 
 if args.no_colors:
-    os.environ['SAAS_NO_COLORS'] = 'true'
+    os.environ['ASLOv4_NO_COLORS'] = 'true'
 
 
 def debug(x):
