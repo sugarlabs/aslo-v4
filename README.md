@@ -119,14 +119,14 @@ usage: Sugar Appstore generator [-h] [-i INPUT_DIRECTORY] [-o OUTPUT_DIRECTORY] 
                                 [-p PULL_STATIC_CSS_JS_HTML] [-u] [-P] [-s] [-f] [-y] [-c] [-z]
                                 [--version]
 
-Generates static HTML files for SAAS
+Generates static HTML files for ASLOv4
 
 optional arguments:
   -h, --help            show this help message and exit
   -i INPUT_DIRECTORY, --input-directory INPUT_DIRECTORY
                         Provide the directory to scan for Sugar activity bundles *.xo
   -o OUTPUT_DIRECTORY, --output-directory OUTPUT_DIRECTORY
-                        Provide the directory to output the parsed website for SAAS
+                        Provide the directory to output the parsed website for ASLOv4
   -b, --build-xo        Generate XO bundles for a large number of directories
   --build-entrypoint BUILD_ENTRYPOINT
                         Specify a path to any Linux compatible script which is intended to be
