@@ -4,7 +4,7 @@ setup(
     name='sugarstore-generator',
     version='0.1.alpha2',
     packages=['sugarstore_generator', 'sugarstore_generator.lib', 'sugarstore_generator.lib.progressbar', 'sugarstore_generator.bundle', 'sugarstore_generator.platform'],
-    url='https://github.com/sugarlabs-appstore/sugarappstore',
+    url='https://github.com/sugarlabs-appstore/aslo-v4',
     download_url="https://pypi.python.org/pypi/sugarstore-generator",
     license='AGPLv3+',
     author='srevinsaju',

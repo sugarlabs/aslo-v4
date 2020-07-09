@@ -1,6 +1,6 @@
 """
 Sugar Activities App Store (SAAS)
-https://github.com/sugarlabs-appstore/sugarappstore
+https://github.com/sugarlabs-appstore/aslo-v4
 
 Copyright (C) 2020 Sugar Labs
 Copyright (C) 2020 Srevin Saju <srevinsaju@sugarlabs.org>
@@ -105,7 +105,7 @@ parser.add_argument(
     '--pull-static-css-js-html',
     default='',
     help="Provide the path to js, css and index.html (ideally from "
-    "https://github.com/sugarlabs-appstore/sugarappstore-static)")
+    "https://github.com/sugarlabs-appstore/aslo-v4-static)")
 parser.add_argument(
     '-u', '--unique-icons',
     action='store_true',
