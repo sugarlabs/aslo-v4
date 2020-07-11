@@ -54,7 +54,7 @@ parser.add_argument(
 )
 parser.add_argument(
     '-o', '--output-directory',
-    default=os.path.join(os.getcwd(), 'saas_compiled'),
+    default=os.path.join(os.getcwd(), 'aslo4-compiled'),
     help='Provide the directory to output the parsed website for ASLOv4'
 )
 parser.add_argument(

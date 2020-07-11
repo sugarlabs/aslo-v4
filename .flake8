@@ -1,2 +1,2 @@
 [flake8]
-exclude = .git,__pycache__,old,build,dist,sugarstore_generator/constants.py,assets,sugarstore_generator/lib/progressbar,sugarstore_generator/lib/termcolors,setup.py
+exclude = .git,__pycache__,old,build,dist,aslo4/constants.py,assets,aslo4/lib/progressbar,aslo4/lib/termcolors,setup.py

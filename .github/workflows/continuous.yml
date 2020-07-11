@@ -29,7 +29,7 @@ jobs:
     - name: Upload artifact
       uses: actions/upload-artifact@v1.0.0
       with:
-        name: sugarstore_generator-continuous-none-any-py3.whl
+        name: aslo4-continuous-none-any-py3.whl
         path: dist/${{ env.VERSION }}
 
   Release:
@@ -43,7 +43,7 @@ jobs:
 
     - uses: actions/download-artifact@v1
       with:
-        name: sugarstore_generator-continuous-none-any-py3.whl
+        name: aslo4-continuous-none-any-py3.whl
 
     - name: Release
       uses: marvinpinto/action-automatic-releases@latest
@@ -52,6 +52,6 @@ jobs:
         automatic_release_tag: continuous
         title: continuous
         files: |
-          sugarstore_generator-continuous-none-any-py3.whl
+          aslo4-continuous-none-any-py3.whl
           
         repo_token: ${{ secrets.GITHUB_TOKEN }}

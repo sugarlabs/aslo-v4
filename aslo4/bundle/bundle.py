@@ -27,8 +27,8 @@ import zipfile
 from configparser import ConfigParser
 from pathlib import Path
 
-from sugarstore_generator.constants import ACTIVITY_BUILD_CLASSIFIER
-from sugarstore_generator.platform import get_executable_path, SYSTEM
+from aslo4.constants import ACTIVITY_BUILD_CLASSIFIER
+from aslo4.platform import get_executable_path, SYSTEM
 
 # a shorthand for shlex.split on *nix systems
 _s = shlex.split if SYSTEM != 'Windows' else lambda x: x
@@ -566,7 +566,7 @@ class Bundle:
         This can be used programmatically to create log files
         from many clones. A sample code is provided below
 
-        >>> from sugarstore_generator.generator import SaaSBuild
+        >>> from aslo4.generator import SaaSBuild
         >>> sb = SaaSBuild()
         >>> all_activities = sb.list_activities()
         >>>
@@ -620,7 +620,7 @@ class Bundle:
         then
 
         $ export ASLOv4_ACTIVITY_XO_AUTHORS="/path/to/foobar"
-        $ sugarstore_generator --parameters-here
+        $ aslo4 --parameters-here
 
         This will automatically parse the information in the .log files
         inherited from git and then create bootstrap badges in the static
@@ -730,7 +730,7 @@ class Bundle:
         then
 
         $ export ASLOv4_ACTIVITY_XO_GITURL="/path/to/foobar"
-        $ sugarstore_generator --parameters-here
+        $ aslo4 --parameters-here
 
         This will automatically parse the information in the .git files
         inherited from git and then annotate "Source Code" button with

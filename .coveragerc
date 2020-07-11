@@ -1,2 +1,2 @@
 [run]
-omit = sugarstore_generator/lib/termcolors.py,sugarstore_generator/lib/progressbar/*
+omit = aslo4/lib/termcolors.py,aslo4/lib/progressbar/*

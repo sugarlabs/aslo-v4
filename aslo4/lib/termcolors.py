@@ -30,7 +30,7 @@ import re
 
 __ALL__ = ['colored', 'cprint']
 
-from sugarstore_generator import platform
+from aslo4 import platform
 
 VERSION = (1, 1, 0)
 
