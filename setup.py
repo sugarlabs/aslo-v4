@@ -2,7 +2,7 @@ from setuptools import setup
 
 setup(
     name='aslo4',
-    version='0.1.alpha2',
+    version='0.1.a3',
     packages=['aslo4', 'aslo4.lib', 'aslo4.lib.progressbar', 'aslo4.bundle', 'aslo4.platform'],
     url='https://github.com/sugarlabs-appstore/aslo-v4',
     download_url="https://pypi.python.org/pypi/aslo4",
