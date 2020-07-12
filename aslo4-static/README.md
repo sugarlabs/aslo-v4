@@ -1,2 +1,2 @@
-# sugarappstore-static
-The static files for sugarappstore
+# aslo4-static
+The static files for aslo4-static
