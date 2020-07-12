@@ -1,13 +1,13 @@
-![sugarlabs appstore logo](assets/sugarappstore.svg)
+![sugarlabs appstore logo](assets/aslo4.svg)
 
-# sugarappstore
+# aslo4
 
 [![Netlify Status](https://api.netlify.com/api/v1/badges/4f6dde9a-8b1c-4e8e-9f2f-13f453988e82/deploy-status)](https://app.netlify.com/sites/sugarstore/deploys)
 
-[![Codacy Badge](https://api.codacy.com/project/badge/Grade/c61d2501dca44ccbbd8b590470330b32)](https://app.codacy.com/gh/sugarlabs-appstore/sugarappstore?utm_source=github.com&utm_medium=referral&utm_content=sugarlabs-appstore/sugarappstore&utm_campaign=Badge_Grade_Dashboard)
+[![Codacy Badge](https://app.codacy.com/project/badge/Grade/65d6f5534bb24ea9b2a0ca0075341c2f)](https://www.codacy.com/gh/sugarlabs-appstore/aslo-v4?utm_source=github.com&amp;utm_medium=referral&amp;utm_content=sugarlabs-appstore/aslo-v4&amp;utm_campaign=Badge_Grade)
 
 [![PyPI - Python Version](https://img.shields.io/pypi/pyversions/aslo4?style=flat-square) ![PyPI - Wheel](https://img.shields.io/pypi/wheel/aslo4?style=flat-square) ![PyPI](https://img.shields.io/pypi/v/aslo4?style=flat-square)](https://pypi.org/project/aslo4/)
-![GitHub repo size](https://img.shields.io/github/repo-size/sugarlabs-appstore/sugarappstore?style=flat-square) ![GitHub commits since latest release (by SemVer)](https://img.shields.io/github/commits-since/sugarlabs-appstore/sugarappstore/latest/master?sort=semver&style=flat-square) ![GitHub](https://img.shields.io/github/license/sugarlabs-appstore/sugarappstore?style=flat-square) ![Codecov](https://img.shields.io/codecov/c/gh/sugarlabs-appstore/sugarappstore?style=flat-square)
+![GitHub repo size](https://img.shields.io/github/repo-size/sugarlabs-appstore/aslo-v4?style=flat-square) ![GitHub commits since latest release (by SemVer)](https://img.shields.io/github/commits-since/sugarlabs-appstore/aslo-v4/latest/master?sort=semver&style=flat-square) ![GitHub](https://img.shields.io/github/license/sugarlabs-appstore/aslo-v4?style=flat-square) ![Codecov](https://img.shields.io/codecov/c/gh/sugarlabs-appstore/aslo-v4?style=flat-square)
 
 ## Introduction
 
@@ -22,16 +22,16 @@ pip3 install aslo4
 ## Setup
 * Clone the repository
 ```bash
-git clone https://github.com/sugarlabs-appstore/sugarappstore
+git clone https://github.com/sugarlabs-appstore/aslo-v4
 ```
 For a shallow clone
 ```bash
-git clone https://github.com/sugarlabs-appstore/sugarappstore --depth=1
+git clone https://github.com/sugarlabs-appstore/aslo-v4 --depth=1
 ```
 
 * Change directory to cloned directory
 ```bash
-cd sugarappstore
+cd aslo-v4
 ```
 * Run the program
 ```bash
@@ -144,7 +144,7 @@ optional arguments:
   -v, --verbose         More verbose logging
   -p PULL_STATIC_CSS_JS_HTML, --pull-static-css-js-html PULL_STATIC_CSS_JS_HTML
                         Provide the path to js, css and index.html (ideally from
-                        https://github.com/sugarlabs-appstore/sugarappstore-static)
+                        $PWD/aslo4-static)
   -u, --unique-icons    Provides a unique icon name based on bundle id
   -P, --disable-progress-bar
                         Provides a unique icon name based on bundle id
