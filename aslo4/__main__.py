@@ -1,9 +1,10 @@
-#!/usr/bin/env python3
 """
-Sugar Activities App Store (SAAS)
-https://github.com/sugarlabs-appstore/sugarappstore
+Sugar Activities App Store (ASLOv4)
+https://github.com/sugarlabs-appstore/aslo-v4
 
+Copyright (C) 2020 Sugar Labs
 Copyright (C) 2020 Srevin Saju <srevinsaju@sugarlabs.org>
+Copyright (C) 2020 Manish <sugar@radii.dev>
 
 This program is free software: you can redistribute it and/or modify
 it under the terms of the GNU Affero General Public License as published by
@@ -18,3 +19,13 @@ GNU Affero General Public License for more details.
 You should have received a copy of the GNU Affero General Public License
 along with this program.  If not, see <https://www.gnu.org/licenses/>.
 """
+
+from .generator import SaaSBuild
+
+
+def main():
+    SaaSBuild()
+
+
+if __name__ == "__main__":
+    main()

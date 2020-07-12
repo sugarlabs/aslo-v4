@@ -6,7 +6,7 @@
 
 [![Codacy Badge](https://api.codacy.com/project/badge/Grade/c61d2501dca44ccbbd8b590470330b32)](https://app.codacy.com/gh/sugarlabs-appstore/sugarappstore?utm_source=github.com&utm_medium=referral&utm_content=sugarlabs-appstore/sugarappstore&utm_campaign=Badge_Grade_Dashboard)
 
-[![PyPI - Python Version](https://img.shields.io/pypi/pyversions/sugarstore-generator?style=flat-square) ![PyPI - Wheel](https://img.shields.io/pypi/wheel/sugarstore-generator?style=flat-square) ![PyPI](https://img.shields.io/pypi/v/sugarstore-generator?style=flat-square)](https://pypi.org/project/sugarstore-generator/)
+[![PyPI - Python Version](https://img.shields.io/pypi/pyversions/aslo4?style=flat-square) ![PyPI - Wheel](https://img.shields.io/pypi/wheel/aslo4?style=flat-square) ![PyPI](https://img.shields.io/pypi/v/aslo4?style=flat-square)](https://pypi.org/project/aslo4/)
 ![GitHub repo size](https://img.shields.io/github/repo-size/sugarlabs-appstore/sugarappstore?style=flat-square) ![GitHub commits since latest release (by SemVer)](https://img.shields.io/github/commits-since/sugarlabs-appstore/sugarappstore/latest/master?sort=semver&style=flat-square) ![GitHub](https://img.shields.io/github/license/sugarlabs-appstore/sugarappstore?style=flat-square) ![Codecov](https://img.shields.io/codecov/c/gh/sugarlabs-appstore/sugarappstore?style=flat-square)
 
 ## Introduction
@@ -16,7 +16,7 @@ and games made for sugar, which are commonly known as sugar-activities.
 
 ### Install from PyPI
 ```bash
-pip3 install sugarstore-generator
+pip3 install aslo4
 ```
 
 ## Setup
@@ -35,17 +35,17 @@ cd sugarappstore
 ```
 * Run the program
 ```bash
-python3 -m sugarstore_generator
+python3 -m aslo4
 ```
 
 
 ## Minimal usage
 
-Sugar Labs appstore generator (`sugarstore_generator`) is highly customizable. A sample usage and explanation have been provided below
+Sugar Labs appstore generator (`aslo4`) is highly customizable. A sample usage and explanation have been provided below
 
 ### Pre-requisites
 
-* A collection of Sugar Activities in a dedicated folder. (The folder may contain other stuff). `sugarstore_generator` technically looks for `activity.info`, but not recursively. If the directory where you have clones is called `repo` (for example), then `sugarstore_generator` will only check `repo/**/activity/activity.info` exists.  If, it does not match the pattern, then the folder is ignored. We have avoided recursion through directories, due to the possibility of a longer build time, etc.
+* A collection of Sugar Activities in a dedicated folder. (The folder may contain other stuff). `aslo4` technically looks for `activity.info`, but not recursively. If the directory where you have clones is called `repo` (for example), then `aslo4` will only check `repo/**/activity/activity.info` exists.  If, it does not match the pattern, then the folder is ignored. We have avoided recursion through directories, due to the possibility of a longer build time, etc.
 * `CPython 3.6+`, To build `python3` activities, you need `python3` executable in `PATH`. To support `python2` activities, you need `python2` on `PATH`.
 * `git`executable, should be available in `PATH`
 * (optional): `sugar-toolkit-gtk3`, `sugar-toolkit` (to build activities, i.e., to create bundle `.xo`)
@@ -65,13 +65,13 @@ Sugar Labs appstore generator (`sugarstore_generator`) is highly customizable. A
    The `./activities` contains the folders `Pippy` and `speak`. The names could be different too. But each of the
    folder must contain a `./<activity_name>/activity/activity.info` to be detected as an activity.
    ```bash
-   python -m sugarstore_generator -i ./activities --list-activities 
+   python -m aslo4 -i ./activities --list-activities 
    ```
 
 2. To build `.xo`
 
    ```bash
-   python -m sugarstore_generator -i ./activities -b
+   python -m aslo4 -i ./activities -b
    ```
    This command will generate `Pippy-9.xo` in `./activities/Pippy/dist/Pippy-9.xo` and `speak-X.xo` in `./activities/speak/dist/speak-X.xo`
    
@@ -79,7 +79,7 @@ Sugar Labs appstore generator (`sugarstore_generator`) is highly customizable. A
 3. To create appstore
 
    ```bash
-   python -m sugarstore_generator --input-directory ./activities --pull-static-css-js-html ./sugarstore-static --generate-static-html --build-xo
+   python -m aslo4 --input-directory ./activities --pull-static-css-js-html ./aslo4-static --generate-static-html --build-xo
    ```
    This command will automatically extract the bundles from the `dist` folders of the respective activities, and parse
    `NEWS` from `./activities/Pippy/NEWS` and get attributes from `./activities/Pippy/activity/activity.info`
@@ -96,14 +96,14 @@ bundle `.xo`.
    ```
 2. List all the activities to make sure the `*.xo` are detected 
    ```bash
-   python3 -m sugarstore_generator -i ./bundles --list-activities 
+   python3 -m aslo4 -i ./bundles --list-activities 
    ```
 3. Now create the appstrore
    ```bash
-   python3 -m sugarstore_generator -i ./bundles --generate-sitemap --pull-static-css-js-html ./sugarstore-static 
+   python3 -m aslo4 -i ./bundles --generate-sitemap --pull-static-css-js-html ./aslo4-static 
    ```
 
-Both the methods mentioned with build the appstore in `saas_compiled` directory. (The name `saas` will be changed in future) which can be overriden by using `-o` flag
+Both the methods mentioned with build the appstore in `aslo4-compiled` directory. (The name `saas` will be changed in future) which can be overriden by using `-o` flag
 
 These commands will create a minimal appstore.    
 
@@ -112,21 +112,21 @@ These commands will create a minimal appstore.
 ## Usage
 
 ```bash
-$ python3 -m sugarstore_generator --help
+$ python3 -m aslo4 --help
 usage: Sugar Appstore generator [-h] [-i INPUT_DIRECTORY] [-o OUTPUT_DIRECTORY] [-b]
                                 [--build-entrypoint BUILD_ENTRYPOINT] [--build-override]
                                 [--build-chdir] [-l] [-g] [-x GENERATE_SITEMAP] [-v]
                                 [-p PULL_STATIC_CSS_JS_HTML] [-u] [-P] [-s] [-f] [-y] [-c] [-z]
                                 [--version]
 
-Generates static HTML files for SAAS
+Generates static HTML files for ASLOv4
 
 optional arguments:
   -h, --help            show this help message and exit
   -i INPUT_DIRECTORY, --input-directory INPUT_DIRECTORY
                         Provide the directory to scan for Sugar activity bundles *.xo
   -o OUTPUT_DIRECTORY, --output-directory OUTPUT_DIRECTORY
-                        Provide the directory to output the parsed website for SAAS
+                        Provide the directory to output the parsed website for ASLOv4
   -b, --build-xo        Generate XO bundles for a large number of directories
   --build-entrypoint BUILD_ENTRYPOINT
                         Specify a path to any Linux compatible script which is intended to be

@@ -1,6 +1,6 @@
 """
-Sugar Activities App Store (SAAS)
-https://github.com/sugarlabs-appstore/sugarappstore
+Sugar Activities App Store (ASLOv4)
+https://github.com/sugarlabs-appstore/aslo-v4
 
 Copyright (C) 2020 Sugar Labs
 Copyright (C) 2020 Srevin Saju <srevinsaju@sugarlabs.org>
@@ -20,12 +20,4 @@ You should have received a copy of the GNU Affero General Public License
 along with this program.  If not, see <https://www.gnu.org/licenses/>.
 """
 
-from .generator import SaaSBuild
-
-
-def main():
-    SaaSBuild()
-
-
-if __name__ == "__main__":
-    main()
+__version__ = "0.1.a3"

@@ -30,7 +30,7 @@ import re
 
 __ALL__ = ['colored', 'cprint']
 
-from sugarstore_generator import platform
+from aslo4 import platform
 
 VERSION = (1, 1, 0)
 
@@ -113,7 +113,7 @@ def colored(text, color=None, on_color=None, attrs=None):
         colored('Hello, World!', 'green')
     """
     if os.getenv('ANSI_COLORS_DISABLED') is None \
-            and os.getenv('SAAS_NO_COLORS') is None:
+            and os.getenv('ASLOv4_NO_COLORS') is None:
         fmt_str = '\033[%dm%s'
         if color is not None:
             text = re.sub(COLORS_RE + '(.*?)' + RESET_RE, r'\1', text)

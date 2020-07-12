@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <component type="desktop-application">
-	<id>sugarstore_generator</id>
-	<name>sugarstore_generator</name>
+	<id>aslo4</id>
+	<name>aslo4</name>
     <metadata_license>MIT</metadata_license>
     <project_license>AGPL3+</project_license>
     <summary>Tools for generating Sugar App Store website</summary>

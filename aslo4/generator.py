@@ -1,6 +1,6 @@
 """
-Sugar Activities App Store (SAAS)
-https://github.com/sugarlabs-appstore/sugarappstore
+Sugar Activities App Store (ASLOv4)
+https://github.com/sugarlabs-appstore/aslo-v4
 
 Copyright (C) 2020 Sugar Labs
 Copyright (C) 2020 Srevin Saju <srevinsaju@sugarlabs.org>
@@ -45,7 +45,7 @@ from . import __version__
 
 parser = argparse.ArgumentParser(
     'Sugar Appstore generator',
-    description='Generates static HTML files for SAAS'
+    description='Generates static HTML files for ASLOv4'
 )
 parser.add_argument(
     '-i', '--input-directory',
@@ -54,8 +54,8 @@ parser.add_argument(
 )
 parser.add_argument(
     '-o', '--output-directory',
-    default=os.path.join(os.getcwd(), 'saas_compiled'),
-    help='Provide the directory to output the parsed website for SAAS'
+    default=os.path.join(os.getcwd(), 'aslo4-compiled'),
+    help='Provide the directory to output the parsed website for ASLOv4'
 )
 parser.add_argument(
     '-b', '--build-xo',
@@ -105,7 +105,7 @@ parser.add_argument(
     '--pull-static-css-js-html',
     default='',
     help="Provide the path to js, css and index.html (ideally from "
-    "https://github.com/sugarlabs-appstore/sugarappstore-static)")
+    "https://github.com/sugarlabs-appstore/aslo-v4-static)")
 parser.add_argument(
     '-u', '--unique-icons',
     action='store_true',
@@ -162,7 +162,7 @@ DEPENDENCIES = (
 
 
 if args.no_colors:
-    os.environ['SAAS_NO_COLORS'] = 'true'
+    os.environ['ASLOv4_NO_COLORS'] = 'true'
 
 
 def debug(x):

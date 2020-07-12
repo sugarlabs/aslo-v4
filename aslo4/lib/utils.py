@@ -1,6 +1,7 @@
+#!/usr/bin/env python3
 """
-Sugar Activities App Store (SAAS)
-https://github.com/sugarlabs-appstore/sugarappstore
+Sugar Activities App Store (ASLOv4)
+https://github.com/sugarlabs-appstore/aslo-v4
 
 Copyright (C) 2020 Srevin Saju <srevinsaju@sugarlabs.org>
 

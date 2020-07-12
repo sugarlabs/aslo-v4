@@ -1,6 +1,6 @@
 """
-Sugar Activities App Store (SAAS)
-https://github.com/sugarlabs-appstore/sugarappstore
+Sugar Activities App Store (ASLOv4)
+https://github.com/sugarlabs-appstore/aslo-v4
 
 Copyright (C) 2020 Srevin Saju <srevinsaju@sugarlabs.org>
 
@@ -17,3 +17,5 @@ GNU Affero General Public License for more details.
 You should have received a copy of the GNU Affero General Public License
 along with this program.  If not, see <https://www.gnu.org/licenses/>.
 """
+
+FILE_PROTOCOL = "file://"
