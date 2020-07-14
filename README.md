@@ -1,4 +1,4 @@
-![sugarlabs appstore logo](assets/aslo4.svg)
+![sugarlabs aslo4 logo](assets/aslo4.svg)
 
 # aslo4
 
@@ -11,8 +11,8 @@
 
 ## Introduction
 
-Sugar App Store is an app store to distribute apps
-and games made for sugar, which are commonly known as sugar-activities.
+The ASLO is an acronym for activities.sugarlabs.org. It is an activity store for
+Sugar Activities. It is called `aslo4`, 
 
 ### Install from PyPI
 ```bash
@@ -41,7 +41,7 @@ python3 -m aslo4
 
 ## Minimal usage
 
-Sugar Labs appstore generator (`aslo4`) is highly customizable. A sample usage and explanation have been provided below
+ASLO4 generator (`aslo4`) is highly customizable. A sample usage and explanation have been provided below
 
 ### Pre-requisites
 
@@ -76,7 +76,7 @@ Sugar Labs appstore generator (`aslo4`) is highly customizable. A sample usage a
    This command will generate `Pippy-9.xo` in `./activities/Pippy/dist/Pippy-9.xo` and `speak-X.xo` in `./activities/speak/dist/speak-X.xo`
    
 
-3. To create appstore
+3. To create ASLO4:
 
    ```bash
    python -m aslo4 --input-directory ./activities --pull-static-css-js-html ./aslo4-static --generate-static-html --build-xo
@@ -86,7 +86,7 @@ Sugar Labs appstore generator (`aslo4`) is highly customizable. A sample usage a
    
 #### Alternative build method (without Activity Source)
 
-This part provides instructions to build the `appstore` without cloning the activity / by only providing the finally built
+This part provides instructions to build the `aslo4` without cloning the activity / by only providing the finally built
 bundle `.xo`.
 
 1. Place all the bundles `*.xo` in a folder, say `bundles`
@@ -103,9 +103,9 @@ bundle `.xo`.
    python3 -m aslo4 -i ./bundles --generate-sitemap --pull-static-css-js-html ./aslo4-static 
    ```
 
-Both the methods mentioned with build the appstore in `aslo4-compiled` directory. (The name `saas` will be changed in future) which can be overriden by using `-o` flag
+Both the methods mentioned with build the aslo4 in `aslo4-compiled` directory. (The name `saas` will be changed in future) which can be overriden by using `-o` flag
 
-These commands will create a minimal appstore.    
+These commands will create a minimal aslo4 activity library.    
 
 > For advanced usage, see [Usage](#usage)
 
@@ -113,7 +113,7 @@ These commands will create a minimal appstore.
 
 ```bash
 $ python3 -m aslo4 --help
-usage: Sugar Appstore generator [-h] [-i INPUT_DIRECTORY] [-o OUTPUT_DIRECTORY] [-b]
+usage: ASLO4 generator [-h] [-i INPUT_DIRECTORY] [-o OUTPUT_DIRECTORY] [-b]
                                 [--build-entrypoint BUILD_ENTRYPOINT] [--build-override]
                                 [--build-chdir] [-l] [-g] [-x GENERATE_SITEMAP] [-v]
                                 [-p PULL_STATIC_CSS_JS_HTML] [-u] [-P] [-s] [-f] [-y] [-c] [-z]
@@ -176,7 +176,7 @@ bundles i.e. .xo files.
 ## TODO
 - [x] Create search function js file, JSON data file & html page stitching them together
 - [ ] NOTE: how will I ensure that results are presented in  some order when more than one search result is of equal standing in term of keywords match/ranking etc. Popularity/download counts or newest/last updated?
-- [x] Python script to automatically add all apps to app store, generate html pages and append entry to JSON search index file.
+- [x] Python script to automatically add all apps to aslo4, generate html pages and append entry to JSON search index file.
 - [x] Create demo website
 - [x] Add copyright & license information
 - [x] For production version, compress index.json file. Also use compressed version of jquery.
@@ -186,10 +186,10 @@ bundles i.e. .xo files.
 ## Design choices
 
 ### Relative path of files instead of absolute
-Since app store can be started just by opening index.html or any other html file in browser rather than first starting a server (even simple localhost one), keeping paths relative have advantage over absolute as they won't break and work even when any html file is opened directly in browser. One caveat will be that moving file from one directory to another will break its references. Script generating static pages need to keep this in mind i.e. must calculate references dynamically rather than hard coding them.
+Since `aslo4` can be started just by opening index.html or any other html file in browser rather than first starting a server (even simple localhost one), keeping paths relative have advantage over absolute as they won't break and work even when any html file is opened directly in browser. One caveat will be that moving file from one directory to another will break its references. Script generating static pages need to keep this in mind i.e. must calculate references dynamically rather than hard coding them.
 
 ### CORS considerations
-Since appstore is supposed to work even without starting a static file serving server i.e. by opening absolutely any HTML file in app store website directory, only way I found that nowadays browsers allow file to be loaded is when it's included by the HTML file opened itself. Files cannot be dynamically loaded later. This rules out all ajax calls in design of app store.
+Since `aslo4` is supposed to work even without starting a static file serving server i.e. by opening absolutely any HTML file in `aslo4` website directory, only way I found that nowadays browsers allow file to be loaded is when it's included by the HTML file opened itself. Files cannot be dynamically loaded later. ~this rules out all ajax calls in design of app store.~ I have used AJAX calls :smile:
 
 Thankfully, we can ask browser to defer loading of some files and wait for those files (search index) to be loaded. Instead of setting a asynchronous sleeping counter to check if search index is loaded, it's better if search index itself tell that it has loaded and we than perform any search in queue.
 Credit: sphinx-doc code.
