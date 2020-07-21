@@ -96,7 +96,7 @@ function addActivityCard(item) {
                     ${version}
                 </h3>
                 <p class="card-text">${summary}</p>\
-                <a href="${bundle_path}" class="btn btn-primary"><i class="fa fa-download"></i></a>\
+                <a type="application/zip" href="${bundle_path}" class="btn btn-primary"><i class="fa fa-download"></i></a>\
                 ${url_container}
                 ${exec_type}
             </div>\
