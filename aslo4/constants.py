@@ -138,7 +138,7 @@ HTML_TEMPLATE = """
             style="margin-bottom: 0.25rem">
             <i class="fab fa-git-alt"></i> Source Code
             </a>
-            <a href="{bundle_path}" class="btn btn-primary saas-activity-download-button">
+            <a type="application/zip" href="{bundle_path}" class="btn btn-primary saas-activity-download-button">
               <i class="fa fa-download"></i> Download
             </a>
           </div>
