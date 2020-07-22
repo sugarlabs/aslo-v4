@@ -4,7 +4,7 @@ import uuid
 
 BUF_SIZE = 65536  # lets read stuff in 64kb chunks!
 RDF_TEMPLATE = """<?xml version="1.0"?>
-<RDF:RDF xmlns:RDF="http://www.w3.org/1999/02/22-rdf-syntax-ns#"\
+<RDF:RDF xmlns:RDF="http://www.w3.org/1999/02/22-rdf-syntax-ns#" \
 xmlns:em="http://www.mozilla.org/2004/em-rdf#">
     <RDF:Description about="urn:mozilla:extension:{bundle_id}">
         <em:updates>
