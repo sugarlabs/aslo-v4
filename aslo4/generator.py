@@ -42,6 +42,7 @@ from .lib.progressbar import progressbar
 from .lib.termcolors import cprint
 from .platform import get_executable_path
 from . import __version__
+from .rdf.rdf import RDF
 
 parser = argparse.ArgumentParser(
     'Sugar Appstore generator',
@@ -371,7 +372,7 @@ class SaaSBuild:
         """
         Creates the necessary directories
         """
-        for directory_path in ('icons', 'bundles', 'app'):
+        for directory_path in ('icons', 'bundles', 'app', 'api'):
             rel_path = os.path.join(output_dir, directory_path)
             if os.path.exists(rel_path):
                 if not args.noconfirm:
@@ -687,7 +688,8 @@ class SaaSBuild:
 
             # get the HTML_TEMPLATE and annotate with the saved
             # information
-            debug("[STATIC][{}] Writing static HTML".format(bundle.get_name()))
+            debug("[STATIC][{}] Generating static HTML".format(
+                bundle.get_name()))
             parsed_html = HTML_TEMPLATE.format(
                 title=bundle.get_name(),
                 version=bundle.get_version(),
@@ -708,13 +710,35 @@ class SaaSBuild:
                 carousel=carousel_div
             )
 
+            debug("[STATIC][{}] Generating RDF data".format(
+                bundle.get_name()))
+            domain = args.generate_sitemap if args.generate_sitemap else \
+                'https://sugarstore.netlify.app'
+            rdf = RDF(
+                bundle_id=bundle.get_bundle_id(),
+                bundle_version=bundle.get_version(),
+                bundle_path=bundle_path,
+                min_version="0.116", max_version="0.117",
+                base_url="{domain}/bundles".format(domain=domain),
+                info_url="{domain}/app".format(domain=domain)
+            )
+            parsed_rdf = rdf.parse()
+
             # write the html file to specified path
+            debug("[STATIC][{}] Writing static HTML".format(bundle.get_name()))
             with open(os.path.join(
                     output_dir,
                     'app',
                     '{}.html'.format(bundle.get_bundle_id())
             ), 'w') as w:
                 w.write(parsed_html)
+
+            debug("[STATIC][{}] Writing RDF".format(bundle.get_name()))
+            with open(os.path.join(
+                    output_dir, 'api',
+                    '{}.xml'.format(bundle.get_bundle_id())
+            ), 'w') as w:
+                w.write(parsed_rdf)
 
             # update the index files
             debug("[STATIC][{}] Adding JSON".format(bundle.get_name()))
