@@ -7,7 +7,8 @@ app.config["DEBUG"] = True
 
 DOMAIN = "http://sugarstore.netlify.app/api"
 OLD_DOMAIN = \
-    "http://activities.sugarlabs.org/services/update-aslo.php?id={i}&appVersion={v}"
+    "http://activities.sugarlabs.org/services/" \
+    "update-aslo.php?id={i}&appVersion={v}"
 
 RDF_HEADERS = """<?xml version="1.0"?>
 <RDF:RDF xmlns:RDF="http://www.w3.org/1999/02/22-rdf-syntax-ns#" \
@@ -50,8 +51,5 @@ def wake():
     return response
 
 
-
-
 if __name__ == "__main__":
     app.run()
-
