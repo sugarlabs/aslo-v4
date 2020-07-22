@@ -115,7 +115,7 @@ class RDF:
             max_version=self.compatibility['max'],
             update_link=self.url,
             sha_type="sha256",
-            sha_hash=get_sha256(self.bundle_path),
+            sha_hash=get_sha256(self.bundle_path)['sha256'],
             update_size=self.get_bundle_size(),
             update_info="{}/{}.html".format(self.info_url, self.bundle_id)
         )
