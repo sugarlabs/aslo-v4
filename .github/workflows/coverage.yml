@@ -105,7 +105,7 @@ jobs:
         python3 -m aslo4 -i $(realpath ./activities) -l
         echo "building bundle and regenerating appstore"
 
-        /home/runner/.local/bin/coverage run -m aslo4 -i $(realpath ./activities) -lbguyfs -p ./aslo4-static -x https://sugarstore.netlify.app
+        /home/runner/.local/bin/coverage run -m aslo4 -i $(realpath ./activities) -lbguyfsC -p ./aslo4-static -x https://sugarstore.netlify.app
 
         bash <(curl -s https://codecov.io/bash)
 
