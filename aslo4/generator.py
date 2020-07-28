@@ -135,6 +135,12 @@ parser.add_argument(
     help="Replace output directory (default: always ask)"
 )
 parser.add_argument(
+    '-C', '--always-checkout-latest-tag',
+    action='store_true',
+    help="Checkout the latest tag when building an activity. Fallback to "
+         "master"
+)
+parser.add_argument(
     '-c', '--no-colors',
     action='store_true',
     help="Suppress colors in terminal (default: env ANSI_COLORS_DISABLED)"
@@ -308,7 +314,10 @@ class SaaSBuild:
         """
         self.index = index
 
-    def generate_xo_all(self, path_to_search_xo=None):
+    def generate_xo_all(
+            self, path_to_search_xo=None,
+            checkout_latest_tag=args.always_checkout_latest_tag
+    ):
         """
         Iteratively generate bundle .xo files for all detected activities
         given by self.list_activities()
@@ -341,7 +350,8 @@ class SaaSBuild:
             ecode, _, err = activities[i].do_generate_bundle(
                 override_dist_xo=override,
                 entrypoint_build_command=entrypoint_build_script,
-                build_command_chdir=args.build_chdir
+                build_command_chdir=args.build_chdir,
+                checkout_latest_tag=checkout_latest_tag
             )
             if err:
                 print("[BUILD][W] {} build completed "
