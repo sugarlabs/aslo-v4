@@ -28,15 +28,15 @@ from aslo4.platform import get_executable_path, SYSTEM
 split = shlex.split if SYSTEM != 'Windows' else lambda x: x
 
 
-def decode_each(iter):
+def decode_each(iterable):
     """
     Decodes each item to 'utf-8' or defaults and returns an iterable
-    :param iter:
-    :type iter:
+    :param iterable:
+    :type iterable:
     :return:
     :rtype:
     """
-    return (x.decode() for x in iter)
+    return (x.decode() for x in iterable)
 
 
 def git_checkout_latest_tag(path_to_git_repository):
