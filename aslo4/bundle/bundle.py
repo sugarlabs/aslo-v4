@@ -20,7 +20,6 @@ along with this program.  If not, see <https://www.gnu.org/licenses/>.
 
 import hashlib
 import os
-import shlex
 import subprocess
 import tempfile
 import zipfile
