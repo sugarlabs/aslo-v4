@@ -130,4 +130,3 @@ def git_checkout(path_to_git_repository, branch="master"):
                "yellow")
         return 1
     return 0
-
