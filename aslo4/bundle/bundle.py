@@ -28,10 +28,9 @@ from configparser import ConfigParser
 from pathlib import Path
 
 from aslo4.constants import ACTIVITY_BUILD_CLASSIFIER
-from aslo4.platform import get_executable_path, SYSTEM
-
-# a shorthand for shlex.split on *nix systems
-_s = shlex.split if SYSTEM != 'Windows' else lambda x: x
+from aslo4.lib.termcolors import cprint
+from aslo4.lib.utils import split as _s, git_checkout_latest_tag, git_checkout
+from aslo4.platform import get_executable_path
 
 
 def get_latest_bundle(bundle_path):
@@ -370,7 +369,8 @@ class Bundle:
             self,
             override_dist_xo=False,
             entrypoint_build_command=None,
-            build_command_chdir=False
+            build_command_chdir=False,
+            checkout_latest_tag=False
     ):
         """
         Generates a .xo file for the activities
@@ -403,6 +403,15 @@ class Bundle:
 
         if override_dist_xo and not entrypoint_build_command:
             raise ValueError("entrypoint_build_command was not provided")
+
+        if checkout_latest_tag and not self.is_xo:
+            # checkout the latest tag on the activity build
+            try:
+                git_checkout_latest_tag(self.get_activity_dir())
+            except Exception as e:
+                cprint("WARN: git checkout to latest tag failed. E: {}".format(
+                    e
+                    ), "yellow")
 
         current_path_ = os.getcwd()
         if entrypoint_build_command and isinstance(
@@ -467,6 +476,11 @@ class Bundle:
             bundle = get_latest_bundle(dist_path)
             if bundle:
                 self.set_bundle_path(bundle)
+
+        if checkout_latest_tag and not self.is_xo:
+            # restore the branch to master
+            git_checkout(self.get_activity_dir())
+
         return exit_code, out.decode(), err.decode()
 
     def do_install_bundle(self, system=False):
