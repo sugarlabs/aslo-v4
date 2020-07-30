@@ -711,7 +711,6 @@ class SaaSBuild:
             else:
                 changelog_formatted_html = ''
 
-
             # get the HTML_TEMPLATE and annotate with the saved
             # information
             debug("[STATIC][{}] Generating static HTML".format(
