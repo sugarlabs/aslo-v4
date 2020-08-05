@@ -55,7 +55,7 @@ CAROUSEL_HTML_TEMPLATE = \
 """
 
 FLATPAK_HTML_TEMPLATE = \
-"""<div class="card text-white bg-info mb-3" style="border-radius: 1rem;">
+    """<div class="card text-white bg-info mb-3" style="border-radius: 1rem;">
   <div class="card-header"><i class="fa fa-box" aria-hidden="true"></i> Flatpak</div>
   <div class="card-body">
     <h5 class="card-title">{activity_name} Activity is also available as a flatpak!</h5>
@@ -68,8 +68,24 @@ FLATPAK_HTML_TEMPLATE = \
     </a>
 </div></div>"""
 
-HTML_TEMPLATE = """
-<!DOCTYPE html>
+CHANGELOG_HTML_TEMPLATE = \
+    """<div class="saas-activity-changelog">
+  <h4>Changelog</h4>
+  <pre class="pre-scrollable"><code>{changelog}</code></pre>
+</div>"""
+
+NEW_FEATURE_HTML_TEMPLATE = \
+    """<h4>New in this Version</h4>
+<ul>{new_features}</ul>
+</div>"""
+
+DESCRIPTION_HTML_TEMPLATE = \
+    """<div class="saas-activity-card-description" id=description>
+<h3>Description</h3>
+<p>{description}</p>
+</div>"""
+
+HTML_TEMPLATE = """<!DOCTYPE html>
 <html>
   <head>
     <title>{title} - Sugar AppStore</title>
@@ -111,10 +127,7 @@ HTML_TEMPLATE = """
               <h3>Summary</h3>
               <p>{summary}</p>
             </div>
-            <div class="saas-activity-card-description" id=description>
-              <h3>Description</h3>
-              <p>{description}</p>
-            </div>
+            {description_html_div}
             <div class="saas-activity-card-tags" id="authors">
               <h3>Authors</h3>
               {author_list_html_formatted}
@@ -124,15 +137,8 @@ HTML_TEMPLATE = """
               {tag_list_html_formatted}
             </div>
             <div class="saas-activity-new-features">
-              <h4>New in this Version</h4>
-              <ul>
-               {new_features}
-              </ul>
-            </div>
-            <div class="saas-activity-changelog">
-              <h4>Changelog</h4>
-              <pre class="pre-scrollable"><code>{changelog}</code></pre>
-            </div>
+            {new_feature_html_div}
+            {changelog_html_div}
             {flatpak_html_div}
             <a href="{git_url}" class="btn btn-secondary saas-activity-download-button"
             style="margin-bottom: 0.25rem">
@@ -154,14 +160,14 @@ HTML_TEMPLATE = """
 """
 
 SITEMAP_HEADER = \
-"""<?xml version="1.0" encoding="UTF-8"?>
+    """<?xml version="1.0" encoding="UTF-8"?>
 <urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">
 {content}
 </urlset>
 """
 
 SITEMAP_URL = \
-"""<url>
+    """<url>
   <loc>{url}</loc>
   <lastmod>{lastmod}</lastmod>
   <changefreq>{changefreq}</changefreq>

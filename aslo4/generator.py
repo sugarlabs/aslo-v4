@@ -31,7 +31,8 @@ import sys
 import zipfile
 
 from .bundle.bundle import Bundle
-from .constants import HTML_TEMPLATE
+from .constants import HTML_TEMPLATE, CHANGELOG_HTML_TEMPLATE, \
+    NEW_FEATURE_HTML_TEMPLATE
 from .constants import SITEMAP_HEADER
 from .constants import SITEMAP_URL
 from .constants import FLATPAK_HTML_TEMPLATE
@@ -632,7 +633,7 @@ class SaaSBuild:
             # Changelog gen
             debug("[STATIC][{}] Processing news".format(bundle.get_name()))
             changelog_latest_version = bundle.get_news()
-            html_changelog_latest_version = \
+            new_in_this_version_raw_html = \
                 self._process_changelog_html(changelog_latest_version)
 
             # changelog all
@@ -696,6 +697,20 @@ class SaaSBuild:
                         output_dir
                     )
 
+            if len(new_in_this_version_raw_html):
+                new_in_this_version_parsed = NEW_FEATURE_HTML_TEMPLATE.format(
+                    new_features=''.join(new_in_this_version_raw_html)
+                )
+            else:
+                new_in_this_version_parsed = ''
+
+            if changelog:
+                changelog_formatted_html = CHANGELOG_HTML_TEMPLATE.format(
+                    changelog=''.join(new_in_this_version_raw_html)
+                )
+            else:
+                changelog_formatted_html = ''
+
             # get the HTML_TEMPLATE and annotate with the saved
             # information
             debug("[STATIC][{}] Generating static HTML".format(
@@ -705,7 +720,7 @@ class SaaSBuild:
                 version=bundle.get_version(),
                 summary=bundle.get_summary(),
                 licenses=''.join(html_parsed_licenses),
-                description='Nothing here yet!',
+                description_html_div='',
                 # TODO: Extract from README.md
                 bundle_path='../bundles/{}'.format(
                     _bundle_path.split(os.path.sep)[-1]),
@@ -713,8 +728,8 @@ class SaaSBuild:
                 author_list_html_formatted=''.join(authors_html_list),
                 icon_path='../icons/{}'.format(
                     _icon_path.split(os.path.sep)[-1]),
-                new_features=''.join(html_changelog_latest_version),
-                changelog=changelog,
+                new_feature_html_div=new_in_this_version_parsed,
+                changelog_html_div=changelog_formatted_html,
                 git_url=bundle.get_git_url(),
                 flatpak_html_div=flatpak_html_div,
                 carousel=carousel_div
