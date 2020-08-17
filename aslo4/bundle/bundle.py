@@ -657,7 +657,15 @@ class Bundle:
 
         else:
             authors = self.create_authors_log_file().split('\n')
-        unique_authors = set(authors)
+
+        bots_file = os.path.join(os.path.dirname(
+                os.path.dirname(__file__)), 'data', 'bots.txt')
+        if os.path.exists(bots_file):
+            with open(bots_file, 'r') as fp:
+                bots = fp.read().split('\n')
+        else:
+            bots = set()
+        unique_authors = set(authors).difference(bots)
         author_db = dict()
         for author in unique_authors:
             author_db[author] = authors.count(author)
