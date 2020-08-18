@@ -115,6 +115,9 @@ HTML_TEMPLATE = """<!DOCTYPE html>
             alt="Logo of the activity {title}">
             </img>
             <h1 class="card-title text-center">{title}</h1>
+            <a type="application/zip" href="{bundle_path}" class="btn btn-primary saas-activity-download-button">
+              <i class="fa fa-download"></i> Download
+            </a>
             <div class="saas-activity-card-version mx-auto">
               <span class="badge badge-success saas-badge">
               Version <span class="badge badge-dark">{version}</span>
@@ -143,9 +146,6 @@ HTML_TEMPLATE = """<!DOCTYPE html>
             <a href="{git_url}" class="btn btn-secondary saas-activity-download-button"
             style="margin-bottom: 0.25rem">
             <i class="fab fa-git-alt"></i> Source Code
-            </a>
-            <a type="application/zip" href="{bundle_path}" class="btn btn-primary saas-activity-download-button">
-              <i class="fa fa-download"></i> Download
             </a>
           </div>
         </div>
