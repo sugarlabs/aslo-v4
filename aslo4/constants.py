@@ -105,7 +105,7 @@ HTML_TEMPLATE = """<!DOCTYPE html>
       <link rel="stylesheet" type="text/css" href="../css/main.css"/>
       <link rel="stylesheet" type="text/css" href="../css/fun.css"/>
   </head>
-  <body class="boring-gradient-bg">
+  <body>
     <div class="container saas-activity-main">
       <div class="row">
         <div class="col-md-8 mx-auto">
