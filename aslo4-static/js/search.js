@@ -94,7 +94,6 @@ function addActivityCard(item) {
                 <h3 class="card-title saas-h1">
                     <a href="../app/${bundle_id}.html" class="saas-card-heading-link ${themeHeading}">
                     ${name}</a>
-                    ${version}
                 </h3>
                 <p class="card-text">${summary}</p>\
                 <a type="application/zip" href="${bundle_path}" class="btn btn-primary"><i class="fa fa-download"></i></a>\
