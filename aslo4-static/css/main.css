@@ -9,10 +9,6 @@
   padding: 1rem;
 }
 
-.saas-activity-download-button {
-  border-radius: 1rem;
-}
-
 .saas-activity-card-image {
   height: 25vh;
   width: 25vh;
@@ -27,4 +23,12 @@
   margin: 0.2rem !important;
   font-size: 1em !important;
   padding: 0.3rem !important;
+}
+
+.saas-activity-download-button {
+  max-width: 550px;
+  text-align: center;
+  margin: 1em auto;
+  padding: 1em 2em;
+  border-radius: 1rem;
 }
