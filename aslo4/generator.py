@@ -722,7 +722,15 @@ class SaaSBuild:
             # information
             debug("[STATIC][{}] Generating static HTML".format(
                 bundle.get_name()))
-            parsed_html = HTML_TEMPLATE.format(
+            output_html_file_name_path = os.path.join(output_dir, 'app',
+                    '{}.html'.format(bundle.get_bundle_id()))
+            # write the html file to specified path
+            debug("[STATIC][{}] Writing static HTML".format(bundle.get_name()))
+            read_parse_and_write_template(
+                file_system_loader=self.file_system_loader,
+                html_template_path=os.path.join(args.pull_static_css_js_html,
+                                                'templates', 'app.html'),
+                html_output_path=output_html_file_name_path,
                 title=bundle.get_name(),
                 version=bundle.get_version(),
                 summary=bundle.get_summary(),
@@ -755,15 +763,6 @@ class SaaSBuild:
                 info_url="{domain}/app".format(domain=domain)
             )
             parsed_rdf = rdf.parse()
-
-            # write the html file to specified path
-            debug("[STATIC][{}] Writing static HTML".format(bundle.get_name()))
-            with open(os.path.join(
-                    output_dir,
-                    'app',
-                    '{}.html'.format(bundle.get_bundle_id())
-            ), 'w') as w:
-                w.write(parsed_html)
 
             debug("[STATIC][{}] Writing RDF".format(bundle.get_name()))
             with open(os.path.join(
