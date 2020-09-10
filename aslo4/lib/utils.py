@@ -22,6 +22,8 @@ import os
 import shlex
 import subprocess
 
+from jinja2 import Environment
+
 from aslo4.lib.termcolors import cprint
 from aslo4.platform import get_executable_path, SYSTEM
 
@@ -130,3 +132,32 @@ def git_checkout(path_to_git_repository, branch="master"):
                "yellow")
         return 1
     return 0
+
+
+def read_parse_and_write_template(
+        file_system_loader, html_template_path, html_output_path, **kwargs):
+    """
+    Read HTML Template, parse the HTML template with jinja template
+    renderer and write the formatted jinja template to html_output_path with
+    kwargs as the argument
+    :param file_system_loader: jinja2 FileSystemLoader
+    :type file_system_loader: jinja2.FileSystemLoader
+    :param html_template_path: Path to the HTML template
+    :type html_template_path: str
+    :param html_output_path: Path to write the parsed HTML template
+    :type html_output_path: str
+    :param kwargs:
+    :type kwargs:
+    :return:
+    :rtype:
+    """
+    output_path_file_name = html_output_path.split(os.path.sep)[-1]
+
+    print("[STATIC] Reading template: {}".format(output_path_file_name))
+    with open(html_template_path, 'r') as _buffer:
+        html_template = Environment(loader=file_system_loader) \
+            .from_string(_buffer.read())
+
+    print("[STATIC] Writing parsed template: {}".format(output_path_file_name))
+    with open(html_output_path, 'w') as w:
+        w.write(html_template.render(**kwargs))
