@@ -1,8 +1,11 @@
 <!DOCTYPE html>
 <html lang="en">
   <head>
+    <title>About | Sugar App Store</title>
+    {% include 'header.html' %}
   </head>
   <body class="boring-gradient-bg">
+    {% include 'navigation.html' %}
     <div class="container saas-activity-search-container">
       <!-- Search bar -->
       <div class="col-md-10 col-lg-8 col-xl-7 mx-auto" style="margin: 23px;min-width: 70%">
@@ -41,5 +44,6 @@
         restoreConfigurationOnLoad();
       })
     </script>
+    {% include 'footer.html' %}
   </body>
 </html>
