@@ -30,6 +30,8 @@ import shutil
 import sys
 import zipfile
 
+from jinja2 import FileSystemLoader
+
 from .bundle.bundle import Bundle
 from .constants import HTML_TEMPLATE, CHANGELOG_HTML_TEMPLATE, \
     NEW_FEATURE_HTML_TEMPLATE
