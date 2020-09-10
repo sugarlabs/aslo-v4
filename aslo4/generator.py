@@ -43,6 +43,7 @@ from .constants import CAROUSEL_INDICATOR_HTML_TEMPLATE
 from .constants import CAROUSEL_HTML_TEMPLATE
 from .lib.progressbar import progressbar
 from .lib.termcolors import cprint
+from .lib.utils import read_parse_and_write_template
 from .platform import get_executable_path
 from . import __version__
 from .rdf.rdf import RDF
@@ -235,6 +236,10 @@ class SaaSBuild:
             python2=args.include_python2
     ):
         # check if dependencies are met
+        self.file_system_loader = \
+            FileSystemLoader(os.path.join(args.pull_static_css_js_html,
+                                          "templates"))
+
         dependencies = DEPENDENCIES
         if python2:
             dependencies += DEPENDENCIES_PYTHON2
