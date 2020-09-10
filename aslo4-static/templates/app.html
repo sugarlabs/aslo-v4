@@ -1,0 +1,60 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <title>{{ title }} | Sugar App Store</title>
+    {% include 'header.html' %}
+    <link rel="stylesheet" type="text/css" href="/css/main.css"/>
+  </head>
+  <body>
+    {% include 'navigation.html' %}
+    <div class="container saas-activity-main">
+      <div class="row">
+        <div class="col-md-8 mx-auto">
+          <div class="card saas-activity-card-std shadow-lg">
+            <img class="mx-auto saas-activity-card-image"
+            src="{{ icon_path }}"
+            alt="Logo of the activity {{ title }}">
+            <h1 class="card-title text-center">{{ title }}</h1>
+            <div class="saas-activity-card-version mx-auto">
+              <span class="badge badge-success saas-badge">
+              Version <span class="badge badge-dark">{{ version }}</span>
+              </span> <span class="badge badge-dark saas-badge">
+              License {{ licenses }}
+              </span>
+            </div>
+            {{ carousel }}
+            <div class="saas-activity-card-summary" id=summary>
+              <h3>Summary</h3>
+              <p>{{ summary }}</p>
+            </div>
+            {{ description_html_div }}
+            <div class="saas-activity-card-tags" id="authors">
+              <h3>Authors</h3>
+              {{ author_list_html_formatted }}
+            </div>
+            <div class="saas-activity-card-tags" id="tags">
+              <h3>Tags</h3>
+              {{ tag_list_html_formatted }}
+            </div>
+            <div class="saas-activity-new-features">
+              {{ new_feature_html_div }}
+              {{ changelog_html_div }}
+              {{ flatpak_html_div }}
+              <a href="{{ git_url }}" class="btn btn-secondary saas-activity-download-button"
+              style="margin-bottom: 0.25rem">
+              <i class="fab fa-git-alt"></i> Source Code
+              </a>
+              <a type="application/zip" href="{{ bundle_path }}" class="btn btn-primary saas-activity-download-button">
+                <i class="fa fa-download"></i> Download
+              </a>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+    <script src="https://code.jquery.com/jquery-3.2.1.slim.min.js" integrity="sha384-KJ3o2DKtIkvYIK3UENzmM7KCkRr/rE9/Qpg6aAZGJwFDMVNA/GpGFF93hXpG5KkN" crossorigin="anonymous"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.12.9/umd/popper.min.js" integrity="sha384-ApNbgh9B+Y1QKtv3Rn7W3mgPxhU9K/ScQsAP7hUibX39j7fakFPskvXusvfa0b4Q" crossorigin="anonymous"></script>
+    <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/js/bootstrap.min.js" integrity="sha384-JZR6Spejh4U02d8jOt6vLEHfe/JQGiRRSQQxSfFWpi1MquVdAyjUar5+76PVCmYl" crossorigin="anonymous"></script>
+  </body>
+  {% include 'footer.html' %}
+</html>
