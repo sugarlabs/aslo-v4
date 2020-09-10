@@ -803,4 +803,22 @@ class SaaSBuild:
                 "{} is not a directory [20]".format(
                     args.pull_static_css_js_html))
         # unpack files into build_dir
-        copytree(args.pull_static_css_js_html, extract_dir, True)
+        for i in ('css', 'img', 'favicon', 'js'):
+            _dir = os.path.join(args.pull_static_css_js_html, i)
+            shutil.copytree(_dir, extract_dir, symlinks=True,
+                            ignore_dangling_symlinks=True, dirs_exist_ok=True)
+
+        for i in ('browserconfig.xml', 'manifest.json', 'README.md', 'LICENSE', 'favicon.ico'):
+            _file = os.path.join(args.pull_static_css_js_html, i)
+            _extract_file = os.path.join(extract_dir, i)
+            shutil.copyfile(_file, _extract_file, follow_symlinks=True)
+
+        for i in ('about.html', 'index.html'):
+            # needs additional processing
+            _file = os.path.join(args.pull_static_css_js_html, i)
+            _extract_file = os.path.join(extract_dir, i)
+            read_parse_and_write_template(
+                file_system_loader=self.file_system_loader,
+                html_template_path=_file,
+                html_output_path=_extract_file
+            )
