@@ -790,8 +790,7 @@ class SaaSBuild:
             self.unpack_static(extract_dir=output_dir)
         debug("[STATIC] Process Completed")
 
-    @staticmethod
-    def unpack_static(extract_dir):
+    def unpack_static(self, extract_dir):
         """
         copies static js/, css/ from upstream along with bundle
         """
