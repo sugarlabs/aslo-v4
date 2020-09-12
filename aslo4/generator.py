@@ -33,7 +33,7 @@ import zipfile
 from jinja2 import FileSystemLoader
 
 from .bundle.bundle import Bundle
-from .constants import HTML_TEMPLATE, CHANGELOG_HTML_TEMPLATE, \
+from .constants import CHANGELOG_HTML_TEMPLATE, \
     NEW_FEATURE_HTML_TEMPLATE
 from .constants import SITEMAP_HEADER
 from .constants import SITEMAP_URL
@@ -225,6 +225,7 @@ class SaaSBuild:
     """
     The helper object to quickly create bundles and generate html web pages
     """
+
     def __init__(
             self,
             list_activities=False,
@@ -722,8 +723,9 @@ class SaaSBuild:
             # information
             debug("[STATIC][{}] Generating static HTML".format(
                 bundle.get_name()))
-            output_html_file_name_path = os.path.join(output_dir, 'app',
-                    '{}.html'.format(bundle.get_bundle_id()))
+            output_html_file_name_path = os.path.join(
+                output_dir, 'app', '{}.html'.format(
+                    bundle.get_bundle_id()))
             # write the html file to specified path
             debug("[STATIC][{}] Writing static HTML".format(bundle.get_name()))
             read_parse_and_write_template(
@@ -808,7 +810,9 @@ class SaaSBuild:
             shutil.copytree(_dir, extract_dir, symlinks=True,
                             ignore_dangling_symlinks=True, dirs_exist_ok=True)
 
-        for i in ('browserconfig.xml', 'manifest.json', 'README.md', 'LICENSE', 'favicon.ico'):
+        for i in ('browserconfig.xml',
+                  'manifest.json', 'README.md',
+                  'LICENSE', 'favicon.ico'):
             _file = os.path.join(args.pull_static_css_js_html, i)
             _extract_file = os.path.join(extract_dir, i)
             shutil.copyfile(_file, _extract_file, follow_symlinks=True)
@@ -822,4 +826,3 @@ class SaaSBuild:
                 html_template_path=_file,
                 html_output_path=_extract_file
             )
-
