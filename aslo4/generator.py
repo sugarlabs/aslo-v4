@@ -808,8 +808,12 @@ class SaaSBuild:
         for i in ('css', 'img', 'favicon', 'js'):
             _dir = os.path.join(args.pull_static_css_js_html, i)
             if sys.version_info.minor >= 8:
-                shutil.copytree(_dir, extract_dir, symlinks=True,
-                                ignore_dangling_symlinks=True, dirs_exist_ok=True)
+                shutil.copytree(
+                    _dir,
+                    extract_dir,
+                    symlinks=True,
+                    ignore_dangling_symlinks=True,
+                    dirs_exist_ok=True)
             else:
                 if os.path.exists(extract_dir):
                     print("Going to remove {}".format(extract_dir))
