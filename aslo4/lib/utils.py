@@ -57,7 +57,7 @@ def git_checkout_latest_tag(path_to_git_repository):
     e_code = git_rev_list_tags_max_count.wait(50)
     if e_code != 0:
         cprint("FATAL: Could not process `rev-list --tags` for {}".format(
-                    path_to_git_repository
+            path_to_git_repository
         ), "red")
         return 1
 
@@ -102,8 +102,8 @@ def git_checkout_latest_tag(path_to_git_repository):
     if ecode != 0:
         cprint("WARN: checking out {} to tag {} failed. Fallback to "
                "master.".format(
-                    path_to_git_repository, tag
-                ),
+                   path_to_git_repository, tag
+               ),
                "yellow")
         return 1
     return 0
@@ -127,9 +127,9 @@ def git_checkout(path_to_git_repository, branch="master"):
 
     if ecode != 0:
         cprint("WARN: checking out {} to {} failed.".format(
-                    path_to_git_repository, branch
-                ),
-               "yellow")
+            path_to_git_repository, branch
+        ),
+            "yellow")
         return 1
     return 0
 
@@ -155,8 +155,10 @@ def read_parse_and_write_template(
 
     print("[STATIC] Reading template: {}".format(output_path_file_name))
     with open(html_template_path, 'r') as _buffer:
-        html_template = Environment(loader=file_system_loader) \
-            .from_string(_buffer.read())
+        html_template = Environment(
+            loader=file_system_loader,
+            autoescape=True).from_string(
+            _buffer.read())
 
     print("[STATIC] Writing parsed template: {}".format(output_path_file_name))
     with open(html_output_path, 'w') as w:
