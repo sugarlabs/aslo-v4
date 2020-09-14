@@ -71,7 +71,7 @@ jobs:
         python3 -c "import sugar3"
     - name: Clone 100 activities
       env: 
-        ACCESS_TOKEN: ${{ secrets.ACCESS_TOKEN }}
+        ACCESS_TOKEN: ${{ secrets.GITHUB_TOKEN }}
       run: |
         echo PATH=$PATH:$SUGAR_PATH
         echo "TOKEN=$ACCESS_TOKEN" > github-archive/src/.env
