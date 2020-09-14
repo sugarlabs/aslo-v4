@@ -816,14 +816,12 @@ class SaaSBuild:
                     ignore_dangling_symlinks=True,
                     dirs_exist_ok=True)
             else:
-                if os.path.exists(extract_dir):
-                    print("Going to remove {}".format(extract_dir))
-                    shutil.rmtree(extract_dir)
+                _dest_dir = os.path.join(extract_dir, i)
+                if os.path.exists(_dest_dir):
+                    print("Going to remove {}".format(_dest_dir))
+                    shutil.rmtree(_dest_dir)
                 shutil.copytree(
-                    _dir,
-                    os.path.join(
-                        extract_dir,
-                        i),
+                    _dir, _dest_dir
                     symlinks=True,
                     ignore_dangling_symlinks=True)
 
