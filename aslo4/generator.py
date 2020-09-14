@@ -807,10 +807,11 @@ class SaaSBuild:
         # unpack files into build_dir
         for i in ('css', 'img', 'favicon', 'js'):
             _dir = os.path.join(args.pull_static_css_js_html, i)
+            os.makedirs(_dir, exist_ok=True)
             if sys.version_info.minor >= 8:
                 shutil.copytree(
                     _dir,
-                    extract_dir,
+                    os.path.join(extract_dir, i),
                     symlinks=True,
                     ignore_dangling_symlinks=True,
                     dirs_exist_ok=True)
@@ -818,8 +819,13 @@ class SaaSBuild:
                 if os.path.exists(extract_dir):
                     print("Going to remove {}".format(extract_dir))
                     shutil.rmtree(extract_dir)
-                shutil.copytree(_dir, extract_dir, symlinks=True,
-                                ignore_dangling_symlinks=True)
+                shutil.copytree(
+                    _dir,
+                    os.path.join(
+                        extract_dir,
+                        i),
+                    symlinks=True,
+                    ignore_dangling_symlinks=True)
 
         for i in ('browserconfig.xml',
                   'manifest.json', 'README.md',
