@@ -1,0 +1,127 @@
+# Sugar Build System
+# (c) Srevin Saju 2020. All rights reserved 
+# Licensed under MIT OSI License
+# Continuous Integration to clone all the activities and then create a bundle
+
+name: Sugar Build 
+
+on:
+  schedule:
+    - cron: "5 */12 * * *"
+  push:
+    paths:
+        - '.github/workflows/sugar.yml'
+  pull_request:
+    paths:
+        - '.github/workflows/sugar.yml'
+
+jobs:
+  buildxo:
+    runs-on: ubuntu-latest
+    steps:
+    - name: Install dependencies
+      run: |
+        sudo apt install python3-pip python3-setuptools python3-dev
+        python3 -m pip install --upgrade pip
+        python3 -m pip install empy
+    - name: Setup cloner
+      run: |
+        git clone https://github.com/srevinsaju/github-archive
+        cd github-archive
+        git checkout patch-1
+        python3 -m pip install -r requirements.txt
+        
+    - name: Download sugar and install 
+      run: |
+        sudo sed -i '/deb-src/s/^# //' /etc/apt/sources.list
+        for module in sugar{-datastore,-artwork,-toolkit-gtk3,}; do
+            git clone https://github.com/sugarlabs/$module.git
+        done
+        sudo apt update
+        for module in sugar{-datastore,-artwork,-toolkit-gtk3,}; do
+            sudo apt build-dep $module
+        done
+        sudo apt install python{,3}-six python3-empy
+        for module in sugar{-artwork,-toolkit-gtk3,-datastore,}; do
+            cd $module
+            ./autogen.sh --with-python3 --prefix=/usr
+            make
+            sudo make install
+            cd ..
+        done
+        cd sugar-toolkit-gtk3
+        ./autogen.sh --with-python2 --prefix=/usr
+        make
+        sudo make install
+        cd ..
+        sudo apt install python-sugar
+        sudo mkdir -p /usr/lib/python3.6/dist-packages
+        sudo cp -r /usr/lib/python3.6/site-packages/sugar3 /usr/lib/python3.6/dist-packages/.
+        sudo cp -r /usr/lib/python3.6/site-packages/jarabe /usr/lib/python3.6/dist-packages/.
+        sudo cp -r /usr/lib/python3.6/site-packages/carquinyol /usr/lib/python3.6/dist-packages/.
+        echo 'Sugar Installed'
+        echo $(which sugar-activity)
+        
+    - name: Test Sugar
+
+      run: |
+        echo $PYTHONPATH
+        echo $PATH
+        
+        python3 -c "import sugar3"
+    - name: Clone 100 activities
+      env: 
+        ACCESS_TOKEN: ${{ secrets.ACCESS_TOKEN }}
+      run: |
+        echo PATH=$PATH:$SUGAR_PATH
+        echo "TOKEN=$ACCESS_TOKEN" > github-archive/src/.env
+        echo 'GISTS_CLONE_ON="disable"' >> github-archive/src/.env
+        echo 'GISTS_PULL_ON="disable"' >> github-archive/src/.env
+        echo "USER_CLONE_ON='disable'" >> github-archive/src/.env 
+        echo "USER_PULL_ON='disable'" >> github-archive/src/.env 
+        echo "ORGS='sugarlabs'" >> github-archive/src/.env 
+        echo "ORGS_CLONE_ON='enable'" >> github-archive/src/.env 
+        echo 'ORGS_PULL_ON="disable"' >> github-archive/src/.env 
+        echo "LOCATION='$(realpath .)/activities'" >> github-archive/src/.env 
+        echo "LOG_LIFE='30'" >> github-archive/src/.env
+        echo 'BRANCH="master"' >> github-archive/src/.env
+        mkdir activities
+        python3 github-archive/src/github_archive.py
+        rm -r activities/repos/sugarlabs/musicblocks activities/repos/sugarlabs/sugarizer
+    - name: Get tools
+      run: |
+        export PATH=$PATH:$SUGAR_PATH
+        echo "clone static"
+        git clone https://github.com/sugarlabs-appstore/aslo-v4
+        cd aslo-v4
+        echo "checking out dev"
+        python3 -m pip install -r requirements.txt
+        ls ../activities
+        python3 -m aslo4 -i $(realpath ../activities/repos/sugarlabs) -Pvfsbguyz -p ./aslo4-static -x https://sugarstore.netlify.app
+        tar -czvf aslo4.tar.gz ./aslo4-compiled
+        cd ..
+
+    - name: Deploy 🚀
+      uses: JamesIves/github-pages-deploy-action@3.5.9
+      with:
+        GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+        BRANCH: gh-pages # The branch the action should deploy to.
+        FOLDER: aslo4/aslo4-compiled  # The folder the action should deploy.
+
+    - name: Release
+      uses: "marvinpinto/action-automatic-releases@latest"
+      with:
+        repo_token: "${{ secrets.GITHUB_TOKEN }}"
+        automatic_release_tag: "latest"
+        prerelease: true
+        title: "Continuous"
+        files: |
+          aslo-v4/aslo4.tar.gz
+          aslo-v4/aslo4-compiled/index.json
+          aslo-v4/aslo4-compiled/sitemap.xml
+
+    - name: Trigger Build on Netlify
+      env:
+        NETLIFY: ${{ secrets.NETLIFY_TOKEN }}
+      run: |
+        curl -X POST -d {} $NETLIFY
