@@ -19,6 +19,7 @@ jobs:
   buildxo:
     runs-on: ubuntu-latest
     steps:
+    - uses: actions/checkout@v2
     - name: Install dependencies
       run: |
         sudo apt install python3-pip python3-setuptools python3-dev
@@ -92,14 +93,11 @@ jobs:
       run: |
         export PATH=$PATH:$SUGAR_PATH
         echo "clone static"
-        git clone https://github.com/sugarlabs-appstore/aslo-v4
-        cd aslo-v4
         echo "checking out dev"
         python3 -m pip install -r requirements.txt
-        ls ../activities
-        python3 -m aslo4 -i $(realpath ../activities/repos/sugarlabs) -Pvfsbguyz -p ./aslo4-static -x https://sugarstore.netlify.app
+        ls activities
+        python3 -m aslo4 -i $(realpath activities/repos/sugarlabs) -Pvfsbguyz -p ./aslo4-static -x https://sugarstore.netlify.app
         tar -czvf aslo4.tar.gz ./aslo4-compiled
-        cd ..
 
     - name: Deploy 🚀
       uses: JamesIves/github-pages-deploy-action@3.5.9
