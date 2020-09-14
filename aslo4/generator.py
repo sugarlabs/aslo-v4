@@ -821,7 +821,7 @@ class SaaSBuild:
                     print("Going to remove {}".format(_dest_dir))
                     shutil.rmtree(_dest_dir)
                 shutil.copytree(
-                    _dir, _dest_dir
+                    _dir, _dest_dir,
                     symlinks=True,
                     ignore_dangling_symlinks=True)
 
