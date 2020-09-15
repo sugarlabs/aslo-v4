@@ -163,11 +163,11 @@ args = parser.parse_args()
 
 
 DEPENDENCIES_PYTHON2 = (
-    'python2', 
+    'python2',
 )
 
 DEPENDENCIES = (
-    'git', 
+    'git',
     'python3',
 )
 
