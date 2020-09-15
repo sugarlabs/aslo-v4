@@ -163,12 +163,12 @@ args = parser.parse_args()
 
 
 DEPENDENCIES_PYTHON2 = (
-    'python2', 'sugar-activity'
+    'python2', 
 )
 
 DEPENDENCIES = (
-    'git', 'sugar-activity3',
-    'python3', 'sugar-install-bundle'
+    'git', 
+    'python3',
 )
 
 
