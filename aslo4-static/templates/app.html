@@ -3,7 +3,7 @@
   <head>
     <title>{{ title }} | Sugar App Store</title>
     {% include 'header.html' %}
-    <link rel="stylesheet" type="text/css" href="/css/main.css"/>
+    <link rel="stylesheet" type="text/css" href="{{ catalog.prefix }}/css/main.css"/>
   </head>
   <body>
     {% include 'navigation.html' %}
@@ -12,7 +12,7 @@
         <div class="col-md-8 mx-auto">
           <div class="card saas-activity-card-std shadow-lg">
             <img class="mx-auto saas-activity-card-image"
-            src="{{ icon_path }}"
+		 src="{{ catalog.prefix }}{{ icon_path }}"
             alt="Logo of the activity {{ title }}">
             <h1 class="card-title text-center">{{ title }}</h1>
             <div class="saas-activity-card-version mx-auto">
