@@ -156,8 +156,7 @@ def read_parse_and_write_template(
     print("[STATIC] Reading template: {}".format(output_path_file_name))
     with open(html_template_path, 'r') as _buffer:
         html_template = Environment(
-            loader=file_system_loader,
-            autoescape=True).from_string(
+            loader=file_system_loader).from_string(
             _buffer.read())
 
     print("[STATIC] Writing parsed template: {}".format(output_path_file_name))
