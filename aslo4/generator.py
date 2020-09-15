@@ -739,11 +739,11 @@ class SaaSBuild:
                 licenses=''.join(html_parsed_licenses),
                 description_html_div='',
                 # TODO: Extract from README.md
-                bundle_path='../bundles/{}'.format(
+                bundle_path='/bundles/{}'.format(
                     _bundle_path.split(os.path.sep)[-1]),
                 tag_list_html_formatted=''.join(tags_html_list),
                 author_list_html_formatted=''.join(authors_html_list),
-                icon_path='../icons/{}'.format(
+                icon_path='/icons/{}'.format(
                     _icon_path.split(os.path.sep)[-1]),
                 new_feature_html_div=new_in_this_version_parsed,
                 changelog_html_div=changelog_formatted_html,
