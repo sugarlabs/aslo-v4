@@ -3,7 +3,7 @@ from setuptools import setup
 setup(
     name='aslo4',
     version='0.1.b0',
-    packages=['aslo4', 'aslo4.lib', 'aslo4.lib.progressbar', 'aslo4.bundle', 'aslo4.platform'],
+    packages=['aslo4', 'aslo4.lib', 'aslo4.lib.progressbar', 'aslo4.bundle', 'aslo4.platform', 'aslo4.rdf'],
     url='https://github.com/sugarlabs-appstore/aslo-v4',
     download_url="https://pypi.python.org/pypi/aslo4",
     license='AGPLv3+',
@@ -14,7 +14,7 @@ setup(
     author_email='srevinsaju@sugarlabs.org',
     description='A python package to build sugar app store',
     include_package_data=True,
-    install_requires=['python_utils'],
+    install_requires=['python_utils', 'jinja2', 'colorama'],
     entry_points={
         'console_scripts': [
             'aslo4-gen = aslo4.__main__:main',
