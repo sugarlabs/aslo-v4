@@ -23,7 +23,7 @@ import shlex
 import subprocess
 
 from jinja2 import Environment
-
+from aslo4.catalog import Catalog
 from aslo4.lib.termcolors import cprint
 from aslo4.platform import get_executable_path, SYSTEM
 
@@ -161,4 +161,4 @@ def read_parse_and_write_template(
 
     print("[STATIC] Writing parsed template: {}".format(output_path_file_name))
     with open(html_output_path, 'w') as w:
-        w.write(html_template.render(**kwargs))
+        w.write(html_template.render(**kwargs, catalog=Catalog()))

@@ -55,13 +55,13 @@ function addActivityCard(item) {
   } else {
     url_container = '';
   }
-  const bundle_path = `../bundles/${item['bundle_name']}`;
+  const bundle_path = `bundles/${item['bundle_name']}`;
   if (item['exec_type'] == 'web') {
-    var exec_type = `<a data-toggle="tooltip" title="Based on WebKit. Works on most platforms"><img src="../img/sugarweb-1.svg" alt="Works with Webkit" height=38px>`;
+    var exec_type = `<a data-toggle="tooltip" title="Based on WebKit. Works on most platforms"><img src="img/sugarweb-1.svg" alt="Works with Webkit" height=38px>`;
   } else if (item['exec_type'] == 'python2') {
-    var exec_type = `<a data-toggle="tooltip" title="Powered by Python2. Supported by older sugar."><img src="../img/sugar2-1.svg" alt="Powered by Python2.x" height=38px>`;
+    var exec_type = `<a data-toggle="tooltip" title="Powered by Python2. Supported by older sugar."><img src="img/sugar2-1.svg" alt="Powered by Python2.x" height=38px>`;
   } else if (item['exec_type'] == 'python3') {
-    var exec_type = `<a data-toggle="tooltip" title="Powered by Python3. Supported by Sugar 0.116+"><img src="../img/sugar3-1.svg" alt="Powered by Python3.x" height=38px ></a>`;
+    var exec_type = `<a data-toggle="tooltip" title="Powered by Python3. Supported by Sugar 0.116+"><img src="img/sugar3-1.svg" alt="Powered by Python3.x" height=38px ></a>`;
   } else {
     var exec_type = '';
   }
@@ -83,16 +83,16 @@ function addActivityCard(item) {
   $('#activity-card-column').append(
       `<div class="card saas-card shadow-lg ${theme}">\
             <div class="saas-image-placeholder">
-                <a href="../app/${bundle_id}.html" target="_blank"><img  class="card-img-top saas-card-image-hidden saas-card-image-top ${themeImage}" 
+                <a href="app/${bundle_id}.html" target="_blank"><img  class="card-img-top saas-card-image-hidden saas-card-image-top ${themeImage}" 
                     style="position:absolute; top:0; left:0; width:100%;" loading="lazy" \
                     onload="fadeIn(this)"
-                    src="../icons/${icon_path}.svg" alt="Activity Logo of ${name}"
+                    src="icons/${icon_path}.svg" alt="Activity Logo of ${name}"
                     >\
 		 </a>
             </div>
             <div class="card-body">\
                 <h3 class="card-title saas-h1">
-                    <a href="../app/${bundle_id}.html" class="saas-card-heading-link ${themeHeading}">
+                    <a href="app/${bundle_id}.html" class="saas-card-heading-link ${themeHeading}">
                     ${name}</a>
                 </h3>
                 <p class="card-text">${summary}</p>\
@@ -109,7 +109,7 @@ function loadAllActivities() {
   // get the json file
   if ($.trim( $('#saas-search-box').val() ) != '') {
     // the user has entered something, filter the list accordingly
-    $.getJSON('../index.json', function(data) {
+    $.getJSON('index.json', function(data) {
       console.log('Searching using miniSearch');
       if (miniSearch == null) {
         // index minisearch once and only once
@@ -133,7 +133,7 @@ function loadAllActivities() {
       });
     });
   } else {
-    $.getJSON('../index.json', function(data) {
+    $.getJSON('index.json', function(data) {
       // update the UI with each card
       $.each(
           data.sort(function(el1, el2) {
