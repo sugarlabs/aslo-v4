@@ -1,0 +1,9 @@
+name: aslo-generator
+description: Simple Internal tool for ASLOv4 Library Generator
+categories:
+  - Utility
+updateinformation: gh-releases-zsync|sugarlabs|aslo-v4|latest|aslo4*.AppImage.zsync
+requirements: 
+  - python_utils
+  - colorama
+entrypoint: aslo4.__main__:main
