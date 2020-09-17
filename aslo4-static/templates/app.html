@@ -44,10 +44,12 @@
               {{ new_feature_html_div }}
               {{ changelog_html_div }}
               {{ flatpak_html_div }}
+	      {% if git_url %}
               <a href="{{ git_url }}" class="btn btn-secondary saas-activity-download-button"
               style="margin-bottom: 0.25rem">
               <i class="fab fa-git-alt"></i> Source Code
               </a>
+	      {% endif %}
             </div>
           </div>
         </div>
