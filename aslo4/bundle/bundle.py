@@ -644,14 +644,14 @@ class Bundle:
         if self.is_xo:
             # bundles does not have .git directory, skip
             if not os.getenv("ASLOv4_ACTIVITY_XO_AUTHORS"):
-                return {0: 'No authors found'}
+                return dict()
 
             saas_activity_xo_authors = os.path.join(
                 os.getenv('ASLOv4_ACTIVITY_XO_AUTHORS'),
                 "{}.log".format(self.get_bundle_id())
             )
             if not os.path.exists(saas_activity_xo_authors):
-                return {0: 'No authors found'}
+                return dict()
             with open(saas_activity_xo_authors, 'r') as fp:
                 authors = fp.read().split('\n')
 
