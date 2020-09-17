@@ -472,9 +472,6 @@ class SaaSBuild:
             else:
                 html_changelog_latest_version.append(
                     "<li>Nothing here :( </li>")
-        else:
-            html_changelog_latest_version.append(
-                "<li>Nothing here :( </li>")
         return html_changelog_latest_version
 
     @staticmethod
