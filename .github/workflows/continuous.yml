@@ -25,8 +25,22 @@ jobs:
         python -m pip install wheel
         python setup.py bdist_wheel
         export VERSION=$(ls dist)
-        
-    - name: Upload artifact
+
+    - name: Build AppImage
+      run: |
+        wget https://github.com/srevinsaju/pyappimage/releases/download/continuous/pyappimage-3.8-x86_64.AppImage
+       chmod +x pyappimage-3.8-x86_64.AppImage
+       . pyappimage-*.AppImage build
+       mkdir appimage_dist/
+       mv *.AppImage* appimage_dist/. 
+
+    - name: Upload artifact AppImage
+      uses: actions/upload-artifact@v1.0.0
+      with:
+        name: aslo4-continuous-appimage.AppImage.zip
+        path: appimage_dist/
+
+   - name: Upload artifact
       uses: actions/upload-artifact@v1.0.0
       with:
         name: aslo4-continuous-none-any-py3.whl
@@ -45,6 +59,10 @@ jobs:
       with:
         name: aslo4-continuous-none-any-py3.whl
 
+    - uses: actions/download-artifact@v1
+      with: 
+        name: aslo4-continuous-appimage.AppImage.zip
+        
     - name: Release
       uses: marvinpinto/action-automatic-releases@latest
       if: github.ref == 'refs/heads/master' && startsWith(github.ref, 'refs/tags/') != true
@@ -53,5 +71,6 @@ jobs:
         title: continuous
         files: |
           aslo4-continuous-none-any-py3.whl
+          aslo4-continuous-appimage.AppImage.zip
           
         repo_token: ${{ secrets.GITHUB_TOKEN }}
