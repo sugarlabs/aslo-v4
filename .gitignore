@@ -68,3 +68,8 @@ venv.bak/
 .vscode/
 .code/
 
+*.AppImage.zsync
+*.AppImage
+*.AppDir.*
+*.AppDir
+Pipfile.lock
