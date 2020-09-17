@@ -28,7 +28,6 @@ from configparser import ConfigParser
 from pathlib import Path
 
 from aslo4.constants import ACTIVITY_BUILD_CLASSIFIER
-from aslo4.lib.termcolors import cprint
 from aslo4.lib.utils import split as _s, git_checkout_latest_tag, git_checkout
 from aslo4.platform import get_executable_path
 
@@ -72,7 +71,7 @@ def wait_for_process_completion(proc, retry=False, timeout=120):
             # Tried for total of 360 seconds == 6 minutes
             # skip install, to prevent build stash
             logger.error("[ERR] TimeoutExpired: "
-                  "Skipping activity install.")
+                         "Skipping activity install.")
             return -99
     return exit_code
 
@@ -413,9 +412,8 @@ class Bundle:
             try:
                 git_checkout_latest_tag(self.get_activity_dir())
             except Exception as e:
-                logger.warn("WARN: git checkout to latest tag failed. E: {}".format(
-                    e
-                    ))
+                logger.warn(
+                    "WARN: git checkout to latest tag failed. E: {}".format(e))
 
         current_path_ = os.getcwd()
         if entrypoint_build_command and isinstance(
@@ -664,7 +662,7 @@ class Bundle:
             authors = self.create_authors_log_file().split('\n')
 
         bots_file = os.path.join(os.path.dirname(
-                os.path.dirname(__file__)), 'data', 'bots.txt')
+            os.path.dirname(__file__)), 'data', 'bots.txt')
         if os.path.exists(bots_file):
             with open(bots_file, 'r') as fp:
                 bots = fp.read().split('\n')

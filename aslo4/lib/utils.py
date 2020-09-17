@@ -58,9 +58,10 @@ def git_checkout_latest_tag(path_to_git_repository):
     )
     e_code = git_rev_list_tags_max_count.wait(50)
     if e_code != 0:
-        logger.error("FATAL: Could not process `rev-list --tags` for {}".format(
-            path_to_git_repository
-        ))
+        logger.error(
+            "FATAL: Could not process `rev-list --tags` for {}".format(
+                path_to_git_repository
+            ))
         return 1
 
     git_commit_sha_of_tag, _ = \
@@ -103,9 +104,9 @@ def git_checkout_latest_tag(path_to_git_repository):
     ecode = git_checkout_po.wait(500)
     if ecode != 0:
         logger.warn("WARN: checking out {} to tag {} failed. Fallback to "
-               "master.".format(
-                   path_to_git_repository, tag
-               ))
+                    "master.".format(
+                        path_to_git_repository, tag
+                    ))
         return 1
     return 0
 
@@ -159,6 +160,7 @@ def read_parse_and_write_template(
             loader=file_system_loader).from_string(
             _buffer.read())
 
-    logger.info("[STATIC] Writing parsed template: {}".format(output_path_file_name))
+    logger.info("[STATIC] Writing parsed template: {}".format(
+        output_path_file_name))
     with open(html_output_path, 'w') as w:
         w.write(html_template.render(**kwargs, catalog=Catalog()))
