@@ -182,7 +182,6 @@ if args.version:
     cprint("Sugar Labs Appstore Generator Tool", "green")
     print(__version__)
     print()
-    pre_check_dependencies(DEPENDENCIES)
     sys.exit()
 
 
@@ -226,7 +225,8 @@ logger = logging.getLogger("aslo4-builder")
 logger.setLevel(logging.DEBUG)
 formatter = logging.Formatter('%(asctime)s:%(name)s:%(levelname)s:%(message)s')
 log_file = os.getenv('ASLOv4_LOGGER_PATH') or 'aslo-build.log'
-rotating_file_handler = RotatingFileHandler(log_file, maxBytes=1000000, backupCount=10)
+rotating_file_handler = RotatingFileHandler(
+    log_file, maxBytes=1000000, backupCount=10)
 rotating_file_handler.setFormatter(formatter)
 rotating_file_handler.setLevel(logging.DEBUG)
 logger.addHandler(rotating_file_handler)
@@ -388,7 +388,7 @@ class SaaSBuild:
             )
             if err:
                 logger.warn("[BUILD][W] {} build completed "
-                      "with warnings.".format(activities[i]))
+                            "with warnings.".format(activities[i]))
                 num_completed_warnings += 1
             elif ecode:
                 logger.error(
@@ -620,8 +620,9 @@ class SaaSBuild:
                 flatpak_bundle_info = json.load(r)
         elif include_flatpaks:
             logger.error("[ERR] flatpak.json was not found in data/.; "
-                  "Please get a new copy from the source")
-            logger.error("[ERR] Ignoring error and continuing to process bundles. ")
+                         "Please get a new copy from the source")
+            logger.error(
+                "[ERR] Ignoring error and continuing to process bundles. ")
 
         if output_dir is None:
             output_dir = args.output_directory
@@ -629,11 +630,14 @@ class SaaSBuild:
         output_icon_dir = os.path.join(output_dir, 'icons')
         output_bundles_dir = os.path.join(output_dir, 'bundles')
         logger.info("[STATIC] Output directory:{}".format(output_dir))
-        logger.info("[STATIC] Output icon directory:{}".format(output_icon_dir))
-        logger.info("[STATIC] Output bundle directory:{}".format(output_bundles_dir))
+        logger.info(
+            "[STATIC] Output icon directory:{}".format(output_icon_dir))
+        logger.info(
+            "[STATIC] Output bundle directory:{}".format(output_bundles_dir))
 
         # create the directories
-        logger.info("[STATIC] Creating static directories: [icons, bundles, app]")
+        logger.info(
+            "[STATIC] Creating static directories: [icons, bundles, app]")
         self.create_web_static_directories(output_dir)
 
         # get the bundles
@@ -643,45 +647,55 @@ class SaaSBuild:
             redirect_stdout=True,
             enable_progressbar=not self.progress_bar_disabled
         ):
-            logger.debug("[STATIC][{}] Starting build".format(bundle.get_name()))
+            logger.debug(
+                "[STATIC][{}] Starting build".format(
+                    bundle.get_name()))
             # get the bundle and icon path
             bundle_path = bundle.get_bundle_path()
             icon_path = bundle.get_icon_path()
 
             if not bundle_path:
                 logger.debug("[STATIC][{}] Valid dist *.xo was not found. "
-                      "Skipping .".format(bundle.get_name()))
+                             "Skipping .".format(bundle.get_name()))
                 # the path to a bundle does not exist
                 # possibly the bundle was not generated / had bugs
                 continue
 
-            logger.debug("[STATIC][{}] Processing tags".format(bundle.get_name()))
+            logger.debug(
+                "[STATIC][{}] Processing tags".format(
+                    bundle.get_name()))
             tags_html_list = self._process_tags_html(bundle)
 
             # Get the authors and process it
-            logger.debug("[STATIC][{}] Processing authors".format(bundle.get_name()))
+            logger.debug(
+                "[STATIC][{}] Processing authors".format(
+                    bundle.get_name()))
             authors_html_list = self._process_authors_html(bundle)
 
             # Changelog gen
-            logger.debug("[STATIC][{}] Processing news".format(bundle.get_name()))
+            logger.debug(
+                "[STATIC][{}] Processing news".format(
+                    bundle.get_name()))
             changelog_latest_version = bundle.get_news()
             new_in_this_version_raw_html = \
                 self._process_changelog_html(changelog_latest_version)
 
             # changelog all
             logger.debug("[STATIC][{}] "
-                  "Processing changelog".format(bundle.get_name()))
+                         "Processing changelog".format(bundle.get_name()))
             changelog = bundle.get_changelog()
             if changelog:
                 changelog = html.escape(changelog)
 
             # get Licenses
-            logger.debug("[STATIC][{}] Processing Licenses".format(bundle.get_name()))
+            logger.debug(
+                "[STATIC][{}] Processing Licenses".format(
+                    bundle.get_name()))
             html_parsed_licenses = self._process_licenses_html(bundle)
 
             # copy deps to respective folders
             logger.debug("[STATIC][{}] "
-                  "Copying Dependencies".format(bundle.get_name()))
+                         "Copying Dependencies".format(bundle.get_name()))
             _bundle_path = shutil.copy2(
                 bundle_path, output_bundles_dir, follow_symlinks=True)
             if args.unique_icons:
@@ -697,8 +711,10 @@ class SaaSBuild:
                     icon_path, output_icon_dir, follow_symlinks=True)
 
             # get git url
-            logger.debug("[STATIC][{}] "
-                  "Getting URL to git repository".format(bundle.get_name()))
+            logger.debug(
+                "[STATIC][{}] "
+                "Getting URL to git repository".format(
+                    bundle.get_name()))
             bundle_git_url_stripped = bundle.get_git_url()
             if isinstance(bundle_git_url_stripped, str) and \
                     bundle_git_url_stripped[-4:] == ".git":
@@ -706,7 +722,7 @@ class SaaSBuild:
 
             # check if flatpak is supported
             logger.debug("[STATIC][{}] "
-                  "Checking flatpak support".format(bundle.get_name()))
+                         "Checking flatpak support".format(bundle.get_name()))
             if include_flatpaks and \
                     flatpak_bundle_info.get(bundle_git_url_stripped):
                 flatpak_html_div = FLATPAK_HTML_TEMPLATE.format(
@@ -718,7 +734,9 @@ class SaaSBuild:
                 flatpak_html_div = ""
 
             # if screenshots need to be added as in a carousel, add them
-            logger.debug("[STATIC][{}] Adding screenshots".format(bundle.get_name()))
+            logger.debug(
+                "[STATIC][{}] Adding screenshots".format(
+                    bundle.get_name()))
             carousel_div = ""
             screenshots_list = bundle.get_screenshots()
             if include_screenshots and len(screenshots_list) >= 1:
@@ -751,7 +769,9 @@ class SaaSBuild:
                 output_dir, 'app', '{}.html'.format(
                     bundle.get_bundle_id()))
             # write the html file to specified path
-            logger.debug("[STATIC][{}] Writing static HTML".format(bundle.get_name()))
+            logger.debug(
+                "[STATIC][{}] Writing static HTML".format(
+                    bundle.get_name()))
             read_parse_and_write_template(
                 file_system_loader=self.file_system_loader,
                 html_template_path=os.path.join(args.pull_static_css_js_html,
@@ -808,7 +828,7 @@ class SaaSBuild:
         with open(os.path.join(output_dir, 'index.json'), 'w') as w:
             json.dump(self.index, w)
         logger.info("Index file containing {n} items have been written "
-              "successfully".format(n=len(self.index)))
+                    "successfully".format(n=len(self.index)))
 
         # pull the files and unpack it if necessary
         if args.pull_static_css_js_html:
