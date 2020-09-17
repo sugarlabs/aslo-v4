@@ -56,15 +56,6 @@ function addActivityCard(item) {
     url_container = '';
   }
   const bundle_path = `bundles/${item['bundle_name']}`;
-  if (item['exec_type'] == 'web') {
-    var exec_type = `<a data-toggle="tooltip" title="Based on WebKit. Works on most platforms"><img src="img/sugarweb-1.svg" alt="Works with Webkit" height=38px>`;
-  } else if (item['exec_type'] == 'python2') {
-    var exec_type = `<a data-toggle="tooltip" title="Powered by Python2. Supported by older sugar."><img src="img/sugar2-1.svg" alt="Powered by Python2.x" height=38px>`;
-  } else if (item['exec_type'] == 'python3') {
-    var exec_type = `<a data-toggle="tooltip" title="Powered by Python3. Supported by Sugar 0.116+"><img src="img/sugar3-1.svg" alt="Powered by Python3.x" height=38px ></a>`;
-  } else {
-    var exec_type = '';
-  }
   if (item['v']) {
     var version = `<span class="badge badge-secondary">${item['v']}</span>`;
   } else {
@@ -98,7 +89,6 @@ function addActivityCard(item) {
                 <p class="card-text">${summary}</p>\
                 <a type="application/zip" href="${bundle_path}" class="btn btn-primary"><i class="fa fa-download"></i></a>\
                 ${url_container}
-                ${exec_type}
             </div>\
         </div>`,
   );
