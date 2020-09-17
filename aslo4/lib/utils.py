@@ -21,13 +21,15 @@ along with this program.  If not, see <https://www.gnu.org/licenses/>.
 import os
 import shlex
 import subprocess
+import logging
 
 from jinja2 import Environment
 from aslo4.catalog import Catalog
-from aslo4.lib.termcolors import cprint
 from aslo4.platform import get_executable_path, SYSTEM
 
 split = shlex.split if SYSTEM != 'Windows' else lambda x: x
+
+logger = logging.getLogger('aslo-builder')
 
 
 def decode_each(iterable):
@@ -56,9 +58,9 @@ def git_checkout_latest_tag(path_to_git_repository):
     )
     e_code = git_rev_list_tags_max_count.wait(50)
     if e_code != 0:
-        cprint("FATAL: Could not process `rev-list --tags` for {}".format(
+        logger.error("FATAL: Could not process `rev-list --tags` for {}".format(
             path_to_git_repository
-        ), "red")
+        ))
         return 1
 
     git_commit_sha_of_tag, _ = \
@@ -75,7 +77,7 @@ def git_checkout_latest_tag(path_to_git_repository):
     )
     e_code = git_describe_tags.wait(50)
     if e_code != 0:
-        cprint(
+        logger.warn(
             "WARN: git describe --tags for {sha} failed for {git_repo}. "
             "Continuing to build from master...".format(
                 sha=git_commit_sha_of_tag,
@@ -100,11 +102,10 @@ def git_checkout_latest_tag(path_to_git_repository):
 
     ecode = git_checkout_po.wait(500)
     if ecode != 0:
-        cprint("WARN: checking out {} to tag {} failed. Fallback to "
+        logger.warn("WARN: checking out {} to tag {} failed. Fallback to "
                "master.".format(
                    path_to_git_repository, tag
-               ),
-               "yellow")
+               ))
         return 1
     return 0
 
@@ -126,10 +127,9 @@ def git_checkout(path_to_git_repository, branch="master"):
     ecode = git_checkout_po.wait(500)
 
     if ecode != 0:
-        cprint("WARN: checking out {} to {} failed.".format(
+        logger.warn("WARN: checking out {} to {} failed.".format(
             path_to_git_repository, branch
-        ),
-            "yellow")
+        ))
         return 1
     return 0
 
@@ -153,12 +153,12 @@ def read_parse_and_write_template(
     """
     output_path_file_name = html_output_path.split(os.path.sep)[-1]
 
-    print("[STATIC] Reading template: {}".format(output_path_file_name))
+    logger.info("[STATIC] Reading template: {}".format(output_path_file_name))
     with open(html_template_path, 'r') as _buffer:
         html_template = Environment(
             loader=file_system_loader).from_string(
             _buffer.read())
 
-    print("[STATIC] Writing parsed template: {}".format(output_path_file_name))
+    logger.info("[STATIC] Writing parsed template: {}".format(output_path_file_name))
     with open(html_output_path, 'w') as w:
         w.write(html_template.render(**kwargs, catalog=Catalog()))

@@ -23,6 +23,7 @@ import os
 import subprocess
 import tempfile
 import zipfile
+import logging
 from configparser import ConfigParser
 from pathlib import Path
 
@@ -30,6 +31,10 @@ from aslo4.constants import ACTIVITY_BUILD_CLASSIFIER
 from aslo4.lib.termcolors import cprint
 from aslo4.lib.utils import split as _s, git_checkout_latest_tag, git_checkout
 from aslo4.platform import get_executable_path
+
+
+# get the logger
+logger = logging.getLogger("aslo4-builder")
 
 
 def get_latest_bundle(bundle_path):
@@ -66,7 +71,7 @@ def wait_for_process_completion(proc, retry=False, timeout=120):
         except subprocess.TimeoutExpired:
             # Tried for total of 360 seconds == 6 minutes
             # skip install, to prevent build stash
-            print("[ERR] TimeoutExpired: "
+            logger.error("[ERR] TimeoutExpired: "
                   "Skipping activity install.")
             return -99
     return exit_code
@@ -122,7 +127,7 @@ class Bundle:
                 # raises KeyError if the bundle does not have
                 # an activity.info file
                 self._is_invalid = True
-                print(
+                logger.error(
                     "[ERR][BUNDLE] {} is an invalid bundle. "
                     "Provided bundle does not contain activity.info file"
                     .format(__activity_name)
@@ -408,9 +413,9 @@ class Bundle:
             try:
                 git_checkout_latest_tag(self.get_activity_dir())
             except Exception as e:
-                cprint("WARN: git checkout to latest tag failed. E: {}".format(
+                logger.warn("WARN: git checkout to latest tag failed. E: {}".format(
                     e
-                    ), "yellow")
+                    ))
 
         current_path_ = os.getcwd()
         if entrypoint_build_command and isinstance(

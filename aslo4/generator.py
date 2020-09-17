@@ -29,7 +29,9 @@ import time
 import shutil
 import sys
 import zipfile
+import logging
 
+from logging.handlers import RotatingFileHandler
 from jinja2 import FileSystemLoader
 
 from .bundle.bundle import Bundle
@@ -176,6 +178,14 @@ if args.no_colors:
     os.environ['ASLOv4_NO_COLORS'] = 'true'
 
 
+if args.version:
+    cprint("Sugar Labs Appstore Generator Tool", "green")
+    print(__version__)
+    print()
+    pre_check_dependencies(DEPENDENCIES)
+    sys.exit()
+
+
 def debug(x):
     if args.verbose:
         print(x)
@@ -186,10 +196,8 @@ def pre_check_dependencies(dependencies=DEPENDENCIES):
     Checks if all the dependencies are met before build
     """
     for dependency in dependencies:
-        print("Checking {}... ".format(dependency), end="")
         exe = get_executable_path(dependency)
-        cprint("Found at {}".format(exe), 'green')
-    print()
+        logger.debug("{}: Found at {}".format(dependency, exe))
 
 
 def copytree(src, dst, symlinks=False, ignore=None):
@@ -213,12 +221,23 @@ def check_progressbar(*arg, **kwarg):
         return list(*arg)
 
 
-if args.version:
-    cprint("Sugar Labs Appstore Generator Tool", "green")
-    print(__version__)
-    print()
-    pre_check_dependencies(DEPENDENCIES)
-    sys.exit()
+# initialize the logger
+logger = logging.getLogger("aslo4-builder")
+logger.setLevel(logging.DEBUG)
+formatter = logging.Formatter('%(asctime)s:%(name)s:%(levelname)s:%(message)s')
+log_file = os.getenv('ASLOv4_LOGGER_PATH') or 'aslo-build.log'
+rotating_file_handler = RotatingFileHandler(log_file, maxBytes=1000000, backupCount=10)
+rotating_file_handler.setFormatter(formatter)
+rotating_file_handler.setLevel(logging.DEBUG)
+logger.addHandler(rotating_file_handler)
+
+stream_handler = logging.StreamHandler()
+stream_handler.setLevel(logging.ERROR)
+logger.addHandler(stream_handler)
+
+
+if args.verbose:
+    stream_handler.setLevel(logging.DEBUG)
 
 
 class SaaSBuild:
@@ -236,6 +255,11 @@ class SaaSBuild:
             include_screenshots=False,
             python2=args.include_python2
     ):
+        logger.info("***************")
+        logger.info("ASLOv4 builder")
+        logger.info("Build started on {}".format(time.asctime()))
+        logger.info("***************")
+
         # check if dependencies are met
         self.file_system_loader = \
             FileSystemLoader(os.path.join(args.pull_static_css_js_html,
@@ -299,7 +323,7 @@ class SaaSBuild:
                         # skip invalid bundles to prevent conflict
                         collected_sugar_activity_dirs.append(__bundle)
 
-        print("[ACTIVITIES] Collected \n{}\n".format(
+        logger.debug("[ACTIVITIES] Collected \n{}\n".format(
             collected_sugar_activity_dirs))
         return collected_sugar_activity_dirs
 
@@ -336,7 +360,7 @@ class SaaSBuild:
         """
         # list activities and store as variable
         activities = self.list_activities(path_to_search_xo)
-        print("Beginning to process... This might take some time..")
+        logger.debug("Beginning to process... This might take some time..")
         num_encountered_errors = 0
         num_completed_success = 0
         num_completed_warnings = 0
@@ -354,7 +378,7 @@ class SaaSBuild:
                 redirect_stdout=True,
                 enable_progressbar=not self.progress_bar_disabled
         ):
-            print("[BUILD] Building ", activities[i])
+            logger.info("[BUILD] Building ", activities[i])
             # Add an option to provide additional build script
             ecode, _, err = activities[i].do_generate_bundle(
                 override_dist_xo=override,
@@ -363,11 +387,11 @@ class SaaSBuild:
                 checkout_latest_tag=checkout_latest_tag
             )
             if err:
-                print("[BUILD][W] {} build completed "
+                logger.warn("[BUILD][W] {} build completed "
                       "with warnings.".format(activities[i]))
                 num_completed_warnings += 1
             elif ecode:
-                print(
+                logger.error(
                     "[BUILD][E] Error while building {activity} "
                     "E: {err}. Build exited with exit code: {ecode}".format(
                         activity=activities[i], err=err, ecode=ecode
@@ -376,7 +400,7 @@ class SaaSBuild:
                 num_encountered_errors += 1
             else:
                 num_completed_success += 1
-        print(
+        logger.info(
             "[BUILD] Created {success} bundles successfully, "
             "{warn} bundles with warnings and "
             "{failed} with errors".format(
@@ -400,7 +424,7 @@ class SaaSBuild:
                                     "Are you sure you want to proceed? "
                                     "(Y/n) ".format(rel_path))
                     if proceed not in ('y', 'Y'):
-                        print("Terminated on user request.")
+                        logger.error("Terminated on user request.")
                         sys.exit(-1)
                 shutil.rmtree(rel_path, ignore_errors=True)
             os.makedirs(rel_path)
@@ -573,7 +597,7 @@ class SaaSBuild:
             )
         with open(os.path.join(output_dir, 'sitemap.xml'), 'w') as w:
             w.write(SITEMAP_HEADER.format(content=''.join(sitemap_content)))
-        print("sitemap.xml written successfully")
+        logger.info("sitemap.xml written successfully")
 
     def generate_web_page(
             self, output_dir=None,
@@ -588,28 +612,28 @@ class SaaSBuild:
         flatpak_file = os.path.join(
             os.path.dirname(__file__), 'data', 'flatpak.json')
         flatpak_bundle_info = dict()
-        debug("[STATIC] Starting Web Page Static Generation")
+        logger.info("[STATIC] Starting Web Page Static Generation")
 
         if include_flatpaks and os.path.exists(flatpak_file):
-            debug("[STATIC] Reading flatpak.json")
+            logger.info("[STATIC] Reading flatpak.json")
             with open(flatpak_file, 'r') as r:
                 flatpak_bundle_info = json.load(r)
         elif include_flatpaks:
-            print("[ERR] flatpak.json was not found in data/.; "
+            logger.error("[ERR] flatpak.json was not found in data/.; "
                   "Please get a new copy from the source")
-            print("[ERR] Ignoring error and continuing to process bundles. ")
+            logger.error("[ERR] Ignoring error and continuing to process bundles. ")
 
         if output_dir is None:
             output_dir = args.output_directory
 
         output_icon_dir = os.path.join(output_dir, 'icons')
         output_bundles_dir = os.path.join(output_dir, 'bundles')
-        debug("[STATIC] Output directory:{}".format(output_dir))
-        debug("[STATIC] Output icon directory:{}".format(output_icon_dir))
-        debug("[STATIC] Output bundle directory:{}".format(output_bundles_dir))
+        logger.info("[STATIC] Output directory:{}".format(output_dir))
+        logger.info("[STATIC] Output icon directory:{}".format(output_icon_dir))
+        logger.info("[STATIC] Output bundle directory:{}".format(output_bundles_dir))
 
         # create the directories
-        debug("[STATIC] Creating static directories: [icons, bundles, app]")
+        logger.info("[STATIC] Creating static directories: [icons, bundles, app]")
         self.create_web_static_directories(output_dir)
 
         # get the bundles
@@ -619,44 +643,44 @@ class SaaSBuild:
             redirect_stdout=True,
             enable_progressbar=not self.progress_bar_disabled
         ):
-            debug("[STATIC][{}] Starting build".format(bundle.get_name()))
+            logger.debug("[STATIC][{}] Starting build".format(bundle.get_name()))
             # get the bundle and icon path
             bundle_path = bundle.get_bundle_path()
             icon_path = bundle.get_icon_path()
 
             if not bundle_path:
-                debug("[STATIC][{}] Valid dist *.xo was not found. "
+                logger.debug("[STATIC][{}] Valid dist *.xo was not found. "
                       "Skipping .".format(bundle.get_name()))
                 # the path to a bundle does not exist
                 # possibly the bundle was not generated / had bugs
                 continue
 
-            debug("[STATIC][{}] Processing tags".format(bundle.get_name()))
+            logger.debug("[STATIC][{}] Processing tags".format(bundle.get_name()))
             tags_html_list = self._process_tags_html(bundle)
 
             # Get the authors and process it
-            debug("[STATIC][{}] Processing authors".format(bundle.get_name()))
+            logger.debug("[STATIC][{}] Processing authors".format(bundle.get_name()))
             authors_html_list = self._process_authors_html(bundle)
 
             # Changelog gen
-            debug("[STATIC][{}] Processing news".format(bundle.get_name()))
+            logger.debug("[STATIC][{}] Processing news".format(bundle.get_name()))
             changelog_latest_version = bundle.get_news()
             new_in_this_version_raw_html = \
                 self._process_changelog_html(changelog_latest_version)
 
             # changelog all
-            debug("[STATIC][{}] "
+            logger.debug("[STATIC][{}] "
                   "Processing changelog".format(bundle.get_name()))
             changelog = bundle.get_changelog()
             if changelog:
                 changelog = html.escape(changelog)
 
             # get Licenses
-            debug("[STATIC][{}] Processing Licenses".format(bundle.get_name()))
+            logger.debug("[STATIC][{}] Processing Licenses".format(bundle.get_name()))
             html_parsed_licenses = self._process_licenses_html(bundle)
 
             # copy deps to respective folders
-            debug("[STATIC][{}] "
+            logger.debug("[STATIC][{}] "
                   "Copying Dependencies".format(bundle.get_name()))
             _bundle_path = shutil.copy2(
                 bundle_path, output_bundles_dir, follow_symlinks=True)
@@ -673,7 +697,7 @@ class SaaSBuild:
                     icon_path, output_icon_dir, follow_symlinks=True)
 
             # get git url
-            debug("[STATIC][{}] "
+            logger.debug("[STATIC][{}] "
                   "Getting URL to git repository".format(bundle.get_name()))
             bundle_git_url_stripped = bundle.get_git_url()
             if isinstance(bundle_git_url_stripped, str) and \
@@ -681,7 +705,7 @@ class SaaSBuild:
                 bundle_git_url_stripped = bundle_git_url_stripped[:-4]
 
             # check if flatpak is supported
-            debug("[STATIC][{}] "
+            logger.debug("[STATIC][{}] "
                   "Checking flatpak support".format(bundle.get_name()))
             if include_flatpaks and \
                     flatpak_bundle_info.get(bundle_git_url_stripped):
@@ -694,7 +718,7 @@ class SaaSBuild:
                 flatpak_html_div = ""
 
             # if screenshots need to be added as in a carousel, add them
-            debug("[STATIC][{}] Adding screenshots".format(bundle.get_name()))
+            logger.debug("[STATIC][{}] Adding screenshots".format(bundle.get_name()))
             carousel_div = ""
             screenshots_list = bundle.get_screenshots()
             if include_screenshots and len(screenshots_list) >= 1:
@@ -721,13 +745,13 @@ class SaaSBuild:
 
             # get the HTML_TEMPLATE and annotate with the saved
             # information
-            debug("[STATIC][{}] Generating static HTML".format(
+            logger.debug("[STATIC][{}] Generating static HTML".format(
                 bundle.get_name()))
             output_html_file_name_path = os.path.join(
                 output_dir, 'app', '{}.html'.format(
                     bundle.get_bundle_id()))
             # write the html file to specified path
-            debug("[STATIC][{}] Writing static HTML".format(bundle.get_name()))
+            logger.debug("[STATIC][{}] Writing static HTML".format(bundle.get_name()))
             read_parse_and_write_template(
                 file_system_loader=self.file_system_loader,
                 html_template_path=os.path.join(args.pull_static_css_js_html,
@@ -752,7 +776,7 @@ class SaaSBuild:
                 carousel=carousel_div
             )
 
-            debug("[STATIC][{}] Generating RDF data".format(
+            logger.debug("[STATIC][{}] Generating RDF data".format(
                 bundle.get_name()))
             domain = args.generate_sitemap if args.generate_sitemap else \
                 'https://sugarstore.netlify.app'
@@ -766,7 +790,7 @@ class SaaSBuild:
             )
             parsed_rdf = rdf.parse()
 
-            debug("[STATIC][{}] Writing RDF".format(bundle.get_name()))
+            logger.debug("[STATIC][{}] Writing RDF".format(bundle.get_name()))
             with open(os.path.join(
                     output_dir, 'api',
                     '{}.xml'.format(bundle.get_bundle_id())
@@ -774,23 +798,23 @@ class SaaSBuild:
                 w.write(parsed_rdf)
 
             # update the index files
-            debug("[STATIC][{}] Adding JSON".format(bundle.get_name()))
+            logger.debug("[STATIC][{}] Adding JSON".format(bundle.get_name()))
             self.index.append(
                 bundle.generate_fingerprint_json(
                     unique_icons=args.unique_icons))
 
-        debug("[STATIC] Writing Index file (index.json)")
+        logger.info("[STATIC] Writing Index file (index.json)")
         # write the json to the file
         with open(os.path.join(output_dir, 'index.json'), 'w') as w:
             json.dump(self.index, w)
-        print("Index file containing {n} items have been written "
+        logger.info("Index file containing {n} items have been written "
               "successfully".format(n=len(self.index)))
 
         # pull the files and unpack it if necessary
         if args.pull_static_css_js_html:
-            debug("[STATIC] Copying dependant js and css")
+            logger.debug("[STATIC] Copying dependant js and css")
             self.unpack_static(extract_dir=output_dir)
-        debug("[STATIC] Process Completed")
+        logger.debug("[STATIC] Process Completed")
 
     def unpack_static(self, extract_dir):
         """
@@ -818,7 +842,7 @@ class SaaSBuild:
             else:
                 _dest_dir = os.path.join(extract_dir, i)
                 if os.path.exists(_dest_dir):
-                    print("Going to remove {}".format(_dest_dir))
+                    logger.info("Going to remove {}".format(_dest_dir))
                     shutil.rmtree(_dest_dir)
                 shutil.copytree(
                     _dir, _dest_dir,
