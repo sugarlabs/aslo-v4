@@ -22,11 +22,11 @@ pip3 install aslo4
 ## Setup
 * Clone the repository
 ```bash
-git clone https://github.com/sugarlabs-appstore/aslo-v4
+git clone https://github.com/sugarlabs/aslo-v4
 ```
 For a shallow clone
 ```bash
-git clone https://github.com/sugarlabs-appstore/aslo-v4 --depth=1
+git clone https://github.com/sugarlabs/aslo-v4 --depth=1
 ```
 
 * Change directory to cloned directory
