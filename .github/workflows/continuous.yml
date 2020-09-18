@@ -29,10 +29,10 @@ jobs:
     - name: Build AppImage
       run: |
         wget https://github.com/srevinsaju/pyappimage/releases/download/continuous/pyappimage-3.8-x86_64.AppImage
-       chmod +x pyappimage-3.8-x86_64.AppImage
-       . pyappimage-*.AppImage build
-       mkdir appimage_dist/
-       mv *.AppImage* appimage_dist/. 
+        chmod +x pyappimage-3.8-x86_64.AppImage
+        ./pyappimage-*.AppImage build
+        mkdir appimage_dist/
+        mv *.AppImage* appimage_dist/. 
 
     - name: Upload artifact AppImage
       uses: actions/upload-artifact@v1.0.0
