@@ -40,7 +40,7 @@ jobs:
         name: aslo4-continuous-appimage.AppImage.zip
         path: appimage_dist/
 
-   - name: Upload artifact
+    - name: Upload artifact
       uses: actions/upload-artifact@v1.0.0
       with:
         name: aslo4-continuous-none-any-py3.whl
