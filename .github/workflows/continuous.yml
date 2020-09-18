@@ -31,8 +31,11 @@ jobs:
         wget https://github.com/srevinsaju/pyappimage/releases/download/continuous/pyappimage-3.8-x86_64.AppImage
         chmod +x pyappimage-3.8-x86_64.AppImage
         ./pyappimage-*.AppImage build
+        wget https://github.com/AppImage/AppImageKit/releases/download/continuous/appimagetool-x86_64.AppImage
+        chmod +x appimagetool-x86_64.AppImage
+        ./appimagetool*.AppImage -n -u 'gh-releases-zsync|sugarlabs|aslo-v4|latest|aslo4*.AppImage.zsync' ./*.AppDir
         mkdir appimage_dist/
-        mv *.AppImage* appimage_dist/. 
+        mv asl*.AppImage* appimage_dist/. 
 
     - name: Upload artifact AppImage
       uses: actions/upload-artifact@v1.0.0
