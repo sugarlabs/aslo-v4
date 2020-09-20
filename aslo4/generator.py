@@ -746,9 +746,9 @@ class SaaSBuild:
             else:
                 new_in_this_version_parsed = ''
 
-            if changelog:
+            if changelog and isinstance(changelog, str) and changelog.strip():
                 changelog_formatted_html = CHANGELOG_HTML_TEMPLATE.format(
-                    changelog=''.join(new_in_this_version_raw_html)
+                    changelog=changelog
                 )
             else:
                 changelog_formatted_html = ''
