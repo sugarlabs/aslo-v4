@@ -443,10 +443,12 @@ class SaaSBuild:
         tags = bundle.get_tags()
         tags_html_list = []
         for tag in tags:
-            tags_html_list.append(
-                '<span class="badge badge-primary saas-badge">'
-                '{tag}</span>'.format(tag=tag)
-            )
+            if all((tag, isinstance(tag, str), tag.strip())):
+                # make sure the tag is a valid non empty string
+                tags_html_list.append(
+                    '<span class="badge badge-primary saas-badge">'
+                    '{tag}</span>'.format(tag=tag)
+                )
         return tags_html_list
 
     @staticmethod
