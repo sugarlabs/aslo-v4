@@ -110,7 +110,7 @@ parser.add_argument(
     '--pull-static-css-js-html',
     default='',
     help="Provide the path to js, css and index.html (ideally from "
-    "https://github.com/sugarlabs/aslo-v4-static)")
+    "./aslo4-static)")
 parser.add_argument(
     '-u', '--unique-icons',
     action='store_true',
