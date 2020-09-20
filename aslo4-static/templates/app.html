@@ -27,11 +27,15 @@
               </span>
             </div>
             {{ carousel }}
+	    {% if summary %}
             <div class="saas-activity-card-summary" id=summary>
               <h3>Summary</h3>
               <p>{{ summary }}</p>
             </div>
+	    {% endif %}
+	    {% if description_html_div %}
             {{ description_html_div }}
+	    {% endif %}
 	    {% if authors_list_html_formatted %}
             <div class="saas-activity-card-tags" id="authors">
               <h3>Authors</h3>
