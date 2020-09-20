@@ -32,14 +32,18 @@
               <p>{{ summary }}</p>
             </div>
             {{ description_html_div }}
+	    {% if authors_list_html_formatted %}
             <div class="saas-activity-card-tags" id="authors">
               <h3>Authors</h3>
               {{ author_list_html_formatted }}
             </div>
+	    {% endif %}
+	    {% if tag_list_html_formatted %}
             <div class="saas-activity-card-tags" id="tags">
               <h3>Tags</h3>
               {{ tag_list_html_formatted }}
             </div>
+	    {% endif %}
             <div class="saas-activity-new-features">
               {{ new_feature_html_div }}
               {{ changelog_html_div }}

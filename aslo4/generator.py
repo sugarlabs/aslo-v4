@@ -491,9 +491,6 @@ class SaaSBuild:
             if len(html_changelog_latest_version) >= 1:
                 if html_changelog_latest_version[-1] == "<li></li>":
                     html_changelog_latest_version.pop()
-            else:
-                html_changelog_latest_version.append(
-                    "<li>Nothing here :( </li>")
         return html_changelog_latest_version
 
     @staticmethod
