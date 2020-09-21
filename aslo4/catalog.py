@@ -21,4 +21,3 @@ class Catalog:
             return "{}/issues".format(self.git_repository)
         else:
             return ""
-
