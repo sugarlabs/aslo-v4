@@ -28,9 +28,13 @@
             </div>
             {{ carousel }}
 	    {% if summary %}
-            <div class="saas-activity-card-summary" id=summary>
-              <h3>Summary</h3>
-              <p>{{ summary }}</p>
+            <div class="saas-activity-card-summary" id="summary">
+		<br>
+              <h5>{{ summary }}</h5>
+              {% if description %}
+                <br>
+                <p>{{ description }}</p>
+              {% endif %}
             </div>
 	    {% endif %}
 	    {% if description_html_div %}

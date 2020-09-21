@@ -774,6 +774,7 @@ class SaaSBuild:
                 title=bundle.get_name(),
                 version=bundle.get_version(),
                 summary=bundle.get_summary(),
+                description=bundle.get_description(),
                 licenses=''.join(html_parsed_licenses),
                 description_html_div='',
                 # TODO: Extract from README.md
