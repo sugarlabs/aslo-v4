@@ -4,7 +4,7 @@
       <div class="row">
 
         <div class="col-lg-10 col-md-6 footer-info">
-          <h3>SUGARLABS</h3>
+            <h3>{{ catalog.organization }}</h3>
           <p>At Sugar Labs, we make a collection of tools that learners use
             to explore, discover, create, and reflect. We are non-profit
             and led by volunteers. We distribute these tools freely and encourage
@@ -21,9 +21,16 @@
         <div class="col-lg-2 col-md-6 footer-links">
           <h4>Useful Links</h4>
           <ul>
-            <li><a href="https://sugarlabs.org/" target="_blank">Sugar Labs Website</a></li>
-            <li><a href="https://wiki.sugarlabs.org/" target="_blank">Sugar Labs Wiki</a></li>
-            <li><a href="https://activities.sugarlabs.org/" target="_blank">Legacy Sugar Labs Activities (aslo)</a></li>
+	      <li><a href="{{ catalog.prefix }}/about.html" 
+		     target="_blank"> How it works? </a></li>
+	      <li><a href="{{ catalog.bug_tracker }}"
+		     target="_blank"> Report an Issue</a></li>
+              <li><a href="{{ catalog.org_details.website }}"
+                     target="_blank">{{ catalog.organization }}  Website</a></li>
+              <li><a href="{{ catalog.org_details.wiki }}" 
+                      target="_blank">{{ catalog.organization }} Wiki</a></li>
+              <li><a href="{{ catalog.org_details.legacy_appstore }}"
+                     target="_blank">Legacy {{ catalog.organization }} Activities (aslo)</a></li>
           </ul>
         </div>
       </div>
@@ -33,11 +40,16 @@
   <div class="container">
     <div class="copyright">
       &copy; Copyright
-      <a href="https://sugarlabs.org"><strong>SugarLabs</strong></a>
+      <a href="{{ catalog.org_details.homepage }}"><strong>{{ catalog.organization }}</strong></a>
     </div>
     <div class="credits">
-      Open Source code on <a href="https://github.com/sugarlabs/aslo-v4">Sugar Labs Appstore
-          <i class="fa fa-github"></i> Repository</a>
+        Open Source code hosted <a href="{{ catalog.git_repository }}">
+            {% if catalog.is_github %}
+                <i class="fa fa-github"></i>on GitHub
+            {% else %}
+                here
+            {% endif %}
+        </a>
     </div>
   </div>
 </footer>
