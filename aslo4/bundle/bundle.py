@@ -160,6 +160,7 @@ class Bundle:
         self.license = bundle_activity_section.get('license', '').split(';')
         self.repository = bundle_activity_section.get('repository')
         self.summary = bundle_activity_section.get('summary')
+        self.description = bundle_activity_section.get('description')
         self.url = bundle_activity_section.get('url', '')
         self.tags = \
             bundle_activity_section.get('tags', '').split(';') or \
@@ -347,6 +348,15 @@ class Bundle:
         :return:
         """
         return self.url
+
+    def get_description(self):
+        """
+        Extract the description if it exists
+        Returns str, if description can be derived.
+        Returns None, if no description is provided
+        :return:
+        """
+        return self.description
 
     def get_summary(self):
         """
