@@ -1,8 +1,8 @@
 class Catalog:
     def __init__(self):
-        self.name = "Sugar App Store"
+        self.name = "Sugar Activity Library"
         self.prefix = "/aslo"
-        self.description = "Sugar Labs App Store"
+        self.description = "Curated collection of amazing Sugar Activities"
         self.organization = "Sugar Labs"
         self.search_box = {
             "placeholder_text": "Search for Activities!"
