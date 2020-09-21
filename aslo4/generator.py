@@ -378,7 +378,7 @@ class SaaSBuild:
                 redirect_stdout=True,
                 enable_progressbar=not self.progress_bar_disabled
         ):
-            logger.info("[BUILD] Building ", activities[i])
+            logger.info("[BUILD] Building {}".format(activities[i]))
             # Add an option to provide additional build script
             ecode, _, err = activities[i].do_generate_bundle(
                 override_dist_xo=override,
