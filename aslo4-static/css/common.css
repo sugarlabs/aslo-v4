@@ -151,8 +151,6 @@ input:checked + .slider:before {
   font-family: "Open Sans", sans-serif;
   color: #fff;
   font-weight: 400;
-  letter-spacing: 3px;
-  text-transform: uppercase;
 }
 
 #footer .footer-top .footer-info p {
