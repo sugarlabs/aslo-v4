@@ -76,8 +76,7 @@ CHANGELOG_HTML_TEMPLATE = \
 
 NEW_FEATURE_HTML_TEMPLATE = \
     """<h4>New in this Version</h4>
-<ul>{new_features}</ul>
-</div>"""
+<ul>{new_features}</ul>"""
 
 DESCRIPTION_HTML_TEMPLATE = \
     """<div class="saas-activity-card-description" id=description>
