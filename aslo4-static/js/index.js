@@ -142,7 +142,7 @@ function enableClassicTheme() {
   setCookie('saas-style', 'classic', 365);
   disableFunGradientBackground();
   $('body').removeClass('boring-gradient-bg');
-  $('#classic-dropdown').html('<i class="fas fa-magic"></i> Creativ Theme');
+  $('#classic-dropdown').html('<i class="fas fa-magic"></i> Creative Theme');
   $('#classic-dropdown').attr('onclick', 'enableMultiColorTheme()');
   $('#funCheckBox').prop('checked', false);
   $('#funCheckBox').attr('disabled', true);
