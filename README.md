@@ -2,8 +2,6 @@
 
 # aslo4
 
-[![Netlify Status](https://api.netlify.com/api/v1/badges/4f6dde9a-8b1c-4e8e-9f2f-13f453988e82/deploy-status)](https://app.netlify.com/sites/sugarstore/deploys)
-
 [![Codacy Badge](https://app.codacy.com/project/badge/Grade/65d6f5534bb24ea9b2a0ca0075341c2f)](https://www.codacy.com/gh/sugarlabs-appstore/aslo-v4?utm_source=github.com&amp;utm_medium=referral&amp;utm_content=sugarlabs-appstore/aslo-v4&amp;utm_campaign=Badge_Grade)
 
 [![PyPI - Python Version](https://img.shields.io/pypi/pyversions/aslo4?style=flat-square) ![PyPI - Wheel](https://img.shields.io/pypi/wheel/aslo4?style=flat-square) ![PyPI](https://img.shields.io/pypi/v/aslo4?style=flat-square)](https://pypi.org/project/aslo4/)
