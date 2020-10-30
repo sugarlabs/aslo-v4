@@ -613,7 +613,7 @@ class SaaSBuild:
             with open(feed_json, 'w') as fp:
                 json.dump(
                     {
-                        "generated":time.time(),
+                        "generated": time.time(),
                         "bundles": {},
                     },
                     fp
@@ -861,7 +861,6 @@ class SaaSBuild:
         feed_json_data['generated'] = time.time()
         with open(feed_json, 'w') as fp:
             json.dump(feed_json_data, fp)
-
 
     def unpack_static(self, extract_dir):
         """
