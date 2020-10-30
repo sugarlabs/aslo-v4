@@ -30,7 +30,9 @@ import shutil
 import sys
 import zipfile
 import logging
+import smtplib
 
+from email.message import EmailMessage
 from logging.handlers import RotatingFileHandler
 from jinja2 import FileSystemLoader
 
@@ -147,6 +149,12 @@ parser.add_argument(
          "master"
 )
 parser.add_argument(
+    '-e', '--email',
+    default="",
+    help="Email an address, or group of address separated by commas about "
+         "status changes in the list of deployed activities."
+)
+parser.add_argument(
     '-c', '--no-colors',
     action='store_true',
     help="Suppress colors in terminal (default: env ANSI_COLORS_DISABLED)"
@@ -253,12 +261,16 @@ class SaaSBuild:
             progress_bar_disabled=False,
             include_flatpaks=False,
             include_screenshots=False,
-            python2=args.include_python2
+            python2=args.include_python2,
+            email=args.email
     ):
+
+        self.emails = args.email.split(',')
         logger.info("***************")
         logger.info("ASLOv4 builder")
         logger.info("Build started on {}".format(time.asctime()))
         logger.info("***************")
+        logger.info("Will email alerts to: {}".format(emailer))
 
         # check if dependencies are met
         self.file_system_loader = \
@@ -807,7 +819,7 @@ class SaaSBuild:
             logger.debug("[STATIC][{}] Generating RDF data".format(
                 bundle.get_name()))
             domain = args.generate_sitemap if args.generate_sitemap else \
-                'https://sugarstore.netlify.app'
+                'https://activities.sugarlabs.org'
             rdf = RDF(
                 bundle_id=bundle.get_bundle_id(),
                 bundle_version=bundle.get_version(),
@@ -842,7 +854,7 @@ class SaaSBuild:
                 ))
                 feed_json_data['bundles'][bundle_id] = bundle_version
                 # handle any items like sending emails to the respective
-                # emails
+                self.new_version_detected_hook(bundle)
 
         logger.info("[STATIC] Writing Index file (index.json)")
         # write the json to the file
@@ -911,3 +923,30 @@ class SaaSBuild:
                 html_template_path=_file,
                 html_output_path=_extract_file
             )
+
+    def new_version_detected_hook(self, bundle):
+        # do something like sending emails
+        # Open the plain text file whose name is in textfile for reading.
+
+        msg = EmailMessage()
+        msg.set_content(f"""
+        New version of {bundle.get_name()} detected.
+
+        {bundle.get_name()}
+        Bundle id: {bundle.get_bundle_id()}
+        Version: {bundle.get_version()}
+        ===============
+        {bundle.get_changelog()}
+        {bundle.generate_fingerprint_json()}
+        """)
+
+        # me == the sender's email address
+        # you == the recipient's email address
+        msg['Subject'] = f'[ASLOv4][RELEASE] {bundle.get_name()} - {bundle.get_version()}'
+        msg['From'] = 'srevinsaju@sugarlabs.org'
+        msg['To'] = ', '.join(self.emails)
+
+        # Send the message via our own SMTP server.
+        s = smtplib.SMTP('localhost')
+        s.send_message(msg)
+        s.quit()
