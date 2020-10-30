@@ -594,7 +594,7 @@ class SaaSBuild:
         logger.info("sitemap.xml written successfully")
 
     def generate_web_page(
-            self, output_dir=None,
+            self, output_dir=args.output_directory,
             include_flatpaks=False,
             include_screenshots=False
     ):
@@ -606,6 +606,22 @@ class SaaSBuild:
         flatpak_file = os.path.join(
             os.path.dirname(__file__), 'data', 'flatpak.json')
         flatpak_bundle_info = dict()
+
+        # check if feed.json exists, if not create it
+        feed_json = os.path.join(output_dir, 'feed.json')
+        if not os.path.exists(feed_json):
+            with open(feed_json, 'w') as fp:
+                json.dump(
+                    {
+                        "generated":time.time(),
+                        "bundles": {},
+                    },
+                    fp
+                )
+
+        with open(feed_json) as fp:
+            feed_json_data = json.load(fp)
+
         logger.info("[STATIC] Starting Web Page Static Generation")
 
         if include_flatpaks and os.path.exists(flatpak_file):
@@ -617,9 +633,6 @@ class SaaSBuild:
                          "Please get a new copy from the source")
             logger.error(
                 "[ERR] Ignoring error and continuing to process bundles. ")
-
-        if output_dir is None:
-            output_dir = args.output_directory
 
         output_icon_dir = os.path.join(output_dir, 'icons')
         output_bundles_dir = os.path.join(output_dir, 'bundles')
@@ -818,6 +831,19 @@ class SaaSBuild:
                 bundle.generate_fingerprint_json(
                     unique_icons=args.unique_icons))
 
+            # check the database and then update if necessary
+            # this will help to check if new bundles are created, and then
+            # accordingly call a hook.
+            bundle_id = bundle.get_bundle_id()
+            bundle_version = bundle.get_version()
+            if feed_json_data['bundles'].get(bundle_id) != bundle_version:
+                print("[STATIC][FEED][{}] New release detected {}".format(
+                    bundle_id, bundle_version
+                ))
+                feed_json_data['bundles'][bundle_id] = bundle_version
+                # handle any items like sending emails to the respective
+                # emails
+
         logger.info("[STATIC] Writing Index file (index.json)")
         # write the json to the file
         with open(os.path.join(output_dir, 'index.json'), 'w') as w:
@@ -830,6 +856,12 @@ class SaaSBuild:
             logger.debug("[STATIC] Copying dependant js and css")
             self.unpack_static(extract_dir=output_dir)
         logger.debug("[STATIC] Process Completed")
+
+        # write the feed.json
+        feed_json_data['generated'] = time.time()
+        with open(feed_json, 'w') as fp:
+            json.dump(feed_json_data, fp)
+
 
     def unpack_static(self, extract_dir):
         """
