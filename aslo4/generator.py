@@ -270,7 +270,6 @@ class SaaSBuild:
         logger.info("ASLOv4 builder")
         logger.info("Build started on {}".format(time.asctime()))
         logger.info("***************")
-        logger.info("Will email alerts to: {}".format(emailer))
 
         # check if dependencies are met
         self.file_system_loader = \
