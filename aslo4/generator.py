@@ -941,11 +941,14 @@ class SaaSBuild:
         )
         message.set_content(content)
 
-        # me == the sender's email address
-        # you == the recipient's email address
         message['Subject'] = f'[ASLOv4][RELEASE] {bundle.get_name()} - {bundle.get_version()}'
         message['From'] = Catalog().email
         message['To'] = ', '.join(self.emails)
+
+        if not Catalog().email:
+            # no from address defined.
+            # we need to return
+            return
 
         # Send the message via our own SMTP server.
         s = smtplib.SMTP('localhost')
