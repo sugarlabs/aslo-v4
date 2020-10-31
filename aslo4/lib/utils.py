@@ -160,7 +160,10 @@ def read_parse_and_write_template(
     :return:
     :rtype:
     """
-    output_path_file_name = html_output_path.split(os.path.sep)[-1]
+    if html_output_path is not None:
+        output_path_file_name = html_output_path.split(os.path.sep)[-1]
+    else:
+        output_path_file_name = html_template_path
 
     logger.info("[STATIC] Reading template: {}".format(output_path_file_name))
     with open(html_template_path, 'r') as _buffer:
