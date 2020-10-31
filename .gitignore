@@ -1,5 +1,6 @@
 # Project specific
 aslo4-compiled/
+aslo4/local_catalog.py
 
 # ---> Python
 # Byte-compiled / optimized / DLL files

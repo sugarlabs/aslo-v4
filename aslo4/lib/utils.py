@@ -32,6 +32,14 @@ split = shlex.split if SYSTEM != 'Windows' else lambda x: x
 logger = logging.getLogger('aslo-builder')
 
 
+try:
+    # allow providing a local catalog settings which need not be committed
+    # to git
+    from aslo4.local_catalog import Catalog
+except Exception as e:
+    logger.info("Not importing local_catalog {}".format(e))
+
+
 def decode_each(iterable):
     """
     Decodes each item to 'utf-8' or defaults and returns an iterable
@@ -136,7 +144,7 @@ def git_checkout(path_to_git_repository, branch="master"):
 
 
 def read_parse_and_write_template(
-        file_system_loader, html_template_path, html_output_path, **kwargs):
+        file_system_loader, html_template_path, html_output_path=None, **kwargs):
     """
     Read HTML Template, parse the HTML template with jinja template
     renderer and write the formatted jinja template to html_output_path with
@@ -162,5 +170,10 @@ def read_parse_and_write_template(
 
     logger.info("[STATIC] Writing parsed template: {}".format(
         output_path_file_name))
-    with open(html_output_path, 'w') as w:
-        w.write(html_template.render(**kwargs, catalog=Catalog()))
+
+    rendered = html_template.render(**kwargs, catalog=Catalog())
+    if html_output_path is not None:
+        with open(html_output_path, 'w') as w:
+            w.write(rendered)
+    else:
+        return rendered
