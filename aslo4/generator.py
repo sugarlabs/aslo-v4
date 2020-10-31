@@ -932,27 +932,22 @@ class SaaSBuild:
 
     def new_version_detected_hook(self, bundle):
         # do something like sending emails
-        # Open the plain text file whose name is in textfile for reading.
+        message = EmailMessage()
 
-        msg = EmailMessage()
-        msg.set_content(f"""
-        New version of {bundle.get_name()} detected.
-
-        {bundle.get_name()}
-        Bundle id: {bundle.get_bundle_id()}
-        Version: {bundle.get_version()}
-        ===============
-        {bundle.get_changelog()}
-        {bundle.generate_fingerprint_json()}
-        """)
+        content = read_parse_and_write_template(
+            file_system_loader=self.file_system_loader,
+            html_template_path='release_template.eml',
+            release_time=time.asctime()
+        )
+        message.set_content(content)
 
         # me == the sender's email address
         # you == the recipient's email address
-        msg['Subject'] = f'[ASLOv4][RELEASE] {bundle.get_name()} - {bundle.get_version()}'
-        msg['From'] = 'srevinsaju@sugarlabs.org'
-        msg['To'] = ', '.join(self.emails)
+        message['Subject'] = f'[ASLOv4][RELEASE] {bundle.get_name()} - {bundle.get_version()}'
+        message['From'] = Catalog().email
+        message['To'] = ', '.join(self.emails)
 
         # Send the message via our own SMTP server.
         s = smtplib.SMTP('localhost')
-        s.send_message(msg)
+        s.send_message(message)
         s.quit()
