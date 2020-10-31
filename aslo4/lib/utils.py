@@ -35,7 +35,7 @@ logger = logging.getLogger('aslo-builder')
 try:
     # allow providing a local catalog settings which need not be committed
     # to git
-    from aslo4.local_catalog import Catalog
+    from aslo4.local_catalog import Catalog  # noqa:
 except Exception as e:
     logger.info("Not importing local_catalog {}".format(e))
 
@@ -144,7 +144,8 @@ def git_checkout(path_to_git_repository, branch="master"):
 
 
 def read_parse_and_write_template(
-        file_system_loader, html_template_path, html_output_path=None, **kwargs):
+        file_system_loader, html_template_path,
+        html_output_path=None, **kwargs):
     """
     Read HTML Template, parse the HTML template with jinja template
     renderer and write the formatted jinja template to html_output_path with
