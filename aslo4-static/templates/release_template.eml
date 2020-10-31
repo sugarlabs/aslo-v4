@@ -1,0 +1,15 @@
+{{ bundle.get_name() }}-{{ bundle.get_version() }} has been released
+
+Version: {{ bundle.get_version() }}
+Bundle ID: {{ bundle.get_bundle_id() }}
+Release time: {{ release_time }}
+
+You can download the latest release of this activity here:
+  - Info: {{ catalog.url }}/app/{{ bundle.get_bundle_id() }}
+  - Download: {{ catalog.url }}/bundles/{{ bundle.generate_fingerprint_json()['bundle_name'] }}
+
+If you have questions about this review, please answer to this e-mail or join #sugar on chat.freenode.net.
+
+--
+{{ catalog.name }}
+{{ catalog.url }}
