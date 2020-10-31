@@ -29,17 +29,17 @@ ACTIVITY_BUILD_CLASSIFIER = {
 }
 
 CAROUSEL_ITEM_HTML_TEMPLATE = \
-"""<div class="carousel-item {active}">
+    """<div class="carousel-item {active}">
 <img class="d-block w-100" src="{src}" alt="Picture {i} of {activity_name} Activity">
 </div>
 """
 
 CAROUSEL_INDICATOR_HTML_TEMPLATE = \
-"""<li data-target="#carouselExampleIndicators" data-slide-to="{i}" class="{active}"></li>"""
+    """<li data-target="#carouselExampleIndicators" data-slide-to="{i}" class="{active}"></li>"""
 
 
 CAROUSEL_HTML_TEMPLATE = \
-"""
+    """
 <div id="carouselExampleIndicators" class="carousel slide" data-ride="carousel" style="margin-top:1rem;">
   <ol class="carousel-indicators">{carousel_indicator_divs}</ol>
   <div class="carousel-inner">{carousel_img_divs}</div>
@@ -93,12 +93,12 @@ HTML_TEMPLATE = """<!DOCTYPE html>
       <!-- Font Awesome icon pack -->
       <script src="https://kit.fontawesome.com/52ec62d041.js" crossorigin="anonymous" async></script>
       <!-- Open Sans font -->
-      <link href="https://fonts.googleapis.com/css2?family=Open+Sans:wght@300;400;700;800&display=swap" 
+      <link href="https://fonts.googleapis.com/css2?family=Open+Sans:wght@300;400;700;800&display=swap"
       rel="stylesheet">
       <!-- Mobile Responsive compatibility layer -->
       <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
       <!-- Bootstrap CSS -->
-      <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.1.3/css/bootstrap.min.css" 
+      <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.1.3/css/bootstrap.min.css"
       integrity="sha384-MCw98/SFnGE8fJT3GXwEOngsV7Zt27NXFoaoApmYm81iuXoPkFOJwJ8ERdknLPMO" crossorigin="anonymous">
       <link rel="stylesheet" type="text/css" href="../css/common.css">
       <link rel="stylesheet" type="text/css" href="../css/main.css"/>
@@ -109,8 +109,8 @@ HTML_TEMPLATE = """<!DOCTYPE html>
       <div class="row">
         <div class="col-md-8 mx-auto">
           <div class="card saas-activity-card-std shadow-lg">
-            <img class="mx-auto saas-activity-card-image" 
-            src="{icon_path}" 
+            <img class="mx-auto saas-activity-card-image"
+            src="{icon_path}"
             alt="Logo of the activity {title}">
             </img>
             <h1 class="card-title text-center">{title}</h1>
