@@ -54,8 +54,8 @@ from . import __version__
 from .rdf.rdf import RDF
 
 try:
-    from .local_catalog import Catalog
-except Exception as e:
+    from .local_catalog import Catalog  # noqa:
+except Exception:  # noqa:
     pass
 
 
@@ -405,8 +405,8 @@ class SaaSBuild:
                 checkout_latest_tag=checkout_latest_tag
             )
             if err:
-                logger.warn("[BUILD][W] {} build completed "
-                            "with warnings.".format(activities[i]))
+                logger.warning("[BUILD][W] {} build completed "
+                               "with warnings.".format(activities[i]))
                 num_completed_warnings += 1
             elif ecode:
                 logger.error(
@@ -933,16 +933,19 @@ class SaaSBuild:
     def new_version_detected_hook(self, bundle):
         # do something like sending emails
         message = EmailMessage()
+        release_template = os.path.join(
+            args.pull_static_css_js_html, 'templates', 'release_template.eml')
 
         content = read_parse_and_write_template(
             file_system_loader=self.file_system_loader,
-            html_template_path=os.path.join(args.pull_static_css_js_html, 'templates', 'release_template.eml'),
+            html_template_path=release_template,
             release_time=time.asctime(),
             bundle=bundle,
         )
         message.set_content(content)
 
-        message['Subject'] = f'[ASLOv4][RELEASE] {bundle.get_name()} - {bundle.get_version()}'
+        message['Subject'] = \
+            f'[ASLOv4][RELEASE] {bundle.get_name()} - {bundle.get_version()}'
         message['From'] = Catalog().email
         message['To'] = ', '.join(self.emails)
 
