@@ -937,7 +937,8 @@ class SaaSBuild:
         content = read_parse_and_write_template(
             file_system_loader=self.file_system_loader,
             html_template_path=os.path.join(args.pull_static_css_js_html, 'templates', 'release_template.eml'),
-            release_time=time.asctime()
+            release_time=time.asctime(),
+            bundle=bundle,
         )
         message.set_content(content)
 
