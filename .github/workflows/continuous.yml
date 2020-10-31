@@ -26,23 +26,6 @@ jobs:
         python setup.py bdist_wheel
         export VERSION=$(ls dist)
 
-    - name: Build AppImage
-      run: |
-        wget https://github.com/srevinsaju/pyappimage/releases/download/continuous/pyappimage-3.8-x86_64.AppImage
-        chmod +x pyappimage-3.8-x86_64.AppImage
-        ./pyappimage-*.AppImage build
-        wget https://github.com/AppImage/AppImageKit/releases/download/continuous/appimagetool-x86_64.AppImage
-        chmod +x appimagetool-x86_64.AppImage
-        ./appimagetool*.AppImage -n -u 'gh-releases-zsync|sugarlabs|aslo-v4|latest|aslo4*.AppImage.zsync' ./*.AppDir
-        mkdir appimage_dist/
-        mv asl*.AppImage* appimage_dist/. 
-
-    - name: Upload artifact AppImage
-      uses: actions/upload-artifact@v1.0.0
-      with:
-        name: aslo4-continuous-appimage.AppImage.zip
-        path: appimage_dist/
-
     - name: Upload artifact
       uses: actions/upload-artifact@v1.0.0
       with:
@@ -62,10 +45,6 @@ jobs:
       with:
         name: aslo4-continuous-none-any-py3.whl
 
-    - uses: actions/download-artifact@v1
-      with: 
-        name: aslo4-continuous-appimage.AppImage.zip
-        
     - name: Release
       uses: marvinpinto/action-automatic-releases@latest
       if: github.ref == 'refs/heads/master' && startsWith(github.ref, 'refs/tags/') != true
@@ -74,6 +53,5 @@ jobs:
         title: continuous
         files: |
           aslo4-continuous-none-any-py3.whl
-          aslo4-continuous-appimage.AppImage.zip
           
         repo_token: ${{ secrets.GITHUB_TOKEN }}
