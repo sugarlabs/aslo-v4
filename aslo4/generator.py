@@ -37,6 +37,7 @@ from logging.handlers import RotatingFileHandler
 from jinja2 import FileSystemLoader
 
 from .bundle.bundle import Bundle
+from .catalog import Catalog
 from .constants import CHANGELOG_HTML_TEMPLATE, \
     NEW_FEATURE_HTML_TEMPLATE
 from .constants import SITEMAP_HEADER
@@ -51,6 +52,12 @@ from .lib.utils import read_parse_and_write_template
 from .platform import get_executable_path
 from . import __version__
 from .rdf.rdf import RDF
+
+try:
+    from .local_catalog import Catalog
+except Exception as e:
+    pass
+
 
 parser = argparse.ArgumentParser(
     'Sugar Appstore generator',
