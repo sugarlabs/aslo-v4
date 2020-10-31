@@ -1,6 +1,9 @@
 class Catalog:
     def __init__(self):
+        self.protocol = "https://"
         self.name = "Sugar Activity Library"
+        self.domain = ""
+        self.email = ""
         self.prefix = "/aslo"
         self.description = "Curated collection of amazing Sugar Activities"
         self.organization = "Sugar Labs"
@@ -21,3 +24,7 @@ class Catalog:
             return "{}/issues".format(self.git_repository)
         else:
             return ""
+
+    @property
+    def url(self):
+        return self.protocol + self.domain + self.prefix
