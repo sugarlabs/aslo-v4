@@ -207,10 +207,7 @@ generator takes two arguments
 # License
 AGPL-3.0-or-later. See [LICENSE](LICENSE) for more information.
 
-Copyright (C) 2020 
-
-[Manish](https://github.com/free-libre-software) <sugar@radii.dev>,  
-[Srevin Saju](https://github.com/srevinsaju) <srevinsaju@sugarlabs.org>
+Copyright (C) 2020 Sugar Labs 
 
 ## Credits
 * Includes [jQuery](https://jquery.org/) library (JS Foundation and other contributors)
