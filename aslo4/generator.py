@@ -298,7 +298,9 @@ class SaaSBuild:
             activities = self.list_activities()
             if not activities:
                 # return a bad exit code, if no activities were found
+                print("No activities found")
                 sys.exit(-1)
+            print(activities)
         else:
             if args.build_xo or build_xo:
                 self.generate_xo_all()
@@ -624,6 +626,8 @@ class SaaSBuild:
         flatpak_file = os.path.join(
             os.path.dirname(__file__), 'data', 'flatpak.json')
         flatpak_bundle_info = dict()
+
+        os.makedirs(output_dir, exist_ok=True)
 
         # check if feed.json exists, if not create it
         feed_json = os.path.join(output_dir, 'feed.json')
