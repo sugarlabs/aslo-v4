@@ -107,7 +107,7 @@ function loadAllActivities() {
 
         console.log('minisearch indexed.');
         miniSearch = new MiniSearch({
-          fields: ['name', 'summary'], // fields to index for full-text search
+          fields: ['name'], // fields to index for full-text search
           storeFields: ['name', 'summary', 'url', 'icon_name', 'bundle_name', 'v', 'bundle_id'], // fields to return with search results
           searchOptions: {
             boost: {title: 2},
