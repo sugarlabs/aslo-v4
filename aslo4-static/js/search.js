@@ -112,6 +112,7 @@ function loadAllActivities() {
           searchOptions: {
             boost: {name: 2},
             fuzzy: 0.5,
+            prefix: true,
           },
         });
         // Index all documents
