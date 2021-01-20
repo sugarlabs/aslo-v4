@@ -9,12 +9,14 @@ app = flask.Flask(__name__)
 app.config["DEBUG"] = os.getenv("ASLO4_SERVER_DEBUG") or False
 
 # domain names
-ASLO4_DOMAIN = os.getenv("ASLO4_DOMAIN") or "https://v4.activities.sugarlabs.org"
+ASLO4_DOMAIN = os.getenv(
+    "ASLO4_DOMAIN") or "https://v4.activities.sugarlabs.org"
 ASLO1_DOMAIN = os.getenv("ASLO1_DOMAIN") or "https://activities.sugarlabs.org"
 
 # api end points
 ASLO4_DOMAIN_API_ENDPOINT = f"{ASLO4_DOMAIN}" + "/api"
-ASLO1_DOMAIN_API_ENDPOINT = f"{ASLO1_DOMAIN}" + "/services/update-aslo.php?id={i}&appVersion={v}"
+ASLO1_DOMAIN_API_ENDPOINT = f"{ASLO1_DOMAIN}" + \
+    "/services/update-aslo.php?id={i}&appVersion={v}"
 
 # headers for RDF output
 _RDF_HEADERS = """<?xml version="1.0"?>
