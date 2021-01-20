@@ -1,21 +1,28 @@
+import os
 import flask
 from flask import request, Response
 import urllib.request
 
 app = flask.Flask(__name__)
-app.config["DEBUG"] = True
 
-DOMAIN = "http://sugarstore.netlify.app/api"
-OLD_DOMAIN = \
-    "http://activities.sugarlabs.org/services/" \
-    "update-aslo.php?id={i}&appVersion={v}"
+# use production
+app.config["DEBUG"] = os.getenv("ASLO4_SERVER_DEBUG") or False
 
-RDF_HEADERS = """<?xml version="1.0"?>
+# domain names
+ASLO4_DOMAIN = os.getenv("ASLO4_DOMAIN") or "https://v4.activities.sugarlabs.org"
+ASLO1_DOMAIN = os.getenv("ASLO1_DOMAIN") or "https://activities.sugarlabs.org"
+
+# api end points
+ASLO4_DOMAIN_API_ENDPOINT = f"{ASLO4_DOMAIN}/api"
+ASLO1_DOMAIN_API_ENDPOINT = f"{ASLO1_DOMAIN}/services/update-aslo.php?id={i}&appVersion={v}"
+
+# headers for RDF output
+_RDF_HEADERS = """<?xml version="1.0"?>
 <RDF:RDF xmlns:RDF="http://www.w3.org/1999/02/22-rdf-syntax-ns#" \
 xmlns:em="http://www.mozilla.org/2004/em-rdf#"></RDF:RDF>"""
 
 
-@app.route('/update-aslo.php', methods=['GET'])
+@app.route('/services/update-aslo.php', methods=['GET'])
 def update_aslo():
     xml = RDF_HEADERS
     bundle_id = request.args.get("id")
@@ -44,9 +51,9 @@ def update_aslo():
     return response
 
 
-@app.route('/wake', methods=['GET'])
+@app.route('/ping', methods=["GET"])
 def wake():
-    response = flask.jsonify({"test": "Ok"})
+    response = flask.jsonify({"pong": "Ok"})
     response.headers.add('Access-Control-Allow-Origin', '*')
     return response
 
