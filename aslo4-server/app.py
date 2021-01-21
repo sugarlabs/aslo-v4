@@ -42,10 +42,9 @@ def update_aslo():
         ) as f:
             xml = f.read().decode('utf-8')
     else:
-        with urllib.request.urlopen(
-                '{domain}/{bundle_id}.xml'.format(
-                    domain=ASLO4_DOMAIN_API_ENDPOINT, bundle_id=bundle_id)
-        ) as f:
+        aslo4_domain_formatted_endpoint = f"{ASLO4_DOMAIN_API_ENDPOINT}/{bundle_id}.xml"
+        print(aslo4_domain_formatted_endpoint)
+        with urllib.request.urlopen(aslo4_domain_formatted_endpoint) as f:
             xml = f.read().decode('utf-8')
 
     response = Response(xml, mimetype='text/xml')
