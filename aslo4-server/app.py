@@ -38,13 +38,13 @@ def update_aslo():
 
     if float(app_version) < 0.116:
         with urllib.request.urlopen(
-                ASLO1_DOMAIN.format(i=bundle_id, v=app_version)
+                ASLO1_DOMAIN_API_ENDPOINT.format(i=bundle_id, v=app_version)
         ) as f:
             xml = f.read().decode('utf-8')
     else:
         with urllib.request.urlopen(
                 '{domain}/{bundle_id}.xml'.format(
-                    domain=ASLO4_DOMAIN, bundle_id=bundle_id)
+                    domain=ASLO4_DOMAIN_API_ENDPOINT, bundle_id=bundle_id)
         ) as f:
             xml = f.read().decode('utf-8')
 
