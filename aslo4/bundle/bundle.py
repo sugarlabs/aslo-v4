@@ -208,6 +208,29 @@ class Bundle:
         """
         return self._is_invalid
 
+    def get_bundle_created_time(self):
+        """
+        Returns the time when the bundle was created
+        provided the bundle was an (.xo)
+        :return: time
+        :rtype: Union[tuple, None]
+        """
+        if self.is_xo:
+            return self.archive.getinfo().date_time
+        return None
+
+    def get_bundle_created_time_formatted(self):
+        """
+        Returns the time when the bundle was created
+        provided the bundle was an (.xo)
+        :return: time
+        :rtype: Union[str, None]
+        """
+        if self.is_xo:
+            x = self.get_bundle_created_time()
+            return f"{x[0]}-{x[1]}-{x[2]} {x[3]}:{x[4]}:{x[5]}"
+        return None
+
     def get_bundle_path(self):
         """
         Returns the full path to the bundle
