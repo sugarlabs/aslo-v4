@@ -949,7 +949,7 @@ class SaaSBuild:
         message.set_content(content)
 
         message['Subject'] = \
-            f'[ASLOv4][RELEASE] {bundle.get_name()} - {bundle.get_version()}'
+            f'[ASLOv4] [RELEASE] {bundle.get_name()} - {bundle.get_version()}'
         message['From'] = Catalog().email
         message['To'] = ', '.join(self.emails)
 
