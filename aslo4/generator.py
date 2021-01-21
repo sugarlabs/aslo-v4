@@ -939,10 +939,12 @@ class SaaSBuild:
         message = EmailMessage()
         release_template = os.path.join(
             args.pull_static_css_js_html, 'templates', 'release_template.eml')
+        news_email_formatted = "* " + "\n* ".join(bundle.get_news()).strip()
 
         content = read_parse_and_write_template(
             file_system_loader=self.file_system_loader,
             html_template_path=release_template,
+            news_email_formatted=news_email_formatted,
             release_time=time.asctime(),
             bundle=bundle,
         )
@@ -952,7 +954,8 @@ class SaaSBuild:
             f'[ASLOv4] [RELEASE] {bundle.get_name()} - {bundle.get_version()}'
         message['From'] = Catalog().email
         message['To'] = ', '.join(self.emails)
-
+        if len(self.emails) >= 1:
+            message.add_header('reply-to', self.emails[0])
         if not Catalog().email:
             # no from address defined.
             # we need to return
