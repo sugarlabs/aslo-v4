@@ -939,7 +939,7 @@ class SaaSBuild:
         message = EmailMessage()
         release_template = os.path.join(
             args.pull_static_css_js_html, 'templates', 'release_template.eml')
-        news_email_formatted = "* " + "\n* ".join(bundle.get_news()).strip()
+        news_email_formatted = bundle.get_news()
 
         content = read_parse_and_write_template(
             file_system_loader=self.file_system_loader,
