@@ -5,7 +5,7 @@ Bundle ID: {{ bundle.get_bundle_id() }}
 Release time: {{ bundle.get_bundle_created_time_formatted() }}
 
 You can download the latest release of this activity here:
-  - Info: {{ catalog.url }}/app/{{ bundle.get_bundle_id() }}
+  - Info: {{ catalog.url }}/app/{{ bundle.get_bundle_id() }}.html
   - Download: {{ catalog.url }}/bundles/{{ bundle.generate_fingerprint_json()['bundle_name'] }}
 
 {% if news_email_formatted %}
