@@ -216,7 +216,7 @@ class Bundle:
         :rtype: Union[tuple, None]
         """
         if self.is_xo:
-            return self.archive.getinfo().date_time
+            return self.archive.getinfo(self.activity_info_path).date_time
         return None
 
     def get_bundle_created_time_formatted(self):
