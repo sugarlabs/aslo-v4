@@ -17,7 +17,8 @@ NEW IN THIS VERSION
 
 {% endif %}
 
-If you have questions about this review, please answer to this e-mail or join #sugar on chat.freenode.net.
+If you have questions about this review, please answer to this e-mail
+or join #sugar on chat.freenode.net.
 
 --
 {{ catalog.name }}
