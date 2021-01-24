@@ -22,7 +22,7 @@ import os
 import platform
 
 # gets the PATH environment variable
-PATH = os.getenv('PATH').split(os.pathsep)
+PATH = os.getenv("PATH").split(os.pathsep)
 SYSTEM = platform.system()
 
 
@@ -34,7 +34,7 @@ def get_executable_path(executable, raise_error=True):
     :param executable:
     :return:
     """
-    if SYSTEM == 'Windows':
+    if SYSTEM == "Windows":
         executable = "{}.exe".format(executable)
     for i in PATH:
         if os.path.exists(os.path.join(i, executable)):
@@ -42,7 +42,7 @@ def get_executable_path(executable, raise_error=True):
     if raise_error:
         raise FileNotFoundError(
             "Could not find {p} on PATH. "
-            "Make sure {p} is added to path and try again".format(
-                p=executable))
+            "Make sure {p} is added to path and try again".format(p=executable)
+        )
     else:
         return False

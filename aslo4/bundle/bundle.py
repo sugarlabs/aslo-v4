@@ -70,8 +70,7 @@ def wait_for_process_completion(proc, retry=False, timeout=120):
         except subprocess.TimeoutExpired:
             # Tried for total of 360 seconds == 6 minutes
             # skip install, to prevent build stash
-            logger.error("[ERR] TimeoutExpired: "
-                         "Skipping activity install.")
+            logger.error("[ERR] TimeoutExpired: " "Skipping activity install.")
             return -99
     return exit_code
 
@@ -81,6 +80,7 @@ class BundleError(Exception):
     Raised when the activity.info does not
     contain the minimum required attributes
     """
+
     pass
 
 
@@ -89,6 +89,7 @@ class InvalidBundleError(BundleError):
     Raised when the bundle (.xo) is not a
     valid packaged bundle
     """
+
     pass
 
 
@@ -106,75 +107,81 @@ class Bundle:
         # path to activity dir / .xo
         self.activity_path = activity_path
 
-        if str(activity_path).endswith('.xo'):
+        if str(activity_path).endswith(".xo"):
             self._is_xo = True
             # its a zipped .xo
             # read the contents from the zip file
             self.archive = zipfile.ZipFile(activity_path)
 
             # extract temporary activity name from the archive
-            __activity_name = \
-                '-'.join(activity_path.split(os.path.sep)[-1].split('-')[:-1])
+            __activity_name = "-".join(
+                activity_path.split(os.path.sep)[-1].split("-")[:-1]
+            )
 
             self.bundle_prefix = "{}.activity".format(__activity_name)
-            self.activity_info_path = \
-                os.path.join(self.bundle_prefix, 'activity', 'activity.info')
+            self.activity_info_path = os.path.join(
+                self.bundle_prefix, "activity", "activity.info"
+            )
             try:
-                activity_info_file = \
-                    self.archive.read(self.activity_info_path).decode()
+                activity_info_file = self.archive.read(self.activity_info_path).decode()
             except KeyError:
                 # raises KeyError if the bundle does not have
                 # an activity.info file
                 self._is_invalid = True
                 logger.error(
                     "[ERR][BUNDLE] {} is an invalid bundle. "
-                    "Provided bundle does not contain activity.info file"
-                    .format(__activity_name)
+                    "Provided bundle does not contain activity.info file".format(
+                        __activity_name
+                    )
                 )
                 return
             config.read_string(activity_info_file)
 
         else:
             self._is_xo = False
-            self.activity_info_path = \
-                os.path.join(activity_path, 'activity', 'activity.info')
+            self.activity_info_path = os.path.join(
+                activity_path, "activity", "activity.info"
+            )
             # not a bundle. This is a directory
             config.read(self.activity_info_path)
 
         # Read the activity.info and derive attributes
-        if 'Activity' not in config:
+        if "Activity" not in config:
             # if the activity does not have a section [Activity]
             # it then might be an invalid activity file
             raise BundleError(
                 "Invalid activity.info file in {}. "
                 "The file does not have a [Activity] section".format(
-                    self.activity_info_path))
-        bundle_activity_section = config['Activity']
-        self._name = bundle_activity_section.get('name')
-        self._activity_version = \
-            bundle_activity_section.get('activity_version') or \
-            bundle_activity_section.get('activity-version')
-        self._bundle_id = bundle_activity_section.get('bundle_id')
-        self.icon = bundle_activity_section.get('icon', 'activity-helloworld')
-        self._exec = bundle_activity_section.get('exec')
-        self.license = bundle_activity_section.get('license', '').split(';')
-        self.repository = bundle_activity_section.get('repository')
-        self.summary = bundle_activity_section.get('summary')
-        self.description = bundle_activity_section.get('description')
-        self.url = bundle_activity_section.get('url', '')
-        self.tags = \
-            bundle_activity_section.get('tags', '').split(';') or \
-            bundle_activity_section.get('category', '').split(';') or \
-            bundle_activity_section.get('tag', '').split(';') or \
-            bundle_activity_section.get('categories', '').split(';')
-        self.screenshots = bundle_activity_section.get(
-            'screenshots', '').split()
+                    self.activity_info_path
+                )
+            )
+        bundle_activity_section = config["Activity"]
+        self._name = bundle_activity_section.get("name")
+        self._activity_version = bundle_activity_section.get(
+            "activity_version"
+        ) or bundle_activity_section.get("activity-version")
+        self._bundle_id = bundle_activity_section.get("bundle_id")
+        self.icon = bundle_activity_section.get("icon", "activity-helloworld")
+        self._exec = bundle_activity_section.get("exec")
+        self.license = bundle_activity_section.get("license", "").split(";")
+        self.repository = bundle_activity_section.get("repository")
+        self.summary = bundle_activity_section.get("summary")
+        self.description = bundle_activity_section.get("description")
+        self.url = bundle_activity_section.get("url", "")
+        self.tags = (
+            bundle_activity_section.get("tags", "").split(";")
+            or bundle_activity_section.get("category", "").split(";")
+            or bundle_activity_section.get("tag", "").split(";")
+            or bundle_activity_section.get("categories", "").split(";")
+        )
+        self.screenshots = bundle_activity_section.get("screenshots", "").split()
 
         # bundle specific variables
-        self._bundle_path = self.activity_path \
-            if self.is_xo else get_latest_bundle(
-                os.path.join(self.get_activity_dir(), 'dist')
-            )
+        self._bundle_path = (
+            self.activity_path
+            if self.is_xo
+            else get_latest_bundle(os.path.join(self.get_activity_dir(), "dist"))
+        )
 
         self.temp = list()
 
@@ -186,8 +193,9 @@ class Bundle:
         :return:
         :rtype:
         """
-        return '{name} ({path}, xo={is_xo})'.format(
-            name=self._name, path=self.activity_info_path, is_xo=self.is_xo)
+        return "{name} ({path}, xo={is_xo})".format(
+            name=self._name, path=self.activity_info_path, is_xo=self.is_xo
+        )
 
     @property
     def is_xo(self):
@@ -291,33 +299,31 @@ class Bundle:
         :return:
         """
         icon_path = os.path.join(
-            os.path.dirname(self.activity_info_path),
-            "{}.svg".format(self.icon)
+            os.path.dirname(self.activity_info_path), "{}.svg".format(self.icon)
         )
         if self.icon and os.path.exists(icon_path):
             return icon_path
         elif self.is_xo and self.icon:
-            temp_folder = tempfile.TemporaryDirectory(prefix='saas-icon')
+            temp_folder = tempfile.TemporaryDirectory(prefix="saas-icon")
             self.archive.extract(
                 os.path.join(
-                    self.bundle_prefix,
-                    'activity',
-                    '{}.svg'.format(self.icon)
+                    self.bundle_prefix, "activity", "{}.svg".format(self.icon)
                 ),
-                path=temp_folder.name
+                path=temp_folder.name,
             )
             self.temp.append(temp_folder)
             return os.path.join(
                 temp_folder.name,
                 self.bundle_prefix,
-                'activity',
-                '{}.svg'.format(self.icon)
+                "activity",
+                "{}.svg".format(self.icon),
             )
         else:
             # return a dummy icon because the current icon was missing
             return os.path.join(
                 os.path.dirname(os.path.dirname(__file__)),
-                'assets', 'activity-helloworld.svg'
+                "assets",
+                "activity-helloworld.svg",
             )
 
     def get_screenshots(self, use_activity_info=False):
@@ -333,11 +339,11 @@ class Bundle:
             screenshots = []
 
             if self.is_xo:
-                temp_folder = tempfile.TemporaryDirectory(prefix='saas-scr')
+                temp_folder = tempfile.TemporaryDirectory(prefix="saas-scr")
                 try:
                     self.archive.extract(
-                        os.path.join(self.bundle_prefix, 'screenshots'),
-                        path=temp_folder.name
+                        os.path.join(self.bundle_prefix, "screenshots"),
+                        path=temp_folder.name,
                     )
                 except KeyError:
                     # the screenshots directory does not exists
@@ -345,13 +351,15 @@ class Bundle:
                     return []
 
                 screenshot_directory = os.path.join(
-                    temp_folder.name, self.bundle_prefix, 'screenshots')
+                    temp_folder.name, self.bundle_prefix, "screenshots"
+                )
                 self.temp.append(temp_folder)
             else:
                 screenshot_directory = os.path.join(
-                    self.get_activity_dir(), 'screenshots')
+                    self.get_activity_dir(), "screenshots"
+                )
 
-            for path in Path(screenshot_directory).rglob('*.png'):
+            for path in Path(screenshot_directory).rglob("*.png"):
                 screenshots.append(path.resolve())
             return screenshots
 
@@ -402,11 +410,11 @@ class Bundle:
         return self.activity_path
 
     def do_generate_bundle(
-            self,
-            override_dist_xo=False,
-            entrypoint_build_command=None,
-            build_command_chdir=False,
-            checkout_latest_tag=False
+        self,
+        override_dist_xo=False,
+        entrypoint_build_command=None,
+        build_command_chdir=False,
+        checkout_latest_tag=False,
     ):
         """
         Generates a .xo file for the activities
@@ -435,7 +443,7 @@ class Bundle:
         """
         if self.is_xo:
             # I am already a xo. Why build me? duh
-            return 0, '[xo] Already Built.', ''
+            return 0, "[xo] Already Built.", ""
 
         if override_dist_xo and not entrypoint_build_command:
             raise ValueError("entrypoint_build_command was not provided")
@@ -445,14 +453,12 @@ class Bundle:
             try:
                 git_checkout_latest_tag(self.get_activity_dir())
             except Exception as e:
-                logger.warn(
-                    "WARN: git checkout to latest tag failed. E: {}".format(e))
+                logger.warn("WARN: git checkout to latest tag failed. E: {}".format(e))
 
         current_path_ = os.getcwd()
-        if entrypoint_build_command and isinstance(
-                entrypoint_build_command, str):
+        if entrypoint_build_command and isinstance(entrypoint_build_command, str):
             # read the shell / python script
-            with open(entrypoint_build_command, 'r') as r:
+            with open(entrypoint_build_command, "r") as r:
                 commands_to_pre_execute = r.read()
 
             # change dir, if necessary:
@@ -460,12 +466,14 @@ class Bundle:
                 os.chdir(self.get_activity_dir())
 
             # execute the commands, format the f-strings before execution
-            exit_code = os.system(commands_to_pre_execute.format(
-                name=self.get_name(),
-                v=self.get_version(),
-                activity_dir=self.get_activity_dir(),
-                icon_path=self.get_icon_path()
-            ))
+            exit_code = os.system(
+                commands_to_pre_execute.format(
+                    name=self.get_name(),
+                    v=self.get_version(),
+                    activity_dir=self.get_activity_dir(),
+                    icon_path=self.get_icon_path(),
+                )
+            )
 
             # restore the current working directory in the case directory was
             # changed
@@ -473,15 +481,17 @@ class Bundle:
                 os.chdir(current_path_)
 
             if override_dist_xo:
-                return exit_code, '', ''
+                return exit_code, "", ""
 
-        python3_exe = get_executable_path(
-            'python3', False) or get_executable_path('python')
-        python2_exe = get_executable_path(
-            'python2', False) or get_executable_path('python')
+        python3_exe = get_executable_path("python3", False) or get_executable_path(
+            "python"
+        )
+        python2_exe = get_executable_path("python2", False) or get_executable_path(
+            "python"
+        )
 
         # check the type of activity
-        if self.get_activity_type() == 'python2':
+        if self.get_activity_type() == "python2":
             # in the case the software to be used is sugar-activity
             # use python2 in that case.
             python_exe = python2_exe
@@ -494,20 +504,20 @@ class Bundle:
             _s("{} setup.py dist_xo".format(python_exe)),
             cwd=self.get_activity_dir(),
             stderr=subprocess.PIPE,
-            stdout=subprocess.PIPE
+            stdout=subprocess.PIPE,
         )
 
         # wait for process to complete
         exit_code = wait_for_process_completion(proc)
         if exit_code:
             # process did not complete successfully
-            return exit_code, '', ''
+            return exit_code, "", ""
 
         # read the stdout and stderr
         out, err = proc.communicate()
 
         if not exit_code:
-            dist_path = os.path.join(self.get_activity_dir(), 'dist')
+            dist_path = os.path.join(self.get_activity_dir(), "dist")
             bundle = get_latest_bundle(dist_path)
             if bundle:
                 self.set_bundle_path(bundle)
@@ -526,34 +536,37 @@ class Bundle:
         :return:
         """
         # get optional flags
-        flags = '' if system else '--user'
+        flags = "" if system else "--user"
 
         # check if the current activity is already a bundle
         if self.is_xo:
             # I am a bundle. Install it by sugar-install-build provided
             # by the sugar-toolkit-gtk3 package
-            sugar_install_bundle_exe = \
-                get_executable_path('sugar-install-bundle')
+            sugar_install_bundle_exe = get_executable_path("sugar-install-bundle")
             proc = subprocess.Popen(
-                _s("{exe} {activity_xo} {flag}".format(
-                    exe=sugar_install_bundle_exe,
-                    activity_xo=self.activity_path,
-                    flag=flags)),
+                _s(
+                    "{exe} {activity_xo} {flag}".format(
+                        exe=sugar_install_bundle_exe,
+                        activity_xo=self.activity_path,
+                        flag=flags,
+                    )
+                ),
                 cwd=self.get_activity_dir(),
                 stderr=subprocess.PIPE,
-                stdout=subprocess.PIPE
+                stdout=subprocess.PIPE,
             )
             exit_code = wait_for_process_completion(proc, retry=True)
             out, err = proc.communicate()
             return exit_code, out.decode(), err.decode()
 
-        python_exe = get_executable_path(
-            'python3', False) or get_executable_path('python')
+        python_exe = get_executable_path("python3", False) or get_executable_path(
+            "python"
+        )
         proc = subprocess.Popen(
             _s("{} setup.py install {}".format(python_exe, flags)),
             cwd=self.get_activity_dir(),
             stderr=subprocess.PIPE,
-            stdout=subprocess.PIPE
+            stdout=subprocess.PIPE,
         )
         exit_code = proc.wait(timeout=120)
         out, err = proc.communicate()
@@ -578,19 +591,18 @@ class Bundle:
             bundle_path = None
         return {
             "id": hashlib.sha256(
-                self.get_name().encode() +
-                self.get_url().encode()).hexdigest(),
+                self.get_name().encode() + self.get_url().encode()
+            ).hexdigest(),
             "name": self.get_name(),
             "tags": self.get_tags(),
             "summary": self.get_summary(),
             "license": self.get_license(),
             "url": self.get_url(),
-            "icon_name":
-                self.get_bundle_id() if unique_icons else self.get_icon_name(),
+            "icon_name": self.get_bundle_id() if unique_icons else self.get_icon_name(),
             "bundle_name": bundle_path,
             "bundle_id": self.get_bundle_id(),
             "exec_type": self.get_activity_type(),
-            "v": self.get_version()
+            "v": self.get_version(),
         }
 
     def is_python3(self):
@@ -599,7 +611,7 @@ class Bundle:
         :return:
         :rtype:
         """
-        if isinstance(self._exec, str) and 'sugar-activity3' in self._exec:
+        if isinstance(self._exec, str) and "sugar-activity3" in self._exec:
             return True
         else:
             return False
@@ -634,12 +646,14 @@ class Bundle:
         :rtype: str
         """
         author_raw = subprocess.Popen(
-            _s('{git} -C {activity_path} -P log --pretty=format:"%an"'.format(
-                git=get_executable_path('git'),
-                activity_path=self.get_activity_dir()
-            )),
+            _s(
+                '{git} -C {activity_path} -P log --pretty=format:"%an"'.format(
+                    git=get_executable_path("git"),
+                    activity_path=self.get_activity_dir(),
+                )
+            ),
             stdout=subprocess.PIPE,
-            stderr=subprocess.PIPE
+            stderr=subprocess.PIPE,
         )
         author_raw.wait(timeout=10)
         out, _ = author_raw.communicate()
@@ -683,22 +697,23 @@ class Bundle:
                 return dict()
 
             saas_activity_xo_authors = os.path.join(
-                os.getenv('ASLOv4_ACTIVITY_XO_AUTHORS'),
-                "{}.log".format(self.get_bundle_id())
+                os.getenv("ASLOv4_ACTIVITY_XO_AUTHORS"),
+                "{}.log".format(self.get_bundle_id()),
             )
             if not os.path.exists(saas_activity_xo_authors):
                 return dict()
-            with open(saas_activity_xo_authors, 'r') as fp:
-                authors = fp.read().split('\n')
+            with open(saas_activity_xo_authors, "r") as fp:
+                authors = fp.read().split("\n")
 
         else:
-            authors = self.create_authors_log_file().split('\n')
+            authors = self.create_authors_log_file().split("\n")
 
-        bots_file = os.path.join(os.path.dirname(
-            os.path.dirname(__file__)), 'data', 'bots.txt')
+        bots_file = os.path.join(
+            os.path.dirname(os.path.dirname(__file__)), "data", "bots.txt"
+        )
         if os.path.exists(bots_file):
-            with open(bots_file, 'r') as fp:
-                bots = fp.read().split('\n')
+            with open(bots_file, "r") as fp:
+                bots = fp.read().split("\n")
         else:
             bots = set()
         unique_authors = set(authors).difference(bots)
@@ -717,8 +732,7 @@ class Bundle:
         if not isinstance(self._exec, str):
             return None
         return ACTIVITY_BUILD_CLASSIFIER.get(
-            self._exec.split()[0].split(os.path.sep)[-1],
-            'other'
+            self._exec.split()[0].split(os.path.sep)[-1], "other"
         )
 
     def get_news(self):
@@ -730,19 +744,18 @@ class Bundle:
         news_file_instance = self.get_changelog()
         if not news_file_instance:
             return
-        news_parsed = news_file_instance.split('\n\n')
+        news_parsed = news_file_instance.split("\n\n")
         try:
             for i, item in enumerate(news_parsed):
                 if item == self.get_version():
                     return news_parsed[i + 1]
-                elif item == 'v{}'.format(self.get_version()):
+                elif item == "v{}".format(self.get_version()):
                     return news_parsed[i + 1]
 
             for i, item in enumerate(news_parsed):
                 # as we iterated through the news file,
                 # we can try this again; but with lesser confidence
-                if len(item) < 6 and \
-                        self.get_version() in item:
+                if len(item) < 6 and self.get_version() in item:
                     return news_parsed[i + 1]
 
         except IndexError:
@@ -757,13 +770,14 @@ class Bundle:
         if self.is_xo:
             try:
                 return self.archive.read(
-                    os.path.join(self.bundle_prefix, 'NEWS')).decode()
+                    os.path.join(self.bundle_prefix, "NEWS")
+                ).decode()
             except KeyError:
                 return
-        news_file = os.path.join(self.get_activity_dir(), 'NEWS')
+        news_file = os.path.join(self.get_activity_dir(), "NEWS")
         if not os.path.exists(news_file):
             return
-        with open(news_file, 'r') as r:
+        with open(news_file, "r") as r:
             news_file_instance = r.read()
 
         return news_file_instance
@@ -799,20 +813,21 @@ class Bundle:
                 return  # bundles does not have .git directory, skip
             saas_activity_xo_giturl = os.path.join(
                 os.getenv("ASLOv4_ACTIVITY_XO_GITURL"),
-                "{}.git".format(self.get_bundle_id())
+                "{}.git".format(self.get_bundle_id()),
             )
             if not os.path.exists(saas_activity_xo_giturl):
                 return
-            with open(saas_activity_xo_giturl, 'r') as r:
+            with open(saas_activity_xo_giturl, "r") as r:
                 url = r.read()
             return url
         url_process = subprocess.Popen(
-            _s('{git} -C {path} config --get remote.origin.url'.format(
-                git=get_executable_path('git'),
-                path=self.get_activity_dir()
-            )),
+            _s(
+                "{git} -C {path} config --get remote.origin.url".format(
+                    git=get_executable_path("git"), path=self.get_activity_dir()
+                )
+            ),
             stdout=subprocess.PIPE,
-            stderr=subprocess.PIPE
+            stderr=subprocess.PIPE,
         )
         ecode = url_process.wait(timeout=5)
         if ecode != 0:
@@ -820,6 +835,6 @@ class Bundle:
             # hence no git url
             return None
         out, _ = url_process.communicate()
-        url = out.decode().split('\n')
+        url = out.decode().split("\n")
         if len(url) >= 1:
             return url[0]

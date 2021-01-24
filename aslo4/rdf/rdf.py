@@ -35,26 +35,26 @@ def get_sha256(filepath):
     md5 = hashlib.md5()
     sha256 = hashlib.sha256()
 
-    with open(filepath, 'rb') as f:
+    with open(filepath, "rb") as f:
         while True:
             data = f.read(BUF_SIZE)
             if not data:
                 break
             md5.update(data)
             sha256.update(data)
-    return {
-        "md5": md5.hexdigest(),
-        "sha256": sha256.hexdigest()
-    }
+    return {"md5": md5.hexdigest(), "sha256": sha256.hexdigest()}
 
 
 class RDF:
     def __init__(
-            self, bundle_id,
-            bundle_version, bundle_path,
-            min_version="0.116", max_version="0.117",
-            base_url="http://activities.sugarlabs.org/bundles",
-            info_url="https://activities.sugarlabs.org/activity"
+        self,
+        bundle_id,
+        bundle_version,
+        bundle_path,
+        min_version="0.116",
+        max_version="0.117",
+        base_url="http://activities.sugarlabs.org/bundles",
+        info_url="https://activities.sugarlabs.org/activity",
     ):
         """
         Generates a RDF file based on the properties of the activity Bundle
@@ -80,14 +80,11 @@ class RDF:
         self.bundle_path = bundle_path
         self.base_url = base_url
         self.info_url = info_url
-        if self.base_url.endswith('/'):
+        if self.base_url.endswith("/"):
             # remove trailing slash
             self.base_url = self.base_url[:-1]
 
-        self.compatibility = {
-            "min": min_version,
-            "max": max_version
-        }
+        self.compatibility = {"min": min_version, "max": max_version}
 
     @property
     def bundle_file_name(self):
@@ -96,12 +93,11 @@ class RDF:
     @property
     def url(self):
         return "{base_url}/{bundle_dist_xo}".format(
-            base_url=self.base_url,
-            bundle_dist_xo=self.bundle_file_name
+            base_url=self.base_url, bundle_dist_xo=self.bundle_file_name
         )
 
     def __repr__(self):
-        return 'RDF ({})'.format(self.bundle_id)
+        return "RDF ({})".format(self.bundle_id)
 
     def get_bundle_size(self):
         return os.path.getsize(self.bundle_path) // 1000
@@ -111,11 +107,11 @@ class RDF:
             bundle_id=self.bundle_id,
             version=self.bundle_version,
             uuid="{{{}}}".format(uuid.uuid4()),
-            min_version=self.compatibility['min'],
-            max_version=self.compatibility['max'],
+            min_version=self.compatibility["min"],
+            max_version=self.compatibility["max"],
             update_link=self.url,
             sha_type="sha256",
-            sha_hash=get_sha256(self.bundle_path)['sha256'],
+            sha_hash=get_sha256(self.bundle_path)["sha256"],
             update_size=self.get_bundle_size(),
-            update_info="{}/{}.html".format(self.info_url, self.bundle_id)
+            update_info="{}/{}.html".format(self.info_url, self.bundle_id),
         )

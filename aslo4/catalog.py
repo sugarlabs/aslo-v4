@@ -8,7 +8,6 @@ except ImportError:
     from yaml import Loader
 
 
-
 class CatalogBase:
     def __init__(
         self,
@@ -22,19 +21,18 @@ class CatalogBase:
         search_box: dict = None,
         org_details: dict = "",
         git_repository: str = "",
-        is_github: bool = False
+        is_github: bool = False,
     ):
         self.protocol = protocol or "https://"
         self.name = name or "Sugar Activity Library"
         self.domain = domain or ""
         self.email = email or ""
         self.prefix = prefix or "/aslo"
-        self.description = description or \
-                "Curated collection of amazing Sugar Activities"
+        self.description = (
+            description or "Curated collection of amazing Sugar Activities"
+        )
         self.organization = organization or "Sugar Labs"
-        self.search_box = search_box or {
-            "placeholder_text": "Search for Activities!"
-        }
+        self.search_box = search_box or {"placeholder_text": "Search for Activities!"}
         self.org_details = org_details or {
             "homepage": "https://sugarlabs.org",
             "wiki": "https://wiki.sugarlabs.org",
@@ -68,7 +66,7 @@ class CatalogLoader:
         description = data["description"]
         search_box = data["homepage"]["search_box"]
         organization = data["organization"]["name"]
-        org_details =  data["organization"]
+        org_details = data["organization"]
         git_repository = data["source"]["git_repository"]
         is_github = data["source"]["is_github"]
         return CatalogBase(
@@ -82,7 +80,7 @@ class CatalogLoader:
             org_details=org_details,
             search_box=search_box,
             git_repository=git_repository,
-            is_github=is_github
+            is_github=is_github,
         )
 
 

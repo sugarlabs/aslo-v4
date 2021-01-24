@@ -23,23 +23,20 @@ along with this program.  If not, see <https://www.gnu.org/licenses/>.
 # flake8: noqa
 
 ACTIVITY_BUILD_CLASSIFIER = {
-    'sugar-activity3': 'python3',
-    'sugar-activity': 'python2',
-    'sugar-activity-web': 'web'
+    "sugar-activity3": "python3",
+    "sugar-activity": "python2",
+    "sugar-activity-web": "web",
 }
 
-CAROUSEL_ITEM_HTML_TEMPLATE = \
-    """<div class="carousel-item {active}">
+CAROUSEL_ITEM_HTML_TEMPLATE = """<div class="carousel-item {active}">
 <img class="d-block w-100" src="{src}" alt="Picture {i} of {activity_name} Activity">
 </div>
 """
 
-CAROUSEL_INDICATOR_HTML_TEMPLATE = \
-    """<li data-target="#carouselExampleIndicators" data-slide-to="{i}" class="{active}"></li>"""
+CAROUSEL_INDICATOR_HTML_TEMPLATE = """<li data-target="#carouselExampleIndicators" data-slide-to="{i}" class="{active}"></li>"""
 
 
-CAROUSEL_HTML_TEMPLATE = \
-    """
+CAROUSEL_HTML_TEMPLATE = """
 <div id="carouselExampleIndicators" class="carousel slide" data-ride="carousel" style="margin-top:1rem;">
   <ol class="carousel-indicators">{carousel_indicator_divs}</ol>
   <div class="carousel-inner">{carousel_img_divs}</div>
@@ -54,8 +51,7 @@ CAROUSEL_HTML_TEMPLATE = \
 </div>
 """
 
-FLATPAK_HTML_TEMPLATE = \
-    """<div class="card text-white bg-info mb-3" style="border-radius: 1rem;">
+FLATPAK_HTML_TEMPLATE = """<div class="card text-white bg-info mb-3" style="border-radius: 1rem;">
   <div class="card-header"><i class="fa fa-box" aria-hidden="true"></i> Flatpak</div>
   <div class="card-body">
     <h5 class="card-title">{activity_name} Activity is also available as a flatpak!</h5>
@@ -68,18 +64,15 @@ FLATPAK_HTML_TEMPLATE = \
     </a>
 </div></div>"""
 
-CHANGELOG_HTML_TEMPLATE = \
-    """<div class="saas-activity-changelog">
+CHANGELOG_HTML_TEMPLATE = """<div class="saas-activity-changelog">
   <h4>Changelog</h4>
   <pre class="pre-scrollable"><code>{changelog}</code></pre>
 </div>"""
 
-NEW_FEATURE_HTML_TEMPLATE = \
-    """<h4>New in this Version</h4>
+NEW_FEATURE_HTML_TEMPLATE = """<h4>New in this Version</h4>
 <ul>{new_features}</ul>"""
 
-DESCRIPTION_HTML_TEMPLATE = \
-    """<div class="saas-activity-card-description" id=description>
+DESCRIPTION_HTML_TEMPLATE = """<div class="saas-activity-card-description" id=description>
 <h3>Description</h3>
 <p>{description}</p>
 </div>"""
@@ -158,15 +151,13 @@ HTML_TEMPLATE = """<!DOCTYPE html>
 
 """
 
-SITEMAP_HEADER = \
-    """<?xml version="1.0" encoding="UTF-8"?>
+SITEMAP_HEADER = """<?xml version="1.0" encoding="UTF-8"?>
 <urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">
 {content}
 </urlset>
 """
 
-SITEMAP_URL = \
-    """<url>
+SITEMAP_URL = """<url>
   <loc>{url}</loc>
   <lastmod>{lastmod}</lastmod>
   <changefreq>{changefreq}</changefreq>

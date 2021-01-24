@@ -21,27 +21,27 @@ assert epoch
 
 
 ANSI_TERMS = (
-    '([xe]|bv)term',
-    '(sco)?ansi',
-    'cygwin',
-    'konsole',
-    'linux',
-    'rxvt',
-    'screen',
-    'tmux',
-    'vt(10[02]|220|320)',
+    "([xe]|bv)term",
+    "(sco)?ansi",
+    "cygwin",
+    "konsole",
+    "linux",
+    "rxvt",
+    "screen",
+    "tmux",
+    "vt(10[02]|220|320)",
 )
-ANSI_TERM_RE = re.compile('^({})'.format('|'.join(ANSI_TERMS)), re.IGNORECASE)
+ANSI_TERM_RE = re.compile("^({})".format("|".join(ANSI_TERMS)), re.IGNORECASE)
 
 
 def is_ansi_terminal(fd, is_terminal=None):  # pragma: no cover
     if is_terminal is None:
         # Jupyter Notebooks define this variable and support progress bars
-        if 'JPY_PARENT_PID' in os.environ:
+        if "JPY_PARENT_PID" in os.environ:
             is_terminal = True
         # This works for newer versions of pycharm only. older versions there
         # is no way to check.
-        elif os.environ.get('PYCHARM_HOSTED') == '1':
+        elif os.environ.get("PYCHARM_HOSTED") == "1":
             is_terminal = True
 
     if is_terminal is None:
@@ -53,10 +53,10 @@ def is_ansi_terminal(fd, is_terminal=None):  # pragma: no cover
         try:
             is_tty = fd.isatty()
             # Try and match any of the huge amount of Linux/Unix ANSI consoles
-            if is_tty and ANSI_TERM_RE.match(os.environ.get('TERM', '')):
+            if is_tty and ANSI_TERM_RE.match(os.environ.get("TERM", "")):
                 is_terminal = True
             # ANSICON is a Windows ANSI compatible console
-            elif 'ANSICON' in os.environ:
+            elif "ANSICON" in os.environ:
                 is_terminal = True
             else:
                 is_terminal = None
@@ -73,7 +73,7 @@ def is_terminal(fd, is_terminal=None):
 
     if is_terminal is None:
         # Allow a environment variable override
-        is_terminal = env_flag('PROGRESSBAR_IS_TERMINAL', None)
+        is_terminal = env_flag("PROGRESSBAR_IS_TERMINAL", None)
 
     if is_terminal is None:  # pragma: no cover
         # Bare except because a lot can go wrong on different systems. If we do
@@ -87,7 +87,7 @@ def is_terminal(fd, is_terminal=None):
 
 
 def deltas_to_seconds(*deltas, **kwargs):  # default=ValueError):
-    '''
+    """
     Convert timedeltas and seconds as int to seconds as float while coalescing
 
     >>> deltas_to_seconds(datetime.timedelta(seconds=1, milliseconds=234))
@@ -110,9 +110,9 @@ def deltas_to_seconds(*deltas, **kwargs):  # default=ValueError):
     ValueError: No valid deltas passed to `deltas_to_seconds`
     >>> deltas_to_seconds(default=0.0)
     0.0
-    '''
-    default = kwargs.pop('default', ValueError)
-    assert not kwargs, 'Only the `default` keyword argument is supported'
+    """
+    default = kwargs.pop("default", ValueError)
+    assert not kwargs, "Only the `default` keyword argument is supported"
 
     for delta in deltas:
         if delta is None:
@@ -125,13 +125,13 @@ def deltas_to_seconds(*deltas, **kwargs):  # default=ValueError):
             return delta
 
     if default is ValueError:
-        raise ValueError('No valid deltas passed to `deltas_to_seconds`')
+        raise ValueError("No valid deltas passed to `deltas_to_seconds`")
     else:
         return default
 
 
 def no_color(value):
-    '''
+    """
     Return the `value` without ANSI escape codes
 
     >>> no_color(b'\u001b[1234]abc') == b'abc'
@@ -140,21 +140,21 @@ def no_color(value):
     'abc'
     >>> str(no_color('\u001b[1234]abc'))
     'abc'
-    '''
+    """
     if isinstance(value, bytes):
-        pattern = '\\\u001b\\[.*?[@-~]'
+        pattern = "\\\u001b\\[.*?[@-~]"
         pattern = pattern.encode()
-        replace = b''
+        replace = b""
         assert isinstance(pattern, bytes)
     else:
-        pattern = u'\x1b\\[.*?[@-~]'
-        replace = ''
+        pattern = u"\x1b\\[.*?[@-~]"
+        replace = ""
 
     return re.sub(pattern, replace, value)
 
 
 def len_color(value):
-    '''
+    """
     Return the length of `value` without ANSI escape codes
 
     >>> len_color(b'\u001b[1234]abc')
@@ -163,26 +163,25 @@ def len_color(value):
     3
     >>> len_color('\u001b[1234]abc')
     3
-    '''
+    """
     return len(no_color(value))
 
 
 def env_flag(name, default=None):
-    '''
+    """
     Accepts environt variables formatted as y/n, yes/no, 1/0, true/false,
     on/off, and returns it as a boolean
 
     If the environt variable is not defined, or has an unknown value, returns
     `default`
-    '''
+    """
     try:
-        return bool(distutils.util.strtobool(os.environ.get(name, '')))
+        return bool(distutils.util.strtobool(os.environ.get(name, "")))
     except ValueError:
         return default
 
 
 class WrappingIO:
-
     def __init__(self, target, capturing=False, listeners=set()):
         self.buffer = six.StringIO()
         self.target = target
@@ -193,7 +192,7 @@ class WrappingIO:
     def write(self, value):
         if self.capturing:
             self.buffer.write(value)
-            if '\n' in value:
+            if "\n" in value:
                 self.needs_clear = True
                 for listener in self.listeners:  # pragma: no branch
                     listener.update()
@@ -214,7 +213,7 @@ class WrappingIO:
 
 
 class StreamWrapper(object):
-    '''Wrap stdout and stderr globally'''
+    """Wrap stdout and stderr globally"""
 
     def __init__(self):
         self.stdout = self.original_stdout = sys.stdout
@@ -226,10 +225,10 @@ class StreamWrapper(object):
         self.capturing = 0
         self.listeners = set()
 
-        if env_flag('WRAP_STDOUT', default=False):  # pragma: no cover
+        if env_flag("WRAP_STDOUT", default=False):  # pragma: no cover
             self.wrap_stdout()
 
-        if env_flag('WRAP_STDERR', default=False):  # pragma: no cover
+        if env_flag("WRAP_STDERR", default=False):  # pragma: no cover
             self.wrap_stderr()
 
     def start_capturing(self, bar=None):
@@ -270,8 +269,9 @@ class StreamWrapper(object):
         self.wrap_excepthook()
 
         if not self.wrapped_stdout:
-            self.stdout = sys.stdout = WrappingIO(self.original_stdout,
-                                                  listeners=self.listeners)
+            self.stdout = sys.stdout = WrappingIO(
+                self.original_stdout, listeners=self.listeners
+            )
         self.wrapped_stdout += 1
 
         return sys.stdout
@@ -280,8 +280,9 @@ class StreamWrapper(object):
         self.wrap_excepthook()
 
         if not self.wrapped_stderr:
-            self.stderr = sys.stderr = WrappingIO(self.original_stderr,
-                                                  listeners=self.listeners)
+            self.stderr = sys.stderr = WrappingIO(
+                self.original_stderr, listeners=self.listeners
+            )
         self.wrapped_stderr += 1
 
         return sys.stderr
@@ -293,7 +294,7 @@ class StreamWrapper(object):
 
     def wrap_excepthook(self):
         if not self.wrapped_excepthook:
-            logger.debug('wrapping excepthook')
+            logger.debug("wrapping excepthook")
             self.wrapped_excepthook += 1
             sys.excepthook = self.excepthook
 
@@ -319,28 +320,28 @@ class StreamWrapper(object):
             self.wrapped_stderr = 0
 
     def needs_clear(self):  # pragma: no cover
-        stdout_needs_clear = getattr(self.stdout, 'needs_clear', False)
-        stderr_needs_clear = getattr(self.stderr, 'needs_clear', False)
+        stdout_needs_clear = getattr(self.stdout, "needs_clear", False)
+        stderr_needs_clear = getattr(self.stderr, "needs_clear", False)
         return stderr_needs_clear or stdout_needs_clear
 
     def flush(self):
         if self.wrapped_stdout:  # pragma: no branch
             try:
                 self.stdout._flush()
-            except (io.UnsupportedOperation,
-                    AttributeError):  # pragma: no cover
+            except (io.UnsupportedOperation, AttributeError):  # pragma: no cover
                 self.wrapped_stdout = False
-                logger.warn('Disabling stdout redirection, %r is not seekable',
-                            sys.stdout)
+                logger.warn(
+                    "Disabling stdout redirection, %r is not seekable", sys.stdout
+                )
 
         if self.wrapped_stderr:  # pragma: no branch
             try:
                 self.stderr._flush()
-            except (io.UnsupportedOperation,
-                    AttributeError):  # pragma: no cover
+            except (io.UnsupportedOperation, AttributeError):  # pragma: no cover
                 self.wrapped_stderr = False
-                logger.warn('Disabling stderr redirection, %r is not seekable',
-                            sys.stderr)
+                logger.warn(
+                    "Disabling stderr redirection, %r is not seekable", sys.stderr
+                )
 
     def excepthook(self, exc_type, exc_value, exc_traceback):
         self.original_excepthook(exc_type, exc_value, exc_traceback)
@@ -348,7 +349,7 @@ class StreamWrapper(object):
 
 
 class AttributeDict(dict):
-    '''
+    """
     A dict that can be accessed with .attribute
 
     >>> attrs = AttributeDict(spam=123)
@@ -387,7 +388,8 @@ class AttributeDict(dict):
     Traceback (most recent call last):
     ...
     AttributeError: No such attribute: spam
-    '''
+    """
+
     def __getattr__(self, name):
         if name in self:
             return self[name]
