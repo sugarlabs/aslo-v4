@@ -58,7 +58,8 @@ class CatalogBase:
 class CatalogLoader:
     @classmethod
     def from_yaml(cls, path_to_yaml) -> CatalogBase:
-        data = yaml.load(path_to_yaml, Loader=Loader)
+        with open(path_to_yaml) as fp:
+            data = yaml.load(fp, Loader=Loader)
         protocol = data["webpage"]["url"]["protocol"]
         domain = data["webpage"]["url"]["domain"]
         prefix = data["webpage"]["url"]["prefix"]
