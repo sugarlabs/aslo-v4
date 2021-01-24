@@ -27,7 +27,7 @@ class CatalogBase:
         self.name = name or "Sugar Activity Library"
         self.domain = domain or ""
         self.email = email or ""
-        self.prefix = prefix or "/aslo"
+        self.prefix = prefix or ""
         self.description = (
             description or "Curated collection of amazing Sugar Activities"
         )
@@ -84,7 +84,10 @@ class CatalogLoader:
         )
 
 
-path = os.getenv("ASLOv4_CONFIG_YML")
-if not path:
-    raise RuntimeError("$ASLOv4_CONFIG_YML d")
-catalog = CatalogLoader.from_yaml(path)
+if os.getenv("CI"):
+    catalog = CatalogBase()
+else:
+    path = os.getenv("ASLOv4_CONFIG_YML")
+    if not path:
+        raise RuntimeError("$ASLOv4_CONFIG_YML is not defined as env var.")
+    catalog = CatalogLoader.from_yaml(path)
