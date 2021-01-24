@@ -2,7 +2,7 @@ from setuptools import setup
 
 setup(
     name="aslo4",
-    version="0.2",
+    version="0.3.0",
     packages=[
         "aslo4",
         "aslo4.lib",
