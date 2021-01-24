@@ -4,6 +4,7 @@
 
 [![Codacy Badge](https://app.codacy.com/project/badge/Grade/65d6f5534bb24ea9b2a0ca0075341c2f)](https://www.codacy.com/gh/sugarlabs-appstore/aslo-v4?utm_source=github.com&amp;utm_medium=referral&amp;utm_content=sugarlabs-appstore/aslo-v4&amp;utm_campaign=Badge_Grade)
 
+[![Code style: black](https://img.shields.io/badge/code%20style-black-000000.svg)](https://github.com/psf/black)
 [![PyPI - Python Version](https://img.shields.io/pypi/pyversions/aslo4?style=flat-square) ![PyPI - Wheel](https://img.shields.io/pypi/wheel/aslo4?style=flat-square) ![PyPI](https://img.shields.io/pypi/v/aslo4?style=flat-square)](https://pypi.org/project/aslo4/)
 ![GitHub repo size](https://img.shields.io/github/repo-size/sugarlabs-appstore/aslo-v4?style=flat-square) ![GitHub commits since latest release (by SemVer)](https://img.shields.io/github/commits-since/sugarlabs-appstore/aslo-v4/latest/master?sort=semver&style=flat-square) ![GitHub](https://img.shields.io/github/license/sugarlabs-appstore/aslo-v4?style=flat-square) ![Codecov](https://img.shields.io/codecov/c/gh/sugarlabs-appstore/aslo-v4?style=flat-square)
 
