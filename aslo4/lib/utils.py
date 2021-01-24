@@ -24,20 +24,12 @@ import subprocess
 import logging
 
 from jinja2 import Environment
-from aslo4.catalog import Catalog
+from aslo4.catalog import catalog
 from aslo4.platform import get_executable_path, SYSTEM
 
 split = shlex.split if SYSTEM != 'Windows' else lambda x: x
 
 logger = logging.getLogger('aslo-builder')
-
-
-try:
-    # allow providing a local catalog settings which need not be committed
-    # to git
-    from aslo4.local_catalog import Catalog  # noqa:
-except Exception as e:
-    logger.info("Not importing local_catalog {}".format(e))
 
 
 def decode_each(iterable):
@@ -175,7 +167,7 @@ def read_parse_and_write_template(
     logger.info("[STATIC] Writing parsed template: {}".format(
         output_path_file_name))
 
-    rendered = html_template.render(**kwargs, catalog=Catalog())
+    rendered = html_template.render(**kwargs, catalog=catalog)
     if html_output_path is not None:
         with open(html_output_path, 'w') as w:
             w.write(rendered)

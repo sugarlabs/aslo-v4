@@ -37,7 +37,7 @@ from logging.handlers import RotatingFileHandler
 from jinja2 import FileSystemLoader
 
 from .bundle.bundle import Bundle
-from .catalog import Catalog
+from .catalog import catalog
 from .constants import CHANGELOG_HTML_TEMPLATE, \
     NEW_FEATURE_HTML_TEMPLATE
 from .constants import SITEMAP_HEADER
@@ -52,11 +52,6 @@ from .lib.utils import read_parse_and_write_template
 from .platform import get_executable_path
 from . import __version__
 from .rdf.rdf import RDF
-
-try:
-    from .local_catalog import Catalog  # noqa:
-except Exception:  # noqa:
-    pass
 
 
 parser = argparse.ArgumentParser(
@@ -952,11 +947,11 @@ class SaaSBuild:
 
         message['Subject'] = \
             f'[ASLOv4] [RELEASE] {bundle.get_name()} - {bundle.get_version()}'
-        message['From'] = Catalog().email
+        message['From'] = catalog.email
         message['To'] = ', '.join(self.emails)
         if len(self.emails) >= 1:
             message.add_header('reply-to', self.emails[0])
-        if not Catalog().email:
+        if not catalog.email:
             # no from address defined.
             # we need to return
             return

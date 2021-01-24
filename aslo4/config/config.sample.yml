@@ -1,0 +1,30 @@
+webpage:
+  url:
+    # would evaluate to 
+    # {protocol} + {domain} + {prefix}
+    # https://v4.activities.sugarlabs.org
+    protocol: "https://"
+    domain: "v4.activities.sugarlabs.org"
+    prefix: ""
+
+  # the email from which aslo-v4 will send emails
+  email: "activities-v4@sugarlabs.org"
+
+name: Sugar Activity Library
+description: |
+  Curated collection of amazing Sugar Activities
+
+homepage:
+  search_box:
+    placeholder_text: "Search for Activities!"
+
+organization:
+  name: "Sugar Labs"
+  homepage: "https://sugarlabs.org"
+  wiki: "https://wiki.sugarlabs.org"
+  legacy_appstore: "https://activities.sugarlabs.org"
+
+source:
+  is_github: true
+  git_repository: "https://github.com/sugarlabs/aslo-v4"
+
