@@ -52,7 +52,7 @@ class RDF:
         bundle_version,
         bundle_path,
         min_version="0.116",
-        max_version="0.117",
+        max_version="0.118",
         base_url="http://activities.sugarlabs.org/bundles",
         info_url="https://activities.sugarlabs.org/activity",
     ):
