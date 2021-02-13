@@ -314,7 +314,10 @@ class SaaSBuild:
 
         collected_sugar_activity_dirs = list()
 
-        for bundle_dir in os.listdir(path_to_search_xo):
+        directory_items = os.listdir(path_to_search_xo)
+        directory_items.sort(reverse=True)
+
+        for bundle_dir in directory_items:
             # iterate through each activity in the directory
             full_path = os.path.join(path_to_search_xo, bundle_dir)
             if os.path.isdir(full_path):
