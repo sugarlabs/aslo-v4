@@ -847,7 +847,20 @@ class SaaSBuild:
             # accordingly call a hook.
             bundle_id = bundle.get_bundle_id()
             bundle_version = bundle.get_version()
-            if feed_json_data["bundles"].get(bundle_id) != bundle_version:
+
+            saved_bundle_version = feed_json_data["bundles"].get(bundle_id)
+            saved_bundle_version = (
+                0 if saved_bundle_version is None else saved_bundle_version
+            )
+            should_create_release_email = saved_bundle_version != bundle_version
+            try:
+                should_create_release_email = float(saved_bundle_version) < float(
+                    bundle_version
+                )
+            except ValueError:
+                pass
+
+            if should_create_release_email:
                 print(
                     "[STATIC][FEED][{}] New release detected {}".format(
                         bundle_id, bundle_version
