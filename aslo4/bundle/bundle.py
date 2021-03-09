@@ -236,7 +236,7 @@ class Bundle:
         """
         if self.is_xo:
             x = self.get_bundle_created_time()
-            return f"{x[0]}-{x[1]}-{x[2]} {x[3]}:{x[4]}:{x[5]}"
+            return f"{x[0]:02d}-{x[1]:02d}-{x[2]:02d} {x[3]:02d}:{x[4]:02d}:{x[5]:02d}"
         return None
 
     def get_bundle_path(self):
