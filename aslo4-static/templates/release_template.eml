@@ -18,7 +18,7 @@ NEW IN THIS VERSION
 {% endif %}
 
 If you have questions about this review, please answer to this e-mail
-or join #sugar on chat.freenode.net.
+or join #sugar:matrix.org or #sugar on irc.libera.chat
 
 --
 {{ catalog.name }}
