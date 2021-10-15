@@ -843,7 +843,7 @@ class FormatCustomText(FormatWidgetMixin, WidgetBase):
 
 
 class VariableMixin(object):
-    """Mixin to display a custom user variable """
+    """Mixin to display a custom user variable"""
 
     def __init__(self, name, **kwargs):
         if not isinstance(name, six.string_types):
