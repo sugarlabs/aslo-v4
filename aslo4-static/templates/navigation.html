@@ -1,6 +1,9 @@
 <!-- navigation bar -->
 <nav class="navbar navbar-expand-lg navbar-dark bg-dark sass-navbar">
-	<a class="navbar-brand" href="{{ catalog.prefix }}/">{{ catalog.name }}</a>
+	<a class="navbar-brand d-flex align-items-center" href="{{ catalog.prefix }}/">
+    <img src="img/sugarappstore_png.png" style="margin-right: 10px; width: 40px; height: 40px; border-radius: 50%;" alt="Sugar Labs AppStore Logo">
+    {{ catalog.name }}
+  </a>
   <button class="navbar-toggler" type="button" data-toggle="collapse"
           data-target="#navbarSupportedContent" aria-controls="navbarSupportedContent"
           aria-expanded="false" aria-label="Toggle navigation">
@@ -8,17 +11,14 @@
   </button>
 
   <div class="collapse navbar-collapse" id="navbarSupportedContent">
-    <ul class="navbar-nav mr-auto">
-      <li class="nav-item active">
-        <a class="nav-link" href="{{ catalog.prefix }}/">Home</a>
-      <li>
+    <ul class="navbar-nav ml-auto">
       <li class="nav-item">
       </li>
       <li class="nav-item dropdown">
         <a class="nav-link dropdown-toggle" href="#" id="navbarDropdown" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
           <i class="fa fa-adjust"></i>
         </a>
-        <div class="dropdown-menu" aria-labelledby="navbarDropdown">
+        <div class="dropdown-menu dropdown-menu-right" aria-labelledby="navbarDropdown">
           <a id="theme-dropdown" class="dropdown-item" onclick="enableDarkTheme()" href="#">
             <i class="fa fa-moon"></i> Dark theme</a>
           <a id="classic-dropdown" class="dropdown-item" onclick="enableMultiColorTheme()" href="#">
