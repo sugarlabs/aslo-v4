@@ -524,17 +524,20 @@ class SaaSBuild:
         licenses = bundle.get_license()
         parsed_licenses = list()
         html_parsed_licenses = list()
+        
+        # Filter out empty or whitespace-only licenses
         for i in licenses:
             if i and not i.isspace():
                 parsed_licenses.append(i.strip())
-        for i in parsed_licenses:
-            html_parsed_licenses.append(
-                '<span class="badge badge-info">' "{lic}</span>".format(lic=i)
-            )
-        if not parsed_licenses:
-            html_parsed_licenses.append(
-                '<span class="badge badge-warning">NOASSERTION</span> '
-            )
+        
+        # Create HTML badges for valid licenses only if there are any
+        if parsed_licenses:
+            for i in parsed_licenses:
+                html_parsed_licenses.append(
+                    '<span class="badge badge-info">' "{lic}</span>".format(lic=i)
+                )
+        
+        # Return the list of HTML badges (empty if no licenses)
         return html_parsed_licenses
 
     @staticmethod
