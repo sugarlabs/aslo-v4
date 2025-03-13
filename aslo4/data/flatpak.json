@@ -5,6 +5,7 @@
   "https://github.com/sugarlabs/chart": {
     "bundle-id": "org.sugarlabs.Chart"
   },
+
   "https://github.com/sugarlabs/colordeducto": {
     "bundle-id": "org.sugarlabs.ColorDeducto"
   },
