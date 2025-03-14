@@ -119,19 +119,31 @@ function loadAllActivities() {
         miniSearch.addAll(data);
       }
       const results = miniSearch.search($('#saas-search-box').val());
+      // Track bundle_ids to prevent duplicates
+      const addedBundleIds = new Set();
       $.each(results, function(i, item) {
-        addActivityCard(item);
+        // Only add the activity if its bundle_id hasn't been added yet
+        if (!addedBundleIds.has(item.bundle_id)) {
+          addActivityCard(item);
+          addedBundleIds.add(item.bundle_id);
+        }
       });
     });
   } else {
     $.getJSON('index.json', function(data) {
+      // Track bundle_ids to prevent duplicates
+      const addedBundleIds = new Set();
       // update the UI with each card
       $.each(
           data.sort(function(el1, el2) {
             return compareAlphabetically(el1, el2, 'name');
           }),
           function(i, item) {
-            addActivityCard(item);
+            // Only add the activity if its bundle_id hasn't been added yet
+            if (!addedBundleIds.has(item.bundle_id)) {
+              addActivityCard(item);
+              addedBundleIds.add(item.bundle_id);
+            }
           });
     });
   }
