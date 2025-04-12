@@ -24,6 +24,7 @@ import subprocess
 import tempfile
 import zipfile
 import logging
+import re
 from configparser import ConfigParser
 from pathlib import Path
 
@@ -837,4 +838,21 @@ class Bundle:
         out, _ = url_process.communicate()
         url = out.decode().split("\n")
         if len(url) >= 1:
-            return url[0]
+
+            def extract_host_and_repo(url) -> tuple :
+                '''
+                The below regex pattern tries to extract:
+                1. The platform in which the repo is hosted (github, gitlab, etc) -> match group 1
+                2. The name of the organization/activity_name (sugarlabs/speak, sugarlabs/pippy, etc) -> match group 2
+
+                This regex pattern will work even if the activity is cloned via https or ssh
+                '''
+                pattern = r"(?:https://|git@)([^/:]+)[/:]([^/]+/[^/]+)\.git"
+                match = re.match(pattern, url)
+                if match:
+                    host = match.group(1)  
+                    repo_path = match.group(2)
+                    return (host, repo_path)
+                return ('github.com', 'sugarlabs')
+            
+            return extract_host_and_repo(url[0])
