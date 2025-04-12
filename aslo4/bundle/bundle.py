@@ -837,4 +837,5 @@ class Bundle:
         out, _ = url_process.communicate()
         url = out.decode().split("\n")
         if len(url) >= 1:
-            return url[0]
+            url = url[0].replace('git@github.com:', 'https://github.com/')
+            return url
