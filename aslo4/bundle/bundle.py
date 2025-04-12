@@ -839,20 +839,15 @@ class Bundle:
         url = out.decode().split("\n")
         if len(url) >= 1:
 
-            def extract_host_and_repo(url) -> tuple :
-                '''
-                The below regex pattern tries to extract:
-                1. The platform in which the repo is hosted (github, gitlab, etc) -> match group 1
-                2. The name of the organization/activity_name (sugarlabs/speak, sugarlabs/pippy, etc) -> match group 2
-
-                This regex pattern will work even if the activity is cloned via https or ssh
-                '''
-                pattern = r"(?:https://|git@)([^/:]+)[/:]([^/]+/[^/]+)\.git"
-                match = re.match(pattern, url)
+            def convert_to_https_link(git_url):
+                ''' Matches patterns to check if activity cloned via SSH
+                SSH cloned URL will be of form:  git@github.com:username/repo.git
+                this function will work for any hosting services and will return https link
+                  if https link is given as input'''
+                match = re.match(r'git@([^:]+):(.+)', git_url)
                 if match:
-                    host = match.group(1)  
-                    repo_path = match.group(2)
-                    return (host, repo_path)
-                return ('github.com', 'sugarlabs')
+                    host, path = match.groups()
+                    return f'https://{host}/{path}'
+                return git_url
             
-            return extract_host_and_repo(url[0])
+            return convert_to_https_link(url[0])

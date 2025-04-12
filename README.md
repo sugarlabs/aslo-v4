@@ -13,11 +13,6 @@
 The ASLO is an acronym for activities.sugarlabs.org. It is an activity store for
 Sugar Activities. It is called `aslo4`, 
 
-### Install from PyPI
-```bash
-pip3 install aslo4
-```
-
 ## Setup
 * Clone the repository
 ```bash
