@@ -841,14 +841,35 @@ class SaaSBuild:
 
             # update the index files
             logger.debug("[STATIC][{}] Adding JSON".format(bundle.get_name()))
-            self.index.append(
-                bundle.generate_fingerprint_json(unique_icons=args.unique_icons)
-            )
+            
+            # Get the bundle_id
+            bundle_id = bundle.get_bundle_id()
+            
+            # Use a dictionary to track bundle_ids for efficient lookup
+            # Initialize the dictionary if it doesn't exist yet
+            if not hasattr(self, 'bundle_id_index'):
+                self.bundle_id_index = {}
+                # Populate with existing bundles
+                for idx, existing_bundle in enumerate(self.index):
+                    if 'bundle_id' in existing_bundle:
+                        self.bundle_id_index[existing_bundle['bundle_id']] = idx
+            
+            # Check if this bundle_id already exists in the index
+            if bundle_id in self.bundle_id_index:
+                # Update the existing entry instead of adding a duplicate
+                idx = self.bundle_id_index[bundle_id]
+                self.index[idx] = bundle.generate_fingerprint_json(unique_icons=args.unique_icons)
+            else:
+                # Add to index if it doesn't already exist
+                self.index.append(
+                    bundle.generate_fingerprint_json(unique_icons=args.unique_icons)
+                )
+                # Update the lookup dictionary
+                self.bundle_id_index[bundle_id] = len(self.index) - 1
 
             # check the database and then update if necessary
             # this will help to check if new bundles are created, and then
             # accordingly call a hook.
-            bundle_id = bundle.get_bundle_id()
             bundle_version = bundle.get_version()
 
             saved_bundle_version = feed_json_data["bundles"].get(bundle_id)
