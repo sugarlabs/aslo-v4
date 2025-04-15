@@ -24,6 +24,7 @@ import subprocess
 import tempfile
 import zipfile
 import logging
+import re
 from configparser import ConfigParser
 from pathlib import Path
 
@@ -837,4 +838,16 @@ class Bundle:
         out, _ = url_process.communicate()
         url = out.decode().split("\n")
         if len(url) >= 1:
-            return url[0]
+
+            def convert_to_https_link(git_url):
+                ''' Matches patterns to check if activity cloned via SSH
+                SSH cloned URL will be of form:  git@github.com:username/repo.git
+                this function will work for any hosting services and will return https link
+                  if https link is given as input'''
+                match = re.match(r'git@([^:]+):(.+)', git_url)
+                if match:
+                    host, path = match.groups()
+                    return f'https://{host}/{path}'
+                return git_url
+            
+            return convert_to_https_link(url[0])
